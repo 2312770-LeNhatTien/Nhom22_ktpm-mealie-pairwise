@@ -40,7 +40,22 @@ Cần cài Docker Desktop trước. Sau đó mở terminal ở thư mục gốc 
 docker compose up -d
 ```
 
-Chờ khoảng một phút rồi mở http://localhost:9925 và đăng nhập bằng tài khoản mặc định `changeme@example.com` / `MyPassword`. Trang liệt kê API nằm ở http://localhost:9925/docs.
+Chờ khoảng một phút rồi mở http://localhost:9925.
+
+### Thiết lập lần đầu
+
+Lần đầu đăng nhập bằng tài khoản có sẵn của Mealie là `changeme@example.com` / `MyPassword`. Mealie sẽ mở trình thiết lập. Làm hết các bước chứ không bỏ qua, vì chừng nào admin còn dùng email có sẵn thì mỗi lần đăng nhập Mealie lại đẩy về trang này. Cả nhóm điền cùng một bộ giá trị để code test chạy được trên mọi máy:
+
+| Bước | Điền |
+| --- | --- |
+| Account Details | Username `nhom22`, Full Name `Nhom 22`, Email `nhom22@example.com`, Password `Nhom22@Mealie` |
+| Site Settings | Giữ nguyên mặc định |
+| AI Providers | Bỏ qua |
+| Summary | Kiểm tra lại rồi bấm hoàn tất |
+
+Từ đó về sau đăng nhập bằng `nhom22@example.com` / `Nhom22@Mealie`. Trang liệt kê API nằm ở http://localhost:9925/docs.
+
+Nếu chạy `docker compose down -v` thì dữ liệu bị xóa hết và phải thiết lập lại từ đầu.
 
 | Lệnh | Tác dụng |
 | --- | --- |
@@ -104,6 +119,6 @@ Code test viết bằng Python với `pytest` và `requests`. Cách cài đặt 
 - Mỗi người làm trên nhánh riêng tên `tvX/ten-viec`, ví dụ `tv4/model-household`, rồi gộp vào `main` qua Pull Request có ít nhất một người khác xem.
 - Lời nhắn commit bắt đầu bằng mục báo cáo trong ngoặc vuông, ví dụ `[D] Thêm tiêu chí pass/fail`.
 - Phần của ai người đó tự commit bằng tài khoản của mình.
-- Không đưa mật khẩu thật lên repo. Tài khoản trong README là tài khoản mặc định của Mealie chạy trên máy cá nhân.
+- Không đưa mật khẩu thật lên repo. Tài khoản trong README là tài khoản dùng chung của nhóm cho bản Mealie chạy trên máy cá nhân.
 
 Bảng công việc của nhóm: xem tab **Projects** của repo.

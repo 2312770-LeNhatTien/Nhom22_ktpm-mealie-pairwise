@@ -8,7 +8,7 @@ Người phụ trách: Nguyễn Phú Quý (TV2), thống nhất với Bùi Ngọ
 
 | Tài khoản | Mật khẩu | Quyền | Dùng cho |
 | --- | --- | --- | --- |
-| `changeme@example.com` | `MyPassword` | admin (mặc định của Mealie) | Tạo dữ liệu, luồng household |
+| `nhom22@example.com` | `Nhom22@Mealie` | admin, tạo ở bước thiết lập lần đầu | Tạo dữ liệu, luồng household |
 | _điền_ | _điền_ | không có quyền nào | Luồng phân quyền |
 | _điền_ | _điền_ | đủ 4 quyền, không phải admin | Luồng phân quyền |
 
