@@ -1,0 +1,10 @@
+orderBy	orderDirection	perPage
+random	asc	1
+created_at	asc	50
+name	desc	1
+name	asc	10
+created_at	desc	1
+name	desc	50
+created_at	desc	10
+random	desc	10
+random	asc	50

@@ -1,0 +1,11 @@
+search:               none, match, nomatch
+categories:           none, one, two
+tags:                 none, one, two
+requireAllCategories: true, false
+requireAllTags:       true, false
+orderBy:              none, name, created_at, rating, random
+orderDirection:       asc, desc
+paginationSeed:       none, abc123
+perPage:              1, 10, 50
+
+IF [orderBy] = "random" THEN [paginationSeed] = "abc123";

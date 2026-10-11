@@ -1,0 +1,6 @@
+admin:              true, false
+canInvite:          true, false
+canManage:          true, false
+canManageHousehold: true, false
+canOrganize:        true, false
+action:             createCategory, updateHouseholdPrefs, listMembers, setMemberPermissions, createInvite, adminListUsers

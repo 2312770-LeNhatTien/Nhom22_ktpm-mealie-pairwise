@@ -1,0 +1,9 @@
+privateHousehold:                  true, false
+showAnnouncements:                 true, false
+lockRecipeEditsFromOtherHouseholds: true, false
+firstDayOfWeek:                    0, 1, 2, 3, 4, 5, 6
+recipePublic:                      true, false
+recipeShowNutrition:               true, false
+recipeShowAssets:                  true, false
+recipeLandscapeView:               true, false
+recipeDisableComments:             true, false

@@ -1,0 +1,14 @@
+# Visual Studio
+.vs/
+bin/
+obj/
+*.user
+
+# Python
+__pycache__/
+.venv/
+.pytest_cache/
+
+# He dieu hanh
+Thumbs.db
+.DS_Store

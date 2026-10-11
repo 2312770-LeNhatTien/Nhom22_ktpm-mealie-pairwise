@@ -1,0 +1,17 @@
+services:
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:v3.28.0
+    container_name: mealie
+    ports:
+      - "9925:9000"
+    volumes:
+      - mealie-data:/app/data/
+    environment:
+      ALLOW_SIGNUP: "false"
+      PUID: 1000
+      PGID: 1000
+      TZ: Asia/Ho_Chi_Minh
+      BASE_URL: http://localhost:9925
+
+volumes:
+  mealie-data:
