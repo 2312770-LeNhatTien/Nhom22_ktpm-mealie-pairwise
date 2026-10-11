@@ -67,6 +67,7 @@ Nhóm kiểm thử 3 luồng qua API của Mealie, không bấm giao diện.
 ```text
 README.md            phiên bản đã chốt, cách chạy, ai làm gì
 docker-compose.yml   file chạy Mealie
+requirements.txt     thư viện Python cho code test
 docs/                báo cáo, sơ đồ, slide
 docs/evidence/       ảnh chụp và video bằng chứng
 docs/meetings/       biên bản họp nhóm
@@ -93,6 +94,10 @@ pict models\household.txt /s
 ```
 
 Lệnh thứ hai in thống kê số cặp giá trị cần phủ và số test sinh ra. Số case có thể lệch 1–2 so với file trong `cases/` tùy phiên bản PICT, vì có nhiều bộ test cùng phủ đủ mọi cặp.
+
+## Chạy test
+
+Code test viết bằng Python với `pytest` và `requests`. Cách cài đặt và lệnh chạy nằm trong `tests/README.md`.
 
 ## Quy ước làm việc
 
