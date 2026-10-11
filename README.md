@@ -12,6 +12,22 @@
 | 2312776 | Bùi Ngọc Toàn | Kỹ thuật Pairwise | Mục D, mục E |
 | 2312792 | Nguyễn Đình Tuấn | API và tự động hóa | Mục A (luồng dữ liệu), mục F |
 
+## Bảng công việc và hướng dẫn
+
+Việc của từng người nằm ở tab **Issues** (lọc theo nhãn tên mình) và bảng kéo thả ở tab **Projects**. Mỗi thẻ ghi việc cần làm, file phải nộp, điều kiện để coi là xong và hạn. Ai xong thẻ nào thì mở Pull Request cho thẻ đó luôn, không cần chờ người khác.
+
+Hướng dẫn làm từng việc nằm trong `docs/huong-dan/`:
+
+| Đọc | Dành cho |
+| --- | --- |
+| [00-bat-dau.md](docs/huong-dan/00-bat-dau.md) | Cả nhóm: cài công cụ, chạy Mealie, quy trình nhánh, commit, Pull Request |
+| [TV1-nhom-truong.md](docs/huong-dan/TV1-nhom-truong.md) | Lê Nhật Tiến |
+| [TV2-moi-truong-demo.md](docs/huong-dan/TV2-moi-truong-demo.md) | Nguyễn Phú Quý |
+| [TV3-phan-tich-he-thong.md](docs/huong-dan/TV3-phan-tich-he-thong.md) | Hồ Quốc Tiến |
+| [TV4-pairwise.md](docs/huong-dan/TV4-pairwise.md) | Bùi Ngọc Toàn |
+| [TV5-api-tu-dong-hoa.md](docs/huong-dan/TV5-api-tu-dong-hoa.md) | Nguyễn Đình Tuấn |
+| [api-da-kiem-chung.md](docs/huong-dan/api-da-kiem-chung.md) | Ai cần biết API của 3 luồng nhận gì, trả gì |
+
 ## Phiên bản hệ thống được kiểm thử
 
 | Hạng mục | Giá trị |
@@ -83,14 +99,17 @@ Nhóm kiểm thử 3 luồng qua API của Mealie, không bấm giao diện.
 README.md            phiên bản đã chốt, cách chạy, ai làm gì
 docker-compose.yml   file chạy Mealie
 requirements.txt     thư viện Python cho code test
-docs/                báo cáo, sơ đồ, slide
+docs/                các mục báo cáo (muc-a.md ... muc-d.md)
+docs/huong-dan/      hướng dẫn làm việc cho từng thành viên
+docs/so-do/          sơ đồ (.drawio và .png)
+docs/bao-cao/        bản báo cáo và slide nộp
 docs/evidence/       ảnh chụp và video bằng chứng
 docs/meetings/       biên bản họp nhóm
 docs/seed-data.md    dữ liệu mẫu dùng cho test
 models/              file model PICT (.txt)
 cases/               file test case do PICT sinh ra (.tsv)
 tests/               code test tự động
-scripts/             script sinh case, dựng môi trường, chạy test
+scripts/             script sinh case, tạo bảng công việc
 ```
 
 ## Sinh lại test case
@@ -120,5 +139,4 @@ Code test viết bằng Python với `pytest` và `requests`. Cách cài đặt 
 - Lời nhắn commit bắt đầu bằng mục báo cáo trong ngoặc vuông, ví dụ `[D] Thêm tiêu chí pass/fail`.
 - Phần của ai người đó tự commit bằng tài khoản của mình.
 - Không đưa mật khẩu thật lên repo. Tài khoản trong README là tài khoản dùng chung của nhóm cho bản Mealie chạy trên máy cá nhân.
-
-Bảng công việc của nhóm: xem tab **Projects** của repo.
+- Mỗi Pull Request ghi `Closes #số-thẻ` trong phần mô tả để thẻ tự đóng khi gộp.

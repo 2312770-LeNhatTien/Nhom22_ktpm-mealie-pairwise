@@ -1,0 +1,252 @@
+{
+  "repo": "2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise",
+  "milestone": {
+    "ten": "Giữa kỳ",
+    "mo_ta": "Mọi phần việc trước buổi báo cáo giữa kỳ",
+    "han": "2026-10-18"
+  },
+  "nguoi": {
+    "TV1": {
+      "ten": "Lê Nhật Tiến",
+      "nhan": "TV1 Nhật Tiến"
+    },
+    "TV2": {
+      "ten": "Nguyễn Phú Quý",
+      "nhan": "TV2 Quý"
+    },
+    "TV3": {
+      "ten": "Hồ Quốc Tiến",
+      "nhan": "TV3 Quốc Tiến"
+    },
+    "TV4": {
+      "ten": "Bùi Ngọc Toàn",
+      "nhan": "TV4 Toàn"
+    },
+    "TV5": {
+      "ten": "Nguyễn Đình Tuấn",
+      "nhan": "TV5 Tuấn"
+    },
+    "NHOM": {
+      "ten": "Cả nhóm",
+      "nhan": "Cả nhóm"
+    }
+  },
+  "the": [
+    {
+      "ma": "chung-cai-dat",
+      "tieu_de": "[Chung] Cài Git, Docker và chạy được Mealie trên máy mình",
+      "nhan": "Cả nhóm",
+      "nguoi": "NHOM",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Cả nhóm · **Hạn:** làm ngay, trước mọi việc khác · **Mục báo cáo:** C\n\nKhông chạy được Mealie thì không làm được phần nào khác. Kẹt quá 1 tiếng thì chụp lỗi gửi vào nhóm.\n\n### Việc cần làm\n\n- [x] Lê Nhật Tiến: chạy được Mealie và làm xong thiết lập lần đầu\n- [ ] Nguyễn Phú Quý: chạy được Mealie và làm xong thiết lập lần đầu\n- [ ] Hồ Quốc Tiến: chạy được Mealie và làm xong thiết lập lần đầu\n- [ ] Bùi Ngọc Toàn: chạy được Mealie và làm xong thiết lập lần đầu\n- [ ] Nguyễn Đình Tuấn: chạy được Mealie và làm xong thiết lập lần đầu\n\n### Sản phẩm nộp\n\n- Mỗi người một ảnh chụp trang chủ Mealie sau khi đăng nhập bằng tài khoản dùng chung, gửi vào nhóm chat\n\n### Xong khi\n\n- Cả 5 dòng ở trên đã được tích\n- Ai cũng đăng nhập được bằng `nhom22@example.com` và không bị đẩy về trang thiết lập\n\n### Hướng dẫn\n\n- [00-bat-dau.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/00-bat-dau.md)\n"
+    },
+    {
+      "ma": "tv1-chot-phien-ban",
+      "tieu_de": "[H] Chốt phiên bản Mealie, dựng repo và README",
+      "nhan": "TV1 Nhật Tiến",
+      "nguoi": "TV1",
+      "da_xong": true,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Lê Nhật Tiến · **Hạn:** 18/10 · **Mục báo cáo:** H\n\n### Việc cần làm\n\n- [x] Chốt tag `v3.28.0` và commit SHA, ghi vào README\n- [x] Tạo repo, cấu trúc thư mục, `docker-compose.yml`, `requirements.txt`\n- [x] Mời 4 thành viên vào repo\n- [x] Ghi tài khoản dùng chung và các bước thiết lập lần đầu vào README\n\n### Sản phẩm nộp\n\n- `README.md`\n- `docker-compose.yml`\n- `requirements.txt`\n\n### Xong khi\n\n- README có tag, SHA, lệnh chạy, tài khoản dùng chung\n\n### Hướng dẫn\n\n- [TV1-nhom-truong.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV1-nhom-truong.md)\n"
+    },
+    {
+      "ma": "tv1-muc-a-mo-dau",
+      "tieu_de": "[A] Viết mục tiêu hệ thống, actor và sơ đồ use case",
+      "nhan": "TV1 Nhật Tiến",
+      "nguoi": "TV1",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Lê Nhật Tiến · **Hạn:** 18/10 · **Mục báo cáo:** A\n\n### Việc cần làm\n\n- [ ] Dùng thử Mealie khoảng 30 phút theo danh sách trong hướng dẫn\n- [ ] Viết đoạn mục tiêu hệ thống: Mealie giải quyết việc gì, cho ai\n- [ ] Liệt kê actor và việc mỗi actor làm được\n- [ ] Vẽ sơ đồ use case bằng draw.io, 6–8 use case, tô đậm 3 use case nhóm kiểm thử\n\n### Sản phẩm nộp\n\n- `docs/muc-a.md` (phần 1 đến 3)\n- `docs/so-do/use-case.drawio` và `docs/so-do/use-case.png`\n\n### Xong khi\n\n- Người chưa dùng Mealie đọc xong hiểu được hệ thống làm gì và ai dùng\n- Sơ đồ có đủ 3 use case nhóm kiểm thử: tìm kiếm và lọc, cấu hình household, phân quyền\n\n### Hướng dẫn\n\n- [TV1-nhom-truong.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV1-nhom-truong.md)\n"
+    },
+    {
+      "ma": "tv1-khung-bao-cao",
+      "tieu_de": "[Báo cáo] Dựng khung báo cáo A–H và ghép bản nộp",
+      "nhan": "TV1 Nhật Tiến",
+      "nguoi": "TV1",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Lê Nhật Tiến · **Hạn:** 19/10 (ngày nộp) · **Mục báo cáo:** A–H\n\n### Việc cần làm\n\n- [ ] Tạo file báo cáo Word có trang bìa và 8 mục A–H\n- [ ] Dưới mỗi mục ghi tên người phụ trách\n- [ ] Khi các bạn nộp phần mình, chép nội dung từ `docs/muc-*.md` vào đúng mục\n- [ ] Mục E, F, G ghi rõ là phần của giai đoạn sau, nêu ngắn những gì đã có\n- [ ] Xuất PDF và kiểm tra hình, bảng không bị vỡ\n\n### Sản phẩm nộp\n\n- `docs/bao-cao/Nhom22_BaoCaoGiuaKy.docx` và bản PDF\n\n### Xong khi\n\n- Đủ nội dung mục A, B, C, D và phần đầu mục H\n- Trang bìa có tên đề tài, tổ hợp R02 + K06, danh sách 5 thành viên\n\n### Hướng dẫn\n\n- [TV1-nhom-truong.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV1-nhom-truong.md)\n"
+    },
+    {
+      "ma": "tv1-slide",
+      "tieu_de": "[Slide] Làm slide 9 trang cho bài nói khoảng 10 phút",
+      "nhan": "TV1 Nhật Tiến",
+      "nguoi": "TV1",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Lê Nhật Tiến · **Hạn:** 19/10 (ngày nộp) · **Mục báo cáo:** Slide\n\n### Việc cần làm\n\n- [ ] Dựng 9 slide theo dàn ý trong hướng dẫn\n- [ ] Xin mỗi bạn nội dung và hình cho slide của mình\n- [ ] Chụp bảng công việc và lịch sử commit đưa vào slide 9\n- [ ] Ghi thời gian nói dưới mỗi slide\n\n### Sản phẩm nộp\n\n- `docs/bao-cao/Nhom22_Slide.pptx`\n\n### Xong khi\n\n- Tổng thời gian theo cột thời gian là 10 phút\n- Mỗi thành viên có ít nhất một slide để nói\n\n### Hướng dẫn\n\n- [TV1-nhom-truong.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV1-nhom-truong.md)\n"
+    },
+    {
+      "ma": "tv1-kiem-tra-muc-c",
+      "tieu_de": "[C] Cài lại Mealie theo tài liệu của TV2 để kiểm tra",
+      "nhan": "TV1 Nhật Tiến",
+      "nguoi": "TV1",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Lê Nhật Tiến · **Hạn:** 18/10 · **Mục báo cáo:** C\n\nLàm sau khi Quý nộp bản nháp mục C.\n\n### Việc cần làm\n\n- [ ] Chạy `docker compose down -v` để xóa sạch\n- [ ] Làm theo đúng từng dòng trong `docs/muc-c.md`, không hỏi miệng\n- [ ] Ghi lại chỗ nào phải hỏi mới làm được, gửi cho Quý sửa\n\n### Sản phẩm nộp\n\n- Bình luận góp ý trong Pull Request mục C của Quý\n\n### Xong khi\n\n- Cài lại được từ đầu chỉ bằng tài liệu\n\n### Hướng dẫn\n\n- [TV1-nhom-truong.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV1-nhom-truong.md)\n"
+    },
+    {
+      "ma": "tv1-nop-bai",
+      "tieu_de": "[H] Nộp báo cáo, slide và gắn tag midterm",
+      "nhan": "TV1 Nhật Tiến",
+      "nguoi": "TV1",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Lê Nhật Tiến · **Hạn:** 19/10 · **Mục báo cáo:** H\n\n### Việc cần làm\n\n- [ ] Rà danh sách kiểm tra trong hướng dẫn\n- [ ] Nộp báo cáo và slide theo cách thầy yêu cầu\n- [ ] Gắn tag `midterm` cho repo\n\n### Sản phẩm nộp\n\n- Ảnh chụp xác nhận đã nộp\n- Tag `midterm` trên GitHub\n\n### Xong khi\n\n- Bài đã nộp trước buổi báo cáo một ngày\n\n### Hướng dẫn\n\n- [TV1-nhom-truong.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV1-nhom-truong.md)\n"
+    },
+    {
+      "ma": "chung-tap",
+      "tieu_de": "[Chung] Tập thuyết trình hai lần có bấm giờ",
+      "nhan": "Cả nhóm",
+      "nguoi": "NHOM",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Cả nhóm · **Hạn:** 19/10 · **Mục báo cáo:** Slide\n\n### Việc cần làm\n\n- [ ] Tập lần 1: cả bài, bấm giờ, demo trên đúng máy sẽ dùng\n- [ ] Sửa những chỗ quá giờ hoặc nói chưa rõ\n- [ ] Tập lần 2 sau khi nộp bài\n\n### Sản phẩm nộp\n\n- Ghi chú thời gian từng slide\n\n### Xong khi\n\n- Cả bài vừa trong 10 phút\n- Mỗi người trả lời được câu hỏi về phần mình\n\n### Hướng dẫn\n\n- [TV1-nhom-truong.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV1-nhom-truong.md)\n"
+    },
+    {
+      "ma": "chung-doc-cheo",
+      "tieu_de": "[Chung] Đọc chéo phần của nhau trước khi ghép",
+      "nhan": "Cả nhóm",
+      "nguoi": "NHOM",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Cả nhóm · **Hạn:** 18/10 · **Mục báo cáo:** A–D\n\n### Việc cần làm\n\n- [ ] Quốc Tiến đọc mục D của Toàn\n- [ ] Toàn đọc mục A và B của Nhật Tiến, Quốc Tiến, Tuấn\n- [ ] Tuấn đọc mục C của Quý\n- [ ] Quý đọc hướng dẫn chạy script mẫu của Tuấn và chạy thử\n- [ ] Nhật Tiến đọc lại toàn bộ sau khi mọi người đã sửa\n\n### Sản phẩm nộp\n\n- Bình luận trong Pull Request của từng phần\n\n### Xong khi\n\n- Mỗi Pull Request có ít nhất một người khác xem và bấm Approve\n\n### Hướng dẫn\n\n- [00-bat-dau.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/00-bat-dau.md)\n"
+    },
+    {
+      "ma": "tv2-loi-thuong-gap",
+      "tieu_de": "[C] Ghi lại quá trình cài đặt và lỗi thường gặp",
+      "nhan": "TV2 Quý",
+      "nguoi": "TV2",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Nguyễn Phú Quý · **Hạn:** 18/10 · **Mục báo cáo:** C\n\n### Việc cần làm\n\n- [ ] Chụp từng bước cài Docker Desktop và chạy `docker compose up -d`\n- [ ] Chụp từng bước của trình thiết lập lần đầu\n- [ ] Hỏi 4 bạn còn lại đã gặp lỗi gì khi cài, ghi lại lỗi và cách sửa\n\n### Sản phẩm nộp\n\n- Ảnh `docs/evidence/C-01-*.png` đến `C-09-*.png`\n- Mục \"Lỗi thường gặp\" trong `docs/muc-c.md`\n\n### Xong khi\n\n- Có ít nhất ảnh: Docker chạy, container đang chạy, trang đăng nhập, từng bước thiết lập, trang chủ\n\n### Hướng dẫn\n\n- [TV2-moi-truong-demo.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV2-moi-truong-demo.md)\n"
+    },
+    {
+      "ma": "tv2-du-lieu-mau",
+      "tieu_de": "[C] Tạo dữ liệu mẫu và điền docs/seed-data.md",
+      "nhan": "TV2 Quý",
+      "nguoi": "TV2",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Nguyễn Phú Quý · **Hạn:** 18/10 · **Mục báo cáo:** C\n\n### Việc cần làm\n\n- [ ] Tạo 3 category và 3 tag theo bảng gợi ý trong hướng dẫn\n- [ ] Tạo 12 công thức, gắn category và tag đúng theo bảng\n- [ ] Tạo 2 tài khoản thường: một không có quyền nào, một có đủ 4 quyền\n- [ ] Điền `docs/seed-data.md` đúng với những gì đã tạo\n- [ ] Thống nhất bảng công thức với Toàn trước khi tạo\n\n### Sản phẩm nộp\n\n- `docs/seed-data.md` đã điền đủ\n\n### Xong khi\n\n- Người khác làm theo `docs/seed-data.md` tạo lại được đúng bộ dữ liệu\n\n### Hướng dẫn\n\n- [TV2-moi-truong-demo.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV2-moi-truong-demo.md)\n"
+    },
+    {
+      "ma": "tv2-bang-chung",
+      "tieu_de": "[C] Chụp bằng chứng 3 luồng nghiệp vụ",
+      "nhan": "TV2 Quý",
+      "nguoi": "TV2",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Nguyễn Phú Quý · **Hạn:** 18/10 · **Mục báo cáo:** C\n\nLàm sau khi có dữ liệu mẫu.\n\n### Việc cần làm\n\n- [ ] Luồng tìm kiếm và lọc: 3–4 ảnh\n- [ ] Luồng cấu hình household: 3–4 ảnh\n- [ ] Luồng phân quyền: 3–4 ảnh\n\n### Sản phẩm nộp\n\n- `docs/evidence/C-10-search-*.png`\n- `docs/evidence/C-20-household-*.png`\n- `docs/evidence/C-30-permission-*.png`\n\n### Xong khi\n\n- Mỗi luồng có ảnh theo đúng thứ tự thao tác, nhìn ảnh hiểu được luồng chạy thế nào\n\n### Hướng dẫn\n\n- [TV2-moi-truong-demo.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV2-moi-truong-demo.md)\n"
+    },
+    {
+      "ma": "tv2-muc-c",
+      "tieu_de": "[C] Viết mục C: môi trường, lệnh chạy, dữ liệu mẫu, bằng chứng",
+      "nhan": "TV2 Quý",
+      "nguoi": "TV2",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Nguyễn Phú Quý · **Hạn:** 18/10 · **Mục báo cáo:** C\n\n### Việc cần làm\n\n- [ ] Viết 5 phần theo khung trong hướng dẫn\n- [ ] Chèn ảnh bằng chứng vào đúng chỗ\n- [ ] Mở Pull Request, nhờ Nhật Tiến cài lại theo tài liệu để kiểm tra\n\n### Sản phẩm nộp\n\n- `docs/muc-c.md`\n\n### Xong khi\n\n- Có đủ: môi trường và phiên bản, lệnh build/run, DB/service, seed data, bằng chứng\n- Nhật Tiến cài lại được từ đầu chỉ bằng tài liệu này\n\n### Hướng dẫn\n\n- [TV2-moi-truong-demo.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV2-moi-truong-demo.md)\n"
+    },
+    {
+      "ma": "tv2-demo",
+      "tieu_de": "[Demo] Chuẩn bị demo luồng household trong 2 phút và quay video dự phòng",
+      "nhan": "TV2 Quý",
+      "nguoi": "TV2",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Nguyễn Phú Quý · **Hạn:** 18/10 · **Mục báo cáo:** Demo\n\n### Việc cần làm\n\n- [ ] Viết ra thứ tự bấm của phần demo\n- [ ] Tập đến khi làm xong trong 90 giây\n- [ ] Quay video màn hình chạy đủ 3 luồng, dài 2–3 phút\n- [ ] Tối trước buổi báo cáo: chạy `docker compose up -d` trên máy sẽ dùng\n\n### Sản phẩm nộp\n\n- `docs/evidence/demo-du-phong.mp4` hoặc link tới video\n- `docs/demo-kich-ban.md`\n\n### Xong khi\n\n- Demo trực tiếp xong trong 2 phút\n- Có video để chiếu nếu máy lỗi\n\n### Hướng dẫn\n\n- [TV2-moi-truong-demo.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV2-moi-truong-demo.md)\n"
+    },
+    {
+      "ma": "tv3-module",
+      "tieu_de": "[A] Lập bảng module và danh sách dependency",
+      "nhan": "TV3 Quốc Tiến",
+      "nguoi": "TV3",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Hồ Quốc Tiến · **Hạn:** 18/10 · **Mục báo cáo:** A\n\n### Việc cần làm\n\n- [ ] Clone mã nguồn Mealie đúng tag, kiểm tra SHA\n- [ ] Đọc theo thứ tự trong hướng dẫn\n- [ ] Viết bảng thư mục: vai trò và liên quan gì tới kiểm thử\n- [ ] Viết danh sách dependency chính, mỗi cái một dòng nói nó dùng để làm gì\n\n### Sản phẩm nộp\n\n- `docs/muc-a.md` (phần cây thư mục và dependency)\n\n### Xong khi\n\n- Mỗi dòng trong bảng trả lời được câu hỏi: nó liên quan gì tới phần kiểm thử của nhóm\n\n### Hướng dẫn\n\n- [TV3-phan-tich-he-thong.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV3-phan-tich-he-thong.md)\n"
+    },
+    {
+      "ma": "tv3-so-do",
+      "tieu_de": "[B] Vẽ sơ đồ kiến trúc mức container",
+      "nhan": "TV3 Quốc Tiến",
+      "nguoi": "TV3",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Hồ Quốc Tiến · **Hạn:** 18/10 · **Mục báo cáo:** B\n\n### Việc cần làm\n\n- [ ] Vẽ bằng draw.io 5 khối theo hướng dẫn\n- [ ] Ghi giao thức trên mũi tên: HTTP, SQL\n- [ ] Vẽ cả khối \"Script test của nhóm\" để thấy nhóm kiểm thử ở đâu\n- [ ] Viết 3–4 câu đọc sơ đồ\n\n### Sản phẩm nộp\n\n- `docs/so-do/kien-truc.drawio` và `docs/so-do/kien-truc.png`\n- `docs/muc-b.md` (phần sơ đồ)\n\n### Xong khi\n\n- Một bạn chưa đọc code nhìn sơ đồ kể lại được request đi từ đâu tới đâu\n\n### Hướng dẫn\n\n- [TV3-phan-tich-he-thong.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV3-phan-tich-he-thong.md)\n"
+    },
+    {
+      "ma": "tv3-5-module",
+      "tieu_de": "[B] Giải thích 5 module liên quan tới kiểm thử",
+      "nhan": "TV3 Quốc Tiến",
+      "nguoi": "TV3",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Hồ Quốc Tiến · **Hạn:** 18/10 · **Mục báo cáo:** B\n\n### Việc cần làm\n\n- [ ] Với mỗi module viết: nó làm gì, file nào quan trọng, luồng nào của nhóm đi qua nó\n- [ ] Dẫn tên file và tên hàm cụ thể\n\n### Sản phẩm nộp\n\n- `docs/muc-b.md` (phần giải thích module)\n\n### Xong khi\n\n- Đủ 5 module: routes, schema, services, repos, db hoặc core\n- Mỗi module có ít nhất một tên file và một tên hàm thật\n\n### Hướng dẫn\n\n- [TV3-phan-tich-he-thong.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV3-phan-tich-he-thong.md)\n"
+    },
+    {
+      "ma": "tv4-muc-d",
+      "tieu_de": "[D] Viết mục D: nguyên lý, phạm vi, giả định, rủi ro, tiêu chí pass/fail",
+      "nhan": "TV4 Toàn",
+      "nguoi": "TV4",
+      "da_xong": false,
+      "dang_lam": true,
+      "noi_dung": "**Người làm:** Bùi Ngọc Toàn · **Hạn:** 18/10 · **Mục báo cáo:** D\n\nĐã có Pull Request #1 đang chờ xem.\n\n### Việc cần làm\n\n- [ ] Viết 5 phần theo khung trong hướng dẫn\n- [ ] Dẫn tài liệu gốc cho phần nguyên lý\n- [ ] Sửa theo góp ý trong Pull Request\n\n### Sản phẩm nộp\n\n- `docs/muc-d.md`\n\n### Xong khi\n\n- Có tiêu chí pass/fail cho một case và cho cả đợt test\n- Số liệu trong mục D khớp với file trong `cases/`\n\n### Hướng dẫn\n\n- [TV4-pairwise.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV4-pairwise.md)\n"
+    },
+    {
+      "ma": "tv4-sinh-case",
+      "tieu_de": "[E] Tự sinh lại file case bằng pict.exe và rà 3 model",
+      "nhan": "TV4 Toàn",
+      "nguoi": "TV4",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Bùi Ngọc Toàn · **Hạn:** 18/10 · **Mục báo cáo:** E\n\n### Việc cần làm\n\n- [ ] Cài `pict.exe`, chạy `scripts\\sinh_case.bat`\n- [ ] So số case vừa sinh với số trong README\n- [ ] Đối chiếu tên tham số trong 3 model với mã nguồn Mealie\n- [ ] Ghi lại số cặp cần phủ của từng model từ lệnh `pict ... /s`\n\n### Sản phẩm nộp\n\n- `cases/*.tsv` do chính mình sinh\n- Bảng thống kê trong `docs/muc-d.md`\n\n### Xong khi\n\n- Chạy được PICT trên máy mình\n- Giải thích được ràng buộc trong `models/search.txt`\n\n### Hướng dẫn\n\n- [TV4-pairwise.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV4-pairwise.md)\n"
+    },
+    {
+      "ma": "tv4-so-sanh",
+      "tieu_de": "[D] Lập bảng so sánh pairwise, 3-wise và exhaustive",
+      "nhan": "TV4 Toàn",
+      "nguoi": "TV4",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Bùi Ngọc Toàn · **Hạn:** 18/10 · **Mục báo cáo:** D\n\n### Việc cần làm\n\n- [ ] Chạy PICT với `/o:2`, `/o:3` và bậc cao nhất cho từng model\n- [ ] Lập bảng: số tham số, số case mỗi bậc, tỷ lệ giảm\n- [ ] Viết 3–4 câu nhận xét\n\n### Sản phẩm nộp\n\n- Bảng so sánh trong `docs/muc-d.md`\n\n### Xong khi\n\n- Bảng có đủ 3 luồng\n- Số liệu do chính mình chạy ra\n\n### Hướng dẫn\n\n- [TV4-pairwise.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV4-pairwise.md)\n"
+    },
+    {
+      "ma": "tv5-lam-quen-api",
+      "tieu_de": "[F] Cài Python, gọi thử API qua trang /docs",
+      "nhan": "TV5 Tuấn",
+      "nguoi": "TV5",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Nguyễn Đình Tuấn · **Hạn:** 18/10 · **Mục báo cáo:** F\n\n### Việc cần làm\n\n- [ ] Cài Python, tạo môi trường `.venv`, cài `requirements.txt`\n- [ ] Mở `http://localhost:9925/docs`, bấm Authorize bằng tài khoản dùng chung\n- [ ] Gọi thử `GET /api/households/preferences`\n- [ ] Lấy token bằng `curl.exe`\n\n### Sản phẩm nộp\n\n- `docs/evidence/F-00-docs.png`: trang `/docs` sau khi gọi thành công\n\n### Xong khi\n\n- `pytest tests -v` chạy được (báo \"no tests ran\" khi chưa có test)\n- Gọi API bằng token thành công\n\n### Hướng dẫn\n\n- [TV5-api-tu-dong-hoa.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV5-api-tu-dong-hoa.md)\n- [api-da-kiem-chung.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/api-da-kiem-chung.md)\n"
+    },
+    {
+      "ma": "tv5-request",
+      "tieu_de": "[A] Ghi lại request và response của 3 luồng",
+      "nhan": "TV5 Tuấn",
+      "nguoi": "TV5",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Nguyễn Đình Tuấn · **Hạn:** 18/10 · **Mục báo cáo:** A\n\n### Việc cần làm\n\n- [ ] Luồng household: 4 lần gọi\n- [ ] Luồng tìm kiếm: 1 lần gọi với nhiều tham số\n- [ ] Luồng phân quyền: 6 hành động\n- [ ] Mỗi lần gọi ghi: method, URL, body gửi đi, status code, phần chính của kết quả\n\n### Sản phẩm nộp\n\n- `docs/api-3-luong.md`\n\n### Xong khi\n\n- Tự tay gọi được từng API trên máy mình và kết quả khớp với bảng đã kiểm chứng\n\n### Hướng dẫn\n\n- [TV5-api-tu-dong-hoa.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV5-api-tu-dong-hoa.md)\n- [api-da-kiem-chung.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/api-da-kiem-chung.md)\n"
+    },
+    {
+      "ma": "tv5-luong-du-lieu",
+      "tieu_de": "[A] Vẽ luồng dữ liệu của 3 nghiệp vụ",
+      "nhan": "TV5 Tuấn",
+      "nguoi": "TV5",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Nguyễn Đình Tuấn · **Hạn:** 18/10 · **Mục báo cáo:** A\n\n### Việc cần làm\n\n- [ ] Mỗi luồng một sơ đồ tuần tự: Client, Routes, Services, Repos, Database\n- [ ] Ghi tên hàm thật trên mũi tên\n- [ ] Dưới mỗi hình viết 2–3 câu: dữ liệu vào là gì, kiểm tra ở đâu, lưu ở đâu\n\n### Sản phẩm nộp\n\n- `docs/so-do/luong-*.drawio` và `.png`\n- `docs/muc-a.md` (phần luồng dữ liệu)\n\n### Xong khi\n\n- Đủ 3 sơ đồ\n- Tên file và tên hàm trên sơ đồ có thật trong mã nguồn v3.28.0\n\n### Hướng dẫn\n\n- [TV5-api-tu-dong-hoa.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV5-api-tu-dong-hoa.md)\n"
+    },
+    {
+      "ma": "tv5-script-mau",
+      "tieu_de": "[F] Viết script mẫu chạy 16 case household bằng pytest",
+      "nhan": "TV5 Tuấn",
+      "nguoi": "TV5",
+      "da_xong": false,
+      "dang_lam": false,
+      "noi_dung": "**Người làm:** Nguyễn Đình Tuấn · **Hạn:** 18/10 · **Mục báo cáo:** F\n\n### Việc cần làm\n\n- [ ] Tạo `tests/conftest.py`: địa chỉ Mealie, hàm đăng nhập, hàm đọc file case\n- [ ] Tạo `tests/test_household.py`: mỗi dòng của `cases/household.tsv` là một test\n- [ ] Chạy `pytest tests -v`, chụp kết quả\n- [ ] Ghi lệnh chạy vào `tests/README.md`\n\n### Sản phẩm nộp\n\n- `tests/conftest.py`\n- `tests/test_household.py`\n- `docs/evidence/F-01-pytest-household.png`\n\n### Xong khi\n\n- `pytest tests -v` in ra 16 dòng kết quả\n- Một bạn khác clone repo về chạy lại được\n\n### Hướng dẫn\n\n- [TV5-api-tu-dong-hoa.md](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/blob/main/docs/huong-dan/TV5-api-tu-dong-hoa.md)\n"
+    }
+  ]
+}
