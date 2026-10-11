@@ -9,17 +9,23 @@
 
 ## D.1. NGUYÊN LÝ KỸ THUẬT PAIRWISE TESTING
 
-### 1. Cơ sở lý thuyết và bản chất khoa học
+#### 1. Cơ sở lý thuyết và bản chất khoa học
 - **Khái niệm:** Kiểm thử tổ hợp từng cặp (Pairwise Testing / 2-way Combinatorial Testing) là phương pháp thiết kế ca kiểm thử hộp đen dựa trên nguyên lý: phần lớn lỗi phần mềm trong thực tế phát sinh do tương tác giữa một tham số đơn lẻ hoặc do sự tương tác giữa một cặp 2 tham số với nhau.
-- **Cơ sở thực nghiệm (Nghiên cứu của NIST & D. Richard Kuhn):** Các nghiên cứu thực nghiệm quy mô lớn của Viện Tiêu chuẩn và Công nghệ Quốc gia Hoa Kỳ (NIST) trên nhiều hệ thống phần mềm thực tế chỉ ra rằng:
-  - Khoảng **67% - 93%** khiếm khuyết được kích hoạt bởi tương tác của tối đa 2 tham số.
-  - Trên **90%** khiếm khuyết được kích hoạt bởi tối đa 3 tham số.
-  - Rất hiếm khiếm khuyết (dưới 1%) đòi hỏi sự tương tác đồng thời của 4 tham số trở lên để bộc lộ.
+- **Cơ sở thực nghiệm (Nghiên cứu NIST - D. Richard Kuhn et al.):**
+  Theo nghiên cứu thực nghiệm nổi tiếng của Viện Tiêu chuẩn và Công nghệ Quốc gia Hoa Kỳ (NIST) công bố trong bài báo:
+  > **D. Richard Kuhn, Dolores R. Wallace, Albert M. Gallo, Jr.** (2004), *"Software Fault Interactions: An Empirical Analysis"*, IEEE Transactions on Software Engineering, Vol. 30, No. 6, pp. 418–437.
+  
+  Kết quả phân tích lỗi trên các hệ thống phần mềm thực tế chỉ ra rằng:
+  - Tương tác **1 tham số** kích hoạt từ 29% đến 68% khiếm khuyết.
+  - Tương tác **tối đa 2 tham số (2-way)** kích hoạt từ **67% đến 93%** khiếm khuyết.
+  - Tương tác **tối đa 3 tham số (3-way)** kích hoạt trên **90%** khiếm khuyết.
+  - Các lỗi phức tạp đòi hỏi tương tác từ bậc cao hơn (4 đến 6 tham số) chiếm tỷ lệ rất nhỏ và giảm dần theo cấp số mũ.
+- **Tài liệu tham khảo thực tế:** Bài báo *"Pairwise Testing in the Real World: Practical Extensions to Combinatorial Aspects"* của J. Czerwonka (Microsoft, công bố tại STAREAST 2006, tài liệu đi kèm công cụ Microsoft PICT).
 - **Bài toán bùng nổ tổ hợp (Combinatorial Explosion):** Khi một hệ thống hoặc API có $N$ tham số, mỗi tham số có $V_i$ giá trị khả dĩ, phương pháp vét cạn (Exhaustive Testing) đòi hỏi không gian thử nghiệm là $\prod_{i=1}^N V_i$. Với các chức năng như Cấu hình Mealie (9 tham số) hay Tìm kiếm Mealie (9 tham số), số lượng tổ hợp vét cạn lên đến hàng nghìn tới hàng triệu ca thử nghiệm, hoàn toàn bất khả thi để thực thi thủ công hoặc tự động trong chu kỳ release ngắn.
 - **Mục tiêu của Pairwise:** Chọn ra một tập con nhỏ nhất các ca kiểm thử sao cho **mọi cặp giá trị $(P_i = v_a, P_j = v_b)$ của hai tham số bất kỳ đều xuất hiện cùng nhau ít nhất một lần** trong tập test case. Nhờ đó, số lượng test case giảm từ 90% đến hơn 99% trong khi vẫn giữ được khả năng phát hiện phần lớn lỗi.
 
 ### 2. Ví dụ trực quan: Giảm từ 18 tổ hợp xuống 9 tổ hợp
-Xét chức năng sắp xếp và phân trang danh sách công thức Mealie với 3 tham số:
+Xét chức năng sắp xếp và phân trang danh sách công thức Mealie với 3 tham số (`models/demo.txt`):
 - `orderBy`: 3 giá trị (`name`, `created_at`, `random`)
 - `orderDirection`: 2 giá trị (`asc`, `desc`)
 - `perPage`: 3 giá trị (`1`, `10`, `50`)
@@ -29,7 +35,7 @@ Xét chức năng sắp xếp và phân trang danh sách công thức Mealie v�
   - Cặp (`orderBy`, `orderDirection`): $3 \times 2 = 6$ cặp.
   - Cặp (`orderBy`, `perPage`): $3 \times 3 = 9$ cặp.
   - Cặp (`orderDirection`, `perPage`): $2 \times 3 = 6$ cặp.
-  - $\rightarrow$ Tổng cộng có $6 + 9 + 6 = 21$ cặp giá trị duy nhất cần phủ.
+  - $\rightarrow$ Tổng cộng có $6 + 9 + 6 = 21$ cặp giá trị duy nhất cần phủ (được kiểm chứng qua lệnh `pict models/demo.txt /s`).
 - **Bộ 9 test case do PICT sinh ra phủ trọn vẹn 100% (21/21 cặp):**
 
 | # | orderBy | orderDirection | perPage | Các cặp mới được phủ |
@@ -48,15 +54,24 @@ Xét chức năng sắp xếp và phân trang danh sách công thức Mealie v�
 
 ---
 
-## D.2. LÝ DO CHỌN PHẠM VI KIỂM THỬ TRÊN MEALIE
+## D.2. LÝ DO CHỌN PHẠM VI KIỂM THỬ TRÊN MEALIE VÀ BẢNG SO SÁNH
 
-Nhóm giới hạn phạm vi kiểm thử vào **3 luồng nghiệp vụ cốt lõi** thuộc các tầng API của Mealie v3.28.0 thay vì kiểm thử toàn bộ hệ thống:
+Nhóm giới hạn phạm vi kiểm thử vào **3 luồng nghiệp vụ cốt lõi** thuộc các tầng API của Mealie v3.28.0 thay vì kiểm thử toàn bộ hệ thống.
 
-| STT | Luồng nghiệp vụ | Endpoint API | Số tham số | Số case Exhaustive | Số case Pairwise (PICT) | Tỷ lệ giảm |
-|:---:|:---|:---|:---:|:---:|:---:|:---:|
-| 1 | **Cấu hình Household (Household Preferences)** | `PUT /api/households/preferences` | 9 | 1.792 | **16** | **99,1%** |
-| 2 | **Tìm kiếm và Lọc công thức (Recipe Search & Filter)** | `GET /api/recipes` | 9 (có 1 ràng buộc) | 5.832 | **19** | **99,7%** |
-| 3 | **Phân quyền người dùng (User Permissions)** | `POST /api/admin/users` & Action APIs | 6 | 192 | **14** | **92,7%** |
+### Bảng so sánh Pairwise (/o:2), 3-wise (/o:3) và Exhaustive:
+Dưới đây là số liệu thực tế được chạy trực tiếp bằng công cụ Microsoft PICT v3.7.4 trên máy cục bộ với 3 mô hình của nhóm:
+
+| Luồng nghiệp vụ | Endpoint API | Số tham số | Số cặp cần phủ (2-way) | Pairwise (2-way) | 3-wise (/o:3) | Exhaustive | Tỷ lệ giảm Pairwise vs Exhaustive |
+|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Cấu hình Household** | `PUT /api/households/preferences` | 9 | 224 | **16** | 53 | 1.792 | **Giảm 99,1%** |
+| **Tìm kiếm và Lọc công thức** | `GET /api/recipes` | 9 (1 ràng buộc) | 273 | **19** | 67 | 5.832 | **Giảm 99,7%** |
+| **Phân quyền người dùng** | `POST /api/admin/users` & Action APIs | 6 | 100 | **14** | 41 | 192 | **Giảm 92,7%** |
+| **Tổng cộng** | | | **597** | **49** | **161** | **7.816** | **Giảm 99,37%** |
+
+#### Nhận xét số liệu:
+1. **Hiệu quả giảm thiểu vượt trội:** So với thử nghiệm vét cạn (7.816 ca kiểm thử), kỹ thuật Pairwise chỉ cần **49 test cases** (giảm 99,37% tổng số ca kiểm thử) mà vẫn đảm bảo độ phủ 100% tất cả 597 cặp giá trị tương tác hợp lệ của hệ thống.
+2. **Chi phí nâng bậc lên 3-wise:** Khi nâng từ bậc 2 (Pairwise - 49 cases) lên bậc 3 (3-wise - 161 cases), số lượng test case tăng hơn gấp 3 lần (tăng 228%).
+3. **Lý do chọn chạy đối chứng Exhaustive cho luồng Household:** Luồng Cấu hình Household có không gian vét cạn là 1.792 ca kiểm thử, hoàn toàn nằm trong khả năng tự động hóa bằng script HTTP API. Vì vậy, nhóm quyết định chạy toàn bộ 1.792 ca vét cạn ở giai đoạn sau giữa kỳ để đối chứng trực tiếp với 16 ca Pairwise, từ đó đo lường thực tế xem Pairwise có bỏ sót lỗi nghiệp vụ nào hay không.
 
 ### Phân tích chi tiết từng luồng:
 1. **Luồng 1: Cấu hình Household (`household_preferences`)**
