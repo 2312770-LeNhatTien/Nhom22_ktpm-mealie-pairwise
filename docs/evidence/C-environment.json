@@ -1,0 +1,15 @@
+{
+  "recordedAt": "2026-10-12T10:31:05.1360401+07:00",
+  "windows": {
+    "Caption": "Microsoft Windows 11 Home Single Language",
+    "Version": "10.0.26200",
+    "BuildNumber": "26200"
+  },
+  "dockerDesktop": "4.91.0.239619",
+  "dockerVersion": "Docker version 29.8.0, build 88096ef",
+  "composeVersion": "Docker Compose version v5.5.1",
+  "composeUp": "Container mealie Running",
+  "composePs": "NAME      IMAGE                                   COMMAND         SERVICE   CREATED        STATUS                   PORTS\r\nmealie    ghcr.io/mealie-recipes/mealie:v3.28.0   \"/app/run.sh\"   mealie    17 hours ago   Up 6 minutes (healthy)   0.0.0.0:9925->9000/tcp, [::]:9925->9000/tcp",
+  "imageDigest": "[\"ghcr.io/mealie-recipes/mealie@sha256:8b02290f4d1806f02acac6f25f6d48a3c965612fda1f8e914d5af533276f8688\"]",
+  "database": "-rw-r--r-- 1 abc abc 1753088 Oct 12 10:30 /app/data/mealie.db"
+}

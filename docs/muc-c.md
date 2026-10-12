@@ -1,0 +1,192 @@
+# Mục C Môi trường và cách chạy hệ thống
+
+Phần này hướng dẫn dựng Mealie và dữ liệu lab của Nhóm 22 cho đề tài R02 Mealie + K06 Pairwise. Ngày 12/10/2026, container Mealie v3.28.0 chạy healthy; ba luồng tìm kiếm, cấu hình household và phân quyền đã được kiểm tra thành công. Người phụ trách mục C: Nguyễn Phú Quý (2312731).
+
+## C.1 Môi trường và phiên bản
+
+| Thành phần | Giá trị ghi nhận |
+| --- | --- |
+| Hệ điều hành | Windows 11 Home Single Language, 25H2, version 10.0.26200, build 26200 |
+| Docker Desktop | 4.91.0.239619 |
+| Docker CLI | 29.8.0, build 88096ef |
+| Docker Compose | v5.5.1 |
+| Mealie từ API `/api/app/about` | v3.28.0 |
+| Tag mã nguồn đã chốt | `v3.28.0` |
+| Commit mã nguồn theo README | `0552eaa4a80031b8572849cca0ed95d07f1be001` |
+| Image | `ghcr.io/mealie-recipes/mealie:v3.28.0` |
+| Digest image thực tế | `sha256:8b02290f4d1806f02acac6f25f6d48a3c965612fda1f8e914d5af533276f8688` |
+| DB | SQLite, `/app/data/mealie.db` |
+| Web và API docs | `http://localhost:9925`, `http://localhost:9925/docs` |
+
+SHA mã nguồn là mốc đã chốt của nhóm; API xác nhận version, digest xác định image đang chạy. Không suy ra commit mã nguồn chỉ từ version API. Python 3.10 trở lên chỉ cần cho script chuẩn bị dữ liệu, không cần cài backend Mealie trên Windows.
+
+Đầu ra lệnh thực tế nằm trong [C-environment.json](evidence/C-environment.json).
+
+![Phiên bản Docker và Compose từ log thực tế](evidence/C-01-docker-version.png)
+
+## C.2 Cài đặt và lệnh chạy
+
+### Chuẩn bị máy
+
+1. Cài Git for Windows và Docker Desktop từ trang chính thức; dùng Linux containers và WSL 2 theo yêu cầu trình cài. Khởi động lại nếu cần.
+2. Mở Docker Desktop, đợi engine sẵn sàng. Kiểm tra `docker --version`, `docker compose version`, `docker info`.
+3. Clone repo và chạy tại thư mục chứa Compose:
+
+```bat
+git clone https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise.git
+cd Nhom22_ktpm-mealie-pairwise
+docker compose up -d
+docker compose ps
+```
+
+Lần đầu cần mạng để tải image. Khi container healthy, mở `http://localhost:9925`. Nếu chưa lên, xem `docker compose logs --tail 100 mealie`. Cấu hình này chạy image phát hành sẵn, không cần build mã nguồn Mealie.
+
+### File Compose
+
+Nội dung khớp [docker-compose.yml](../docker-compose.yml):
+
+```yaml
+services:
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:v3.28.0
+    container_name: mealie
+    ports:
+      - "9925:9000"
+    volumes:
+      - mealie-data:/app/data/
+    environment:
+      ALLOW_SIGNUP: "false"
+      PUID: 1000
+      PGID: 1000
+      TZ: Asia/Ho_Chi_Minh
+      BASE_URL: http://localhost:9925
+
+volumes:
+  mealie-data:
+```
+
+`image` cố định tag. `ports` nối cổng 9925 của máy vào 9000 của container. Volume giữ SQLite và file dữ liệu khi dừng/tạo lại container. Docker thường thêm tiền tố project vào tên volume thực tế. `container_name` đặt tên container là `mealie`.
+
+| Lệnh | Tác dụng |
+| --- | --- |
+| `docker compose up -d` | Tạo/chạy container nền |
+| `docker compose ps` | Xem trạng thái và ánh xạ cổng |
+| `docker compose logs --tail 100 mealie` | Xem log gần nhất |
+| `docker compose stop` / `docker compose start` | Dừng/chạy lại, giữ dữ liệu |
+| `docker compose down` | Gỡ container/network, giữ named volume |
+| `docker compose down -v` | Xóa cả volume và dữ liệu; chỉ dùng khi chủ động reset, đã giữ dữ liệu cần thiết |
+
+![Compose up trên máy đã có container](evidence/C-02-compose-up.png)
+
+![Container healthy và cổng 9925](evidence/C-03-compose-ps.png)
+
+### Thiết lập lần đầu
+
+Trên máy mới, đăng nhập bằng `changeme@example.com` / `MyPassword`, hoàn tất wizard:
+
+| Bước | Giá trị |
+| --- | --- |
+| Account Details | Username `nhom22`, Full Name `Nhom 22`, Email `nhom22@example.com`, Password `Nhom22@Mealie` |
+| Site Settings | Giữ mặc định |
+| AI Providers | Bỏ qua |
+| Summary | Kiểm tra và hoàn tất |
+
+Đăng xuất rồi đăng nhập bằng `nhom22@example.com` / `Nhom22@Mealie`; phải vào thẳng trang chủ. Đây là tài khoản lab theo README.
+
+Máy ghi nhận bằng chứng đã hoàn tất wizard từ trước. Chưa có ảnh C-05 đến C-07 của Account Details, Summary và Setup Complete; không reset volume hiện có để tái tạo lịch sử. Quý cần bổ sung ba ảnh khi dựng bản lab mới. Các bước wizard trên đối chiếu README, chưa được chạy lại từ volume sạch trong lần xác minh này.
+
+![Trang đăng nhập thực tế](evidence/C-04-login.png)
+
+![Trang chủ sau đăng nhập với bộ 12 công thức](evidence/C-08-home.png)
+
+## C.3 Cơ sở dữ liệu và service
+
+Compose chỉ có service `mealie`, không cần PostgreSQL hay Redis riêng. File SQLite đã xác nhận tại `/app/data/mealie.db` trong container, dưới volume `/app/data/`. Dữ liệu ứng dụng và ảnh cũng được giữ trong volume.
+
+| Biến | Giá trị | Ý nghĩa |
+| --- | --- | --- |
+| `ALLOW_SIGNUP` | `false` | Tắt tự đăng ký; admin tạo user lab |
+| `PUID` | `1000` | UID sử dụng trong container |
+| `PGID` | `1000` | GID sử dụng trong container |
+| `TZ` | `Asia/Ho_Chi_Minh` | Múi giờ ứng dụng |
+| `BASE_URL` | `http://localhost:9925` | Địa chỉ gốc tạo link |
+
+Nếu cổng 9925 bị chiếm, đổi mapping thành `9926:9000`, đổi `BASE_URL` tương ứng và địa chỉ truy cập/script.
+
+## C.4 Dữ liệu mẫu và cách chạy lại
+
+Bộ dữ liệu gồm admin `nhom22`, user `khongquyen`/`duquyen`, 3 category, 3 tag và 12 công thức. Bảng tên, nhãn, quyền và kết quả lọc nằm trong [seed-data.md](seed-data.md). [Inventory](evidence/C-seed-inventory.json) ghi ID thực tế; UUID khác nhau trên mỗi máy.
+
+Sau khi thiết lập admin, chạy từ gốc repo:
+
+```bat
+python scripts\chuan_bi_muc_c.py seed
+python scripts\chuan_bi_muc_c.py verify
+```
+
+Chỉ cần Python 3.10 trở lên và thư viện chuẩn. `seed` nạp phần thiếu, không tạo trùng/ghi đè dữ liệu xung đột. `verify` chạy 16 bước API, tạo/xóa dữ liệu tạm, đổi rồi khôi phục household/quyền user. Không chạy cùng test/demo khác. Mặc định dùng `http://localhost:9925`; thêm `--base-url http://localhost:9926` khi đổi cổng. Script chỉ cho phép loopback, kiểm tra version v3.28.0, không lưu token/mật khẩu trong log.
+
+Kết quả thành công:
+
+```text
+PASS: 16 bước xác minh; 3 luồng; đã khôi phục household, quyền user và xóa dữ liệu tạm.
+```
+
+Đây là kiểm tra vận hành mục C, chưa phải kết quả chạy toàn bộ test Pairwise mục F/G.
+
+## C.5 Bằng chứng ba luồng nghiệp vụ
+
+Ảnh là ảnh chụp trình duyệt. C-01 đến C-03, C-31 đến C-33 và C-API chụp trang trình bày log thực tế, không phải ảnh terminal/Docker Desktop. JSON gốc lưu cùng ảnh để đối chiếu. Các ảnh còn lại chụp giao diện Mealie.
+
+### Tìm kiếm và lọc
+
+Tại `/g/home`, chọn Categories → Món chính: từ 12 còn 5 công thức. Thêm Tags → Chay: còn Gỏi cuốn chay và Xôi xoài. API kiểm tra thêm category OR/AND, tag AND và thứ tự tên tăng/giảm.
+
+![Danh sách 12 công thức](evidence/C-10-search-danh-sach.png)
+
+![Category Món chính trả về 5 công thức](evidence/C-11-search-loc-category.png)
+
+![Thêm tag Chay còn 2 công thức](evidence/C-12-search-loc-them-tag.png)
+
+### Cấu hình household
+
+Vào `/household`, ghi cấu hình cũ. Bật Show nutrition information và Disable users from commenting on recipes, bấm Update. Tạo `Demo mục C`, mở Settings: Show Nutrition Values và Disable Comments đều bật. Phải tạo công thức mới sau khi lưu household để chứng minh kế thừa.
+
+![Cấu hình ban đầu](evidence/C-20-household-cai-dat.png)
+
+![Hai tùy chọn đã lưu](evidence/C-21-household-doi.png)
+
+![Tạo công thức mới](evidence/C-22-household-tao-cong-thuc.png)
+
+![Công thức mới nhận hai tùy chọn mặc định](evidence/C-23-household-ket-qua.png)
+
+API kiểm tra đủ 5 ánh xạ: `recipePublic → public`, `recipeShowNutrition → showNutrition`, `recipeShowAssets → showAssets`, `recipeLandscapeView → landscapeView`, `recipeDisableComments → disableComments` trong `settings`. Sau chụp đã xóa công thức demo, khôi phục hai cờ về false như ban đầu.
+
+### Phân quyền
+
+User `khongquyen` có admin=false và bốn quyền false. `POST /api/organizers/categories` trả 403. Admin cấp riêng `canOrganize`; đăng nhập lại bằng user đó, gọi lại được 201. Cuối luồng đã xóa category tạm và trả quyền về false.
+
+![Thành viên household và user lab](evidence/C-30-permission-user.png)
+
+![API từ chối với 403](evidence/C-31-permission-bi-chan.png)
+
+![Admin cấp riêng canOrganize](evidence/C-32-permission-cap-quyen.png)
+
+![API cho phép với 201](evidence/C-33-permission-duoc-phep.png)
+
+Ba ảnh C-31 đến C-33 chụp log API đã thực thi, chứng minh kiểm tra quyền backend. [Log đầy đủ](evidence/C-api-verification.json) ghi request, status, response và việc khôi phục dữ liệu.
+
+![Trang tài liệu API Mealie](evidence/C-09-api-docs.png)
+
+## C.6 Lỗi và cách xử lý
+
+| Hiện tượng | Kiểm tra/nguyên nhân | Cách xử lý | Nguồn |
+| --- | --- | --- | --- |
+| `permission denied` truy cập pipe Docker | Tiến trình terminal không có quyền Docker API | Chạy lại từ phiên có quyền Docker được chủ máy cho phép; kiểm tra `docker compose ps` | Đã gặp 12/10 |
+| Registry ghi Windows 10 nhưng máy chạy Windows 11 | Tên tương thích trong registry khác Caption OS | Lấy Caption/Version từ `Get-CimInstance Win32_OperatingSystem` | Đã đối chiếu |
+| Không kết nối engine | Docker Desktop chưa sẵn sàng | Mở Docker Desktop, chờ engine, thử `docker info` | Hướng dẫn chung, chưa tái hiện |
+| Cổng 9925 bị chiếm | Ứng dụng/container khác dùng cổng | Đổi cổng và `BASE_URL`/địa chỉ script đồng bộ | Hướng dẫn chung |
+| Đăng nhập quay lại wizard | Chưa hoàn tất thiết lập admin | Làm hết wizard, đăng nhập lại bằng admin nhóm | README |
+| `verify` báo không đúng 12 món | Thiếu seed/còn công thức demo | Đối chiếu bảng seed; chỉ dọn đúng dữ liệu tạm của mình | Điều kiện script |
+
+Chưa có phản hồi lỗi cài đặt của bốn thành viên khác trong phiên này. Quý cần bổ sung lỗi thực tế của các bạn, ba ảnh wizard và nhờ Nhật Tiến dựng lại từ máy/volume sạch chỉ dựa trên tài liệu trước khi nghiệm thu onboarding.

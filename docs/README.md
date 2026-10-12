@@ -18,3 +18,5 @@ Nơi để báo cáo, hướng dẫn, sơ đồ và bằng chứng.
 | `meetings/` | Biên bản họp nhóm, mỗi buổi một file | Nhật Tiến |
 
 Quy ước đặt tên ảnh trong `evidence/`: chữ cái của mục báo cáo, số thứ tự, mô tả ngắn. Ví dụ `C-01-docker-version.png`, `C-11-search-loc-category.png`.
+
+Phần C hiện có [hướng dẫn môi trường và kết quả xác minh](muc-c.md), [bảng dữ liệu mẫu](seed-data.md) và [mô tả nguồn bằng chứng](evidence/README.md). Có thể nạp seed/chạy kiểm tra ba luồng bằng `python scripts/chuan_bi_muc_c.py seed` và `python scripts/chuan_bi_muc_c.py verify` từ thư mục gốc repo. Các phần onboarding còn cần bổ sung được ghi rõ trong mục C.
