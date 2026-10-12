@@ -1,0 +1,20 @@
+{
+  "recordedAt": "2026-10-12T11:22:14+07:00",
+  "baseUrl": "http://localhost:9926",
+  "container": "mealie-onboarding",
+  "image": "ghcr.io/mealie-recipes/mealie:v3.28.0",
+  "volume": "mealie-onboarding-data",
+  "volumeCreatedAt": "2026-10-12T04:16:21Z",
+  "version": "v3.28.0",
+  "loginStatus": 200,
+  "user": {
+    "username": "nhom22",
+    "fullName": "Nhom 22",
+    "email": "nhom22@example.com",
+    "admin": true,
+    "group": "Home",
+    "household": "Family"
+  },
+  "recipeTotal": 0,
+  "screenshotsSource": "Người dùng cung cấp ba ảnh wizard tại localhost:9926/admin/setup; Summary hiển thị Use Seed Data được bật."
+}

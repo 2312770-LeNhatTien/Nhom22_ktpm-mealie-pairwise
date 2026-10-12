@@ -87,13 +87,31 @@ Trên máy mới, đăng nhập bằng `changeme@example.com` / `MyPassword`, ho
 | Bước | Giá trị |
 | --- | --- |
 | Account Details | Username `nhom22`, Full Name `Nhom 22`, Email `nhom22@example.com`, Password `Nhom22@Mealie` |
-| Site Settings | Giữ mặc định |
+| Site Settings | Ảnh Summary ghi Enable Advanced Content = No, Enable Public Access = No, Use Seed Data = Đồng ý |
 | AI Providers | Bỏ qua |
 | Summary | Kiểm tra và hoàn tất |
 
 Đăng xuất rồi đăng nhập bằng `nhom22@example.com` / `Nhom22@Mealie`; phải vào thẳng trang chủ. Đây là tài khoản lab theo README.
 
-Máy ghi nhận bằng chứng đã hoàn tất wizard từ trước. Chưa có ảnh C-05 đến C-07 của Account Details, Summary và Setup Complete; không reset volume hiện có để tái tạo lịch sử. Quý cần bổ sung ba ảnh khi dựng bản lab mới. Các bước wizard trên đối chiếu README, chưa được chạy lại từ volume sạch trong lần xác minh này.
+Ba ảnh dưới đây do người dùng cung cấp từ bản onboarding riêng tại `http://localhost:9926/admin/setup` ngày 12/10/2026. Bản này dùng cùng image v3.28.0, container `mealie-onboarding`, volume `mealie-onboarding-data` mới tạo lúc 11:16:21 (UTC+7). Dữ liệu của bản kiểm thử chính cổng 9925 được giữ nguyên.
+
+![Account Details với username, họ tên và email lab; mật khẩu được che](evidence/C-05-setup-account.png)
+
+![Summary trước khi gửi cấu hình thiết lập](evidence/C-06-setup-summary.png)
+
+![Wizard xác nhận Setup Complete](evidence/C-07-setup-complete.png)
+
+Sau khi người dùng hoàn tất wizard, API đăng nhập trên cổng 9926 trả 200; `/api/users/self` xác nhận admin `nhom22`, họ tên `Nhom 22`, email `nhom22@example.com`, group `Home`, household `Family`. Kết quả và thời điểm được lưu tại [C-onboarding-verification.json](evidence/C-onboarding-verification.json).
+
+`Use Seed Data` trong wizard là lựa chọn nạp dữ liệu có sẵn của Mealie, khác với bộ 12 công thức của nhóm ở C.4. Sau wizard, API trên bản phụ ghi nhận 0 công thức; bộ 12 món cần được nạp riêng bằng script của nhóm.
+
+Để kiểm tra wizard trên một volume mới riêng, có thể dùng lệnh đã thực hiện cho bộ ảnh này (PowerShell ở thư mục bất kỳ):
+
+```powershell
+docker run -d --name mealie-onboarding -p 127.0.0.1:9926:9000 -v mealie-onboarding-data:/app/data/ -e ALLOW_SIGNUP=false -e TZ=Asia/Ho_Chi_Minh -e BASE_URL=http://localhost:9926 ghcr.io/mealie-recipes/mealie:v3.28.0
+```
+
+Tên container/volume phải chưa được dùng nếu muốn bắt đầu từ môi trường sạch; chạy lại với volume đã thiết lập sẽ giữ tài khoản cũ và không mở wizard lần đầu. Sau khi lấy ảnh, có thể dừng bản phụ bằng `docker stop mealie-onboarding`; không cần xóa volume của bản chính.
 
 ![Trang đăng nhập thực tế](evidence/C-04-login.png)
 
@@ -189,4 +207,4 @@ Ba ảnh C-31 đến C-33 chụp log API đã thực thi, chứng minh kiểm tr
 | Đăng nhập quay lại wizard | Chưa hoàn tất thiết lập admin | Làm hết wizard, đăng nhập lại bằng admin nhóm | README |
 | `verify` báo không đúng 12 món | Thiếu seed/còn công thức demo | Đối chiếu bảng seed; chỉ dọn đúng dữ liệu tạm của mình | Điều kiện script |
 
-Chưa có phản hồi lỗi cài đặt của bốn thành viên khác trong phiên này. Quý cần bổ sung lỗi thực tế của các bạn, ba ảnh wizard và nhờ Nhật Tiến dựng lại từ máy/volume sạch chỉ dựa trên tài liệu trước khi nghiệm thu onboarding.
+Đã có đủ ba ảnh wizard và xác minh đăng nhập sau thiết lập trên volume onboarding mới riêng. Chưa có phản hồi lỗi cài đặt của bốn thành viên khác; Quý bổ sung khi các bạn kiểm tra tài liệu. Phần đọc chéo vẫn cần Nhật Tiến kiểm tra độc lập toàn bộ hướng dẫn Compose và seed từ môi trường sạch trước khi nghiệm thu.
