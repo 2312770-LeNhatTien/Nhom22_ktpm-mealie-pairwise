@@ -98,4 +98,22 @@ _Phần của Hồ Quốc Tiến._
 
 ## A.6 Luồng dữ liệu của 3 nghiệp vụ
 
-_Phần của Nguyễn Đình Tuấn._
+Mỗi sơ đồ dưới đây là sơ đồ tuần tự gồm 5 cột: Client (script test hoặc trình duyệt), Routes, Services, Repos, Database. Mũi tên nét liền là lời gọi, nét đứt là kết quả trả về; trên mũi tên ghi tên hàm thật của Mealie `v3.28.0`, đường dẫn tính từ thư mục `mealie/` của mã nguồn. File nguồn `.drawio` nằm trong `docs/so-do/`.
+
+### A.6.1 Cấu hình household
+
+![Hình. Luồng dữ liệu của nghiệp vụ cấu hình household](so-do/luong-household.png)
+
+Dữ liệu vào là 9 tùy chọn dạng JSON gửi tới `PUT /api/households/preferences`. Pydantic (`UpdateHouseholdPreferences`) kiểm tra kiểu dữ liệu, hàm `can_manage_household()` kiểm tra quyền, rồi tầng Repos ghi vào bảng `household_preferences`. Khi người dùng tạo công thức mới, hàm `create_one` trong `recipe_service.py` đọc lại cấu hình này và gán 5 cài đặt mặc định (`public`, `showNutrition`, `showAssets`, `landscapeView`, `disableComments`) cho công thức trước khi lưu vào bảng `recipes`. Hai API khác nhau được nối với nhau qua dữ liệu lưu trong cơ sở dữ liệu, và test của nhóm kiểm tra đúng mối nối này.
+
+### A.6.2 Tìm kiếm và lọc công thức
+
+![Hình. Luồng dữ liệu của nghiệp vụ tìm kiếm và lọc công thức](so-do/luong-tim-kiem.png)
+
+Dữ liệu vào là các tham số trên URL của `GET /api/recipes` (từ khóa, category, tag, `requireAll...`, `orderBy`, `orderDirection`, `paginationSeed`, `perPage`, `page`). Tham số được Pydantic kiểm tra ở lớp `RequestQuery`: `orderBy=random` mà thiếu `paginationSeed` bị từ chối với mã 422. Luồng này không có service nghiệp vụ: hàm `get_all` gọi thẳng `page_all` của tầng Repos, nơi dựng điều kiện lọc category và tag, điều kiện tìm kiếm, sắp xếp và phân trang thành một câu `SELECT` trên bảng `recipes`. Kết quả trả về là JSON phân trang gồm `items`, `total`, `page`, `per_page`, `total_pages`.
+
+### A.6.3 Phân quyền người dùng
+
+![Hình. Luồng dữ liệu của nghiệp vụ phân quyền người dùng](so-do/luong-phan-quyen.png)
+
+Admin tạo user bằng `POST /api/admin/users` kèm 5 cờ quyền; `get_admin_user()` kiểm tra người gọi là admin, và khi lưu, `_set_permissions` tự bật cả 4 cờ còn lại nếu `admin` là true. Quyền được lưu trong bảng `users`. User đăng nhập để nhận token JWT; mỗi lần gọi một hành động, `get_current_user()` giải mã token và đọc user từ cơ sở dữ liệu, sau đó controller của hành động gọi `self.checks.can_xxx()` trong `OperationChecks`. Thiếu cờ tương ứng thì Mealie trả 403, đủ cờ thì thực hiện hành động và trả 200 hoặc 201.
