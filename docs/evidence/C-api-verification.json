@@ -1,0 +1,309 @@
+{
+  "recordedAt": "2026-10-12T11:43:51+07:00",
+  "baseUrl": "http://localhost:9925",
+  "version": "v3.28.0",
+  "steps": [
+    {
+      "step": "C-10 đủ 12 công thức",
+      "method": "GET",
+      "path": "/api/recipes?perPage=50",
+      "request": null,
+      "status": 200,
+      "response": {
+        "total": 12,
+        "names": [
+          "Xôi xoài",
+          "Cơm trắng",
+          "Nước mắm pha",
+          "Cà phê sữa",
+          "Trà đá",
+          "Sinh tố bơ",
+          "Bánh flan",
+          "Chè đậu",
+          "Lẩu thái",
+          "Gỏi cuốn chay",
+          "Bún chả",
+          "Phở bò"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "step": "C-11 Món chính",
+      "method": "GET",
+      "path": "/api/recipes?perPage=50&categories=mon-chinh",
+      "request": null,
+      "status": 200,
+      "response": {
+        "total": 5,
+        "names": [
+          "Xôi xoài",
+          "Lẩu thái",
+          "Gỏi cuốn chay",
+          "Bún chả",
+          "Phở bò"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "step": "C-12 Món chính và Chay",
+      "method": "GET",
+      "path": "/api/recipes?perPage=50&categories=mon-chinh&tags=chay",
+      "request": null,
+      "status": 200,
+      "response": {
+        "total": 2,
+        "names": [
+          "Xôi xoài",
+          "Gỏi cuốn chay"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "step": "Hai category OR",
+      "method": "GET",
+      "path": "/api/recipes?perPage=50&categories=mon-chinh&categories=trang-mieng&requireAllCategories=false",
+      "request": null,
+      "status": 200,
+      "response": {
+        "total": 8,
+        "names": [
+          "Xôi xoài",
+          "Sinh tố bơ",
+          "Bánh flan",
+          "Chè đậu",
+          "Lẩu thái",
+          "Gỏi cuốn chay",
+          "Bún chả",
+          "Phở bò"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "step": "Hai category AND",
+      "method": "GET",
+      "path": "/api/recipes?perPage=50&categories=mon-chinh&categories=trang-mieng&requireAllCategories=true",
+      "request": null,
+      "status": 200,
+      "response": {
+        "total": 1,
+        "names": [
+          "Xôi xoài"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "step": "Hai tag AND",
+      "method": "GET",
+      "path": "/api/recipes?perPage=50&tags=nhanh&tags=chay&requireAllTags=true",
+      "request": null,
+      "status": 200,
+      "response": {
+        "total": 2,
+        "names": [
+          "Sinh tố bơ",
+          "Gỏi cuốn chay"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "step": "C-13 sắp xếp tăng",
+      "method": "GET",
+      "path": "/api/recipes?perPage=50&orderBy=name&orderDirection=asc",
+      "request": null,
+      "status": 200,
+      "response": {
+        "total": 12,
+        "names": [
+          "Bánh flan",
+          "Bún chả",
+          "Chè đậu",
+          "Cà phê sữa",
+          "Cơm trắng",
+          "Gỏi cuốn chay",
+          "Lẩu thái",
+          "Nước mắm pha",
+          "Phở bò",
+          "Sinh tố bơ",
+          "Trà đá",
+          "Xôi xoài"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "step": "C-13 sắp xếp giảm",
+      "method": "GET",
+      "path": "/api/recipes?perPage=50&orderBy=name&orderDirection=desc",
+      "request": null,
+      "status": 200,
+      "response": {
+        "total": 12,
+        "names": [
+          "Xôi xoài",
+          "Trà đá",
+          "Sinh tố bơ",
+          "Phở bò",
+          "Nước mắm pha",
+          "Lẩu thái",
+          "Gỏi cuốn chay",
+          "Cơm trắng",
+          "Cà phê sữa",
+          "Chè đậu",
+          "Bún chả",
+          "Bánh flan"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "step": "C-20 cấu hình ban đầu",
+      "method": "GET",
+      "path": "/api/households/preferences",
+      "request": null,
+      "status": 200,
+      "response": {
+        "privateHousehold": true,
+        "showAnnouncements": true,
+        "lockRecipeEditsFromOtherHouseholds": true,
+        "firstDayOfWeek": 0,
+        "recipePublic": false,
+        "recipeShowNutrition": false,
+        "recipeShowAssets": false,
+        "recipeLandscapeView": false,
+        "recipeDisableComments": false,
+        "id": "88f9c103-1e16-4807-b8da-75d930ddeed5"
+      },
+      "passed": true
+    },
+    {
+      "step": "C-21 lưu cấu hình",
+      "method": "PUT",
+      "path": "/api/households/preferences",
+      "request": {
+        "privateHousehold": true,
+        "showAnnouncements": true,
+        "lockRecipeEditsFromOtherHouseholds": true,
+        "firstDayOfWeek": 0,
+        "recipePublic": false,
+        "recipeShowNutrition": true,
+        "recipeShowAssets": false,
+        "recipeLandscapeView": false,
+        "recipeDisableComments": true
+      },
+      "status": 200,
+      "response": {
+        "privateHousehold": true,
+        "showAnnouncements": true,
+        "lockRecipeEditsFromOtherHouseholds": true,
+        "firstDayOfWeek": 0,
+        "recipePublic": false,
+        "recipeShowNutrition": true,
+        "recipeShowAssets": false,
+        "recipeLandscapeView": false,
+        "recipeDisableComments": true,
+        "id": "88f9c103-1e16-4807-b8da-75d930ddeed5"
+      },
+      "passed": true
+    },
+    {
+      "step": "C-22 tạo công thức mới",
+      "method": "POST",
+      "path": "/api/recipes",
+      "request": {
+        "name": "C22 Demo 6688a33b"
+      },
+      "status": 201,
+      "response": "c22-demo-6688a33b",
+      "passed": true
+    },
+    {
+      "step": "C-23 công thức kế thừa đủ 5 tùy chọn",
+      "method": "GET",
+      "path": "/api/recipes/c22-demo-6688a33b",
+      "request": null,
+      "status": 200,
+      "response": {
+        "name": "C22 Demo 6688a33b",
+        "settings": {
+          "public": false,
+          "showNutrition": true,
+          "showAssets": false,
+          "landscapeView": false,
+          "disableComments": true,
+          "locked": false
+        }
+      },
+      "passed": true
+    },
+    {
+      "step": "C-30 user không quyền",
+      "response": {
+        "username": "khongquyen",
+        "admin": false,
+        "canInvite": false,
+        "canManage": false,
+        "canManageHousehold": false,
+        "canOrganize": false
+      },
+      "passed": true
+    },
+    {
+      "step": "C-31 tạo category bị chặn",
+      "method": "POST",
+      "path": "/api/organizers/categories",
+      "status": 403,
+      "response": {
+        "detail": "Forbidden"
+      },
+      "passed": true
+    },
+    {
+      "step": "C-32 admin cấp canOrganize",
+      "method": "PUT",
+      "path": "/api/households/permissions",
+      "request": {
+        "userId": "9322ccd0-b38e-4e6d-8b89-a1d27c3a8616",
+        "canInvite": false,
+        "canManage": false,
+        "canManageHousehold": false,
+        "canOrganize": true
+      },
+      "status": 200,
+      "response": {
+        "username": "khongquyen",
+        "admin": false,
+        "canInvite": false,
+        "canManage": false,
+        "canManageHousehold": false,
+        "canOrganize": true
+      },
+      "passed": true
+    },
+    {
+      "step": "C-33 tạo category được phép",
+      "method": "POST",
+      "path": "/api/organizers/categories",
+      "status": 201,
+      "response": {
+        "name": "C22 Permission 8a5b1e24",
+        "id": "2e571584-539e-4ce8-b10e-a5944bd8bf14",
+        "groupId": "930d5547-29b7-474b-9918-80955420709d",
+        "slug": "c22-permission-8a5b1e24",
+        "recipeCount": 0
+      },
+      "passed": true
+    }
+  ],
+  "cleanup": {
+    "householdRestored": true,
+    "userPermissionsRestored": true,
+    "recipeTotal": 12,
+    "temporaryCategoryDeleted": true
+  }
+}
