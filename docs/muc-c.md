@@ -146,6 +146,8 @@ python scripts\chuan_bi_muc_c.py verify
 
 Chỉ cần Python 3.10 trở lên và thư viện chuẩn. `seed` nạp phần thiếu, không tạo trùng/ghi đè dữ liệu xung đột. `verify` chạy 16 bước API, tạo/xóa dữ liệu tạm, đổi rồi khôi phục household/quyền user. Không chạy cùng test/demo khác. Mặc định dùng `http://localhost:9925`; thêm `--base-url http://localhost:9926` khi đổi cổng. Script chỉ cho phép loopback, kiểm tra version v3.28.0, không lưu token/mật khẩu trong log.
 
+`seed` và `verify` ghi lại log trong `docs/evidence/`, nên chạy xong có thể thấy hai file JSON bị sửa trong `git status`. Nếu không định nộp lại log và không có thay đổi bằng chứng khác cần giữ, chạy `git checkout -- docs/evidence` để trả thư mục bằng chứng về bản đã commit.
+
 Kết quả thành công:
 
 ```text
@@ -186,7 +188,7 @@ API kiểm tra đủ 5 ánh xạ: `recipePublic → public`, `recipeShowNutritio
 
 User `khongquyen` có admin=false và bốn quyền false. Trong Swagger tại `/docs`, dùng Authorize để đăng nhập `khongquyen@example.com`, mở `POST /api/organizers/categories`, bấm Try it out và nhập `{"name":"C22 Swagger Permission"}`. Lần đầu gọi trả 403.
 
-Ở một tab Swagger khác, đăng nhập admin `nhom22@example.com`, gọi `PUT /api/households/permissions` với `userId` của `khongquyen`, chỉ đặt `canOrganize=true`, ba quyền còn lại false. Quay về tab user và Execute lại cùng request: API trả 201, tạo được category. Nhóm xóa category tạm và trả `canOrganize` về false sau khi chụp.
+Trong Authorize, bấm Logout rồi đăng nhập admin `nhom22@example.com`. Gọi `GET /api/households/members` để lấy `id` của `khongquyen`, sau đó gọi `PUT /api/households/permissions` với `userId` đó, chỉ đặt `canOrganize=true`, ba quyền còn lại false. Đăng nhập lại bằng `khongquyen` và gọi cùng request tạo category: API trả 201. Sau khi chụp, nhóm dùng admin xóa category tạm và trả `canOrganize` về false.
 
 ![Thành viên household và user lab](evidence/C-30-permission-user.png)
 
@@ -205,6 +207,5 @@ Ba ảnh C-31 đến C-33 ghi kết quả Server response trong Swagger: 403, c�
 | Vướng mắc khi thiết lập/chạy | Nguyên nhân | Cách xử lý và kết quả |
 | --- | --- | --- |
 | Đăng nhập bằng tài khoản mặc định thì mở trình thiết lập | Mealie cần cấu hình tài khoản admin lần đầu | Điền tài khoản theo C.2, làm hết các bước rồi đăng nhập lại. Bản cổng 9926 vào được hệ thống bằng admin nhóm, API đăng nhập trả 200. |
-| Script báo `Sai phiên bản Mealie: develop` trên bản chạy từ mã nguồn | Bản mã nguồn báo version `develop`, trong khi script kiểm tra đúng bản phát hành `v3.28.0` | Khi đọc chéo, người kiểm tra tạm bỏ điều kiện version: seed chạy hai lần không trùng và verify đạt 16 bước. Với môi trường nộp bài, dùng image v3.28.0 theo Compose và giữ kiểm tra phiên bản trong script. |
 
-Nhóm mới ghi nhận các vướng mắc trên trong lúc thiết lập và đọc chéo. Các lỗi cài đặt khác sẽ được bổ sung khi thành viên gửi hiện tượng và cách xử lý thực tế.
+Trong lần cài này, nhóm ghi nhận vướng mắc ở bước thiết lập tài khoản admin. Nếu gặp thêm lỗi cài đặt, nhóm sẽ ghi lại hiện tượng và cách xử lý thực tế.

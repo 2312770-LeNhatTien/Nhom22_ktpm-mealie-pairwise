@@ -15,6 +15,5 @@
     "group": "Home",
     "household": "Family"
   },
-  "recipeTotal": 0,
-  "screenshotsSource": "Người dùng cung cấp ba ảnh wizard tại localhost:9926/admin/setup; Summary hiển thị Use Seed Data được bật."
+  "recipeTotal": 0
 }

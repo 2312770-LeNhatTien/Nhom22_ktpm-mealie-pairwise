@@ -15,7 +15,6 @@ Nhóm dùng Mealie v3.28.0 ở cổng 9925 để chuẩn bị dữ liệu và ki
 | `C-20` đến `C-23` PNG | Cài đặt household trước/sau và công thức mới nhận cài đặt mặc định |
 | `C-30` PNG | Thành viên household và các quyền của user lab |
 | `C-31` đến `C-33` PNG | Server response trong Swagger: user bị chặn 403, admin cấp quyền 200, user tạo category 201 |
-| `C-swagger-verification.json` | Request, kết quả của lần chụp Swagger và kiểm tra dọn dữ liệu sau đó |
 
 Ảnh C-31 đến C-33 giữ phần Request URL và Server response. Phần cURL chứa token nằm ngoài khung chụp. Các ảnh này được chụp trực tiếp trên `/docs`; JSON kiểm tra tự động lưu riêng để đối chiếu.
 
