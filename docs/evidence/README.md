@@ -7,6 +7,7 @@ Nhóm dùng Mealie v3.28.0 ở cổng 9925 để chuẩn bị dữ liệu và ki
 | `C-environment.json` | Kết quả lệnh Docker, thông tin hệ điều hành và đường dẫn SQLite |
 | `C-seed-inventory.json` | 3 category, 3 tag, 12 công thức và hai user lab |
 | `C-api-verification.json` | 16 bước kiểm tra API và kết quả khôi phục dữ liệu |
+| `C-01` đến `C-03` PNG | PowerShell chạy lệnh kiểm tra phiên bản, Compose up và Compose ps; container healthy ở cổng 9925 |
 | `C-04`, `C-08`, `C-09` PNG | Trang đăng nhập, trang chủ và Swagger |
 | `C-05` đến `C-07` PNG | Account Details, Summary và Setup Complete trên cổng 9926 |
 | `C-onboarding-verification.json` | Đăng nhập admin sau thiết lập trả 200, đúng tài khoản nhóm |
@@ -22,9 +23,9 @@ Nhóm dùng Mealie v3.28.0 ở cổng 9925 để chuẩn bị dữ liệu và ki
 
 Bản thiết lập cổng 9926 dùng container `mealie-onboarding`, volume riêng `mealie-onboarding-data`. Site Settings: tắt Advanced Content, tắt Public Access, bật Use Seed Data, thống nhất với README và hướng dẫn bắt đầu. Dữ liệu có sẵn của Mealie khác bộ 12 công thức của nhóm; vẫn cần chạy script nạp dữ liệu.
 
-## Ảnh môi trường cần bổ sung
+## Ảnh môi trường
 
-Các ảnh hiển thị lại log bằng HTML đã được bỏ. Cần chụp ba ảnh Command Prompt thật trước khi nghiệm thu mục C:
+Ba ảnh dưới đây chụp trực tiếp kết quả lệnh trong Windows PowerShell tại thư mục repo:
 
 | Tên ảnh | Lệnh chạy trước khi chụp |
 | --- | --- |
@@ -32,6 +33,6 @@ Các ảnh hiển thị lại log bằng HTML đã được bỏ. Cần chụp b
 | `C-02-compose-up.png` | `docker compose up -d` |
 | `C-03-compose-ps.png` | `docker compose ps`, thấy healthy và cổng 9925 |
 
-Mở Command Prompt ở `D:\Nhom22_ktpm-mealie-pairwise`, chạy từng nhóm lệnh rồi chụp cả cửa sổ, gồm dòng lệnh và kết quả. Không dùng ảnh HTML thay cho ảnh terminal.
+Các ảnh giữ nguyên dòng lệnh và kết quả: Docker 29.8.0, Compose v5.5.1, container `mealie` Running, image v3.28.0, trạng thái healthy và ánh xạ cổng `9925:9000`. PowerShell chạy được các lệnh Docker này. Thời gian Up trong ảnh và log JSON có thể khác nhau do được ghi nhận ở hai lần kiểm tra.
 
 Thời điểm chạy vẫn được giữ trong JSON gốc. Log và ảnh lưu trong repo không chứa mật khẩu/token đăng nhập. Tài khoản example.com là dữ liệu lab đã quy ước trong README. Kết quả 16 bước chỉ dùng kiểm tra môi trường, chưa thay cho toàn bộ bộ test Pairwise. Video demo thuộc việc riêng.

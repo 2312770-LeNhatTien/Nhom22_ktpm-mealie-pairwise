@@ -22,7 +22,9 @@ Nhóm dùng tag và SHA mã nguồn trong README để đọc code. Khi chạy D
 
 Đầu ra lệnh thực tế nằm trong [C-environment.json](evidence/C-environment.json).
 
-Ảnh C-01 cần bổ sung: cửa sổ Command Prompt sau khi chạy `docker --version` và `docker compose version`.
+Nhóm chạy các lệnh kiểm tra bằng Windows PowerShell tại thư mục repo.
+
+![Docker 29.8.0 và Docker Compose v5.5.1 trong PowerShell](evidence/C-01-docker-version.png)
 
 ## C.2 Cài đặt và lệnh chạy
 
@@ -76,7 +78,9 @@ volumes:
 | `docker compose down` | Gỡ container/network, giữ named volume |
 | `docker compose down -v` | Xóa cả volume và dữ liệu; chỉ dùng khi chủ động reset, đã giữ dữ liệu cần thiết |
 
-Ảnh C-02 và C-03 cần bổ sung: cửa sổ Command Prompt sau khi chạy `docker compose up -d` và `docker compose ps`. C-03 cần thấy trạng thái healthy và cổng 9925.
+![Lệnh docker compose up -d báo container mealie Running](evidence/C-02-compose-up.png)
+
+![Container dùng image v3.28.0, trạng thái healthy và cổng 9925](evidence/C-03-compose-ps.png)
 
 ### Thiết lập lần đầu
 
