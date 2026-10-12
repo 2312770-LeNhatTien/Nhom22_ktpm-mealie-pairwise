@@ -1,6 +1,6 @@
 # Mục C Môi trường và cách chạy hệ thống
 
-Phần này hướng dẫn dựng Mealie và dữ liệu lab của Nhóm 22 cho đề tài R02 Mealie + K06 Pairwise. Ngày 12/10/2026, container Mealie v3.28.0 chạy healthy; ba luồng tìm kiếm, cấu hình household và phân quyền đã được kiểm tra thành công. Người phụ trách mục C: Nguyễn Phú Quý (2312731).
+Phần C do Nguyễn Phú Quý (2312731) phụ trách. Nhóm chạy Mealie v3.28.0 bằng Docker và chuẩn bị dữ liệu cho ba luồng: tìm kiếm công thức, cấu hình household và phân quyền người dùng.
 
 ## C.1 Môi trường và phiên bản
 
@@ -18,11 +18,11 @@ Phần này hướng dẫn dựng Mealie và dữ liệu lab của Nhóm 22 cho 
 | DB | SQLite, `/app/data/mealie.db` |
 | Web và API docs | `http://localhost:9925`, `http://localhost:9925/docs` |
 
-SHA mã nguồn là mốc đã chốt của nhóm; API xác nhận version, digest xác định image đang chạy. Không suy ra commit mã nguồn chỉ từ version API. Python 3.10 trở lên chỉ cần cho script chuẩn bị dữ liệu, không cần cài backend Mealie trên Windows.
+Nhóm dùng tag và SHA mã nguồn trong README để đọc code. Khi chạy Docker, nhóm kiểm tra thêm phiên bản qua API và digest của image. Python 3.10 trở lên dùng để nạp dữ liệu, không cần cài backend Mealie trên Windows.
 
 Đầu ra lệnh thực tế nằm trong [C-environment.json](evidence/C-environment.json).
 
-![Phiên bản Docker và Compose từ log thực tế](evidence/C-01-docker-version.png)
+Ảnh C-01 cần bổ sung: cửa sổ Command Prompt sau khi chạy `docker --version` và `docker compose version`.
 
 ## C.2 Cài đặt và lệnh chạy
 
@@ -76,9 +76,7 @@ volumes:
 | `docker compose down` | Gỡ container/network, giữ named volume |
 | `docker compose down -v` | Xóa cả volume và dữ liệu; chỉ dùng khi chủ động reset, đã giữ dữ liệu cần thiết |
 
-![Compose up trên máy đã có container](evidence/C-02-compose-up.png)
-
-![Container healthy và cổng 9925](evidence/C-03-compose-ps.png)
+Ảnh C-02 và C-03 cần bổ sung: cửa sổ Command Prompt sau khi chạy `docker compose up -d` và `docker compose ps`. C-03 cần thấy trạng thái healthy và cổng 9925.
 
 ### Thiết lập lần đầu
 
@@ -87,13 +85,13 @@ Trên máy mới, đăng nhập bằng `changeme@example.com` / `MyPassword`, ho
 | Bước | Giá trị |
 | --- | --- |
 | Account Details | Username `nhom22`, Full Name `Nhom 22`, Email `nhom22@example.com`, Password `Nhom22@Mealie` |
-| Site Settings | Ảnh Summary ghi Enable Advanced Content = No, Enable Public Access = No, Use Seed Data = Đồng ý |
+| Site Settings | Tắt Enable Advanced Content, tắt Enable Public Access, bật Use Seed Data |
 | AI Providers | Bỏ qua |
 | Summary | Kiểm tra và hoàn tất |
 
 Đăng xuất rồi đăng nhập bằng `nhom22@example.com` / `Nhom22@Mealie`; phải vào thẳng trang chủ. Đây là tài khoản lab theo README.
 
-Ba ảnh dưới đây do người dùng cung cấp từ bản onboarding riêng tại `http://localhost:9926/admin/setup` ngày 12/10/2026. Bản này dùng cùng image v3.28.0, container `mealie-onboarding`, volume `mealie-onboarding-data` mới tạo lúc 11:16:21 (UTC+7). Dữ liệu của bản kiểm thử chính cổng 9925 được giữ nguyên.
+Nhóm chụp ba bước thiết lập trên bản Mealie riêng ở cổng 9926, dùng container `mealie-onboarding` và volume mới `mealie-onboarding-data`. Cách này cho phép xem lại trình thiết lập mà vẫn giữ bộ dữ liệu kiểm thử ở cổng 9925.
 
 ![Account Details với username, họ tên và email lab; mật khẩu được che](evidence/C-05-setup-account.png)
 
@@ -101,7 +99,7 @@ Ba ảnh dưới đây do người dùng cung cấp từ bản onboarding riêng
 
 ![Wizard xác nhận Setup Complete](evidence/C-07-setup-complete.png)
 
-Sau khi người dùng hoàn tất wizard, API đăng nhập trên cổng 9926 trả 200; `/api/users/self` xác nhận admin `nhom22`, họ tên `Nhom 22`, email `nhom22@example.com`, group `Home`, household `Family`. Kết quả và thời điểm được lưu tại [C-onboarding-verification.json](evidence/C-onboarding-verification.json).
+Sau khi hoàn tất thiết lập, nhóm đăng nhập lại bằng tài khoản mới. API trên cổng 9926 trả 200; `/api/users/self` trả đúng admin `nhom22`, họ tên `Nhom 22`, email `nhom22@example.com`, group `Home`, household `Family`. Kết quả lưu tại [C-onboarding-verification.json](evidence/C-onboarding-verification.json).
 
 `Use Seed Data` trong wizard là lựa chọn nạp dữ liệu có sẵn của Mealie, khác với bộ 12 công thức của nhóm ở C.4. Sau wizard, API trên bản phụ ghi nhận 0 công thức; bộ 12 món cần được nạp riêng bằng script của nhóm.
 
@@ -154,7 +152,7 @@ PASS: 16 bước xác minh; 3 luồng; đã khôi phục household, quyền user
 
 ## C.5 Bằng chứng ba luồng nghiệp vụ
 
-Ảnh là ảnh chụp trình duyệt. C-01 đến C-03, C-31 đến C-33 và C-API chụp trang trình bày log thực tế, không phải ảnh terminal/Docker Desktop. JSON gốc lưu cùng ảnh để đối chiếu. Các ảnh còn lại chụp giao diện Mealie.
+Nhóm kiểm tra từng luồng bằng dữ liệu ở C.4. Các ảnh dưới đây ghi lại thao tác và kết quả trên Mealie; kết quả kiểm tra tự động lưu trong [C-api-verification.json](evidence/C-api-verification.json).
 
 ### Tìm kiếm và lọc
 
@@ -182,7 +180,9 @@ API kiểm tra đủ 5 ánh xạ: `recipePublic → public`, `recipeShowNutritio
 
 ### Phân quyền
 
-User `khongquyen` có admin=false và bốn quyền false. `POST /api/organizers/categories` trả 403. Admin cấp riêng `canOrganize`; đăng nhập lại bằng user đó, gọi lại được 201. Cuối luồng đã xóa category tạm và trả quyền về false.
+User `khongquyen` có admin=false và bốn quyền false. Trong Swagger tại `/docs`, dùng Authorize để đăng nhập `khongquyen@example.com`, mở `POST /api/organizers/categories`, bấm Try it out và nhập `{"name":"C22 Swagger Permission"}`. Lần đầu gọi trả 403.
+
+Ở một tab Swagger khác, đăng nhập admin `nhom22@example.com`, gọi `PUT /api/households/permissions` với `userId` của `khongquyen`, chỉ đặt `canOrganize=true`, ba quyền còn lại false. Quay về tab user và Execute lại cùng request: API trả 201, tạo được category. Nhóm xóa category tạm và trả `canOrganize` về false sau khi chụp.
 
 ![Thành viên household và user lab](evidence/C-30-permission-user.png)
 
@@ -192,19 +192,15 @@ User `khongquyen` có admin=false và bốn quyền false. `POST /api/organizers
 
 ![API cho phép với 201](evidence/C-33-permission-duoc-phep.png)
 
-Ba ảnh C-31 đến C-33 chụp log API đã thực thi, chứng minh kiểm tra quyền backend. [Log đầy đủ](evidence/C-api-verification.json) ghi request, status, response và việc khôi phục dữ liệu.
+Ba ảnh C-31 đến C-33 ghi kết quả Server response trong Swagger: 403, cấp quyền 200 và tạo category 201. Khung ảnh giữ Request URL và response, bỏ phần cURL có token đăng nhập. [Log kiểm tra tự động](evidence/C-api-verification.json) lưu riêng 16 bước và kết quả khôi phục dữ liệu.
 
 ![Trang tài liệu API Mealie](evidence/C-09-api-docs.png)
 
 ## C.6 Lỗi và cách xử lý
 
-| Hiện tượng | Kiểm tra/nguyên nhân | Cách xử lý | Nguồn |
-| --- | --- | --- | --- |
-| `permission denied` truy cập pipe Docker | Tiến trình terminal không có quyền Docker API | Chạy lại từ phiên có quyền Docker được chủ máy cho phép; kiểm tra `docker compose ps` | Đã gặp 12/10 |
-| Registry ghi Windows 10 nhưng máy chạy Windows 11 | Tên tương thích trong registry khác Caption OS | Lấy Caption/Version từ `Get-CimInstance Win32_OperatingSystem` | Đã đối chiếu |
-| Không kết nối engine | Docker Desktop chưa sẵn sàng | Mở Docker Desktop, chờ engine, thử `docker info` | Hướng dẫn chung, chưa tái hiện |
-| Cổng 9925 bị chiếm | Ứng dụng/container khác dùng cổng | Đổi cổng và `BASE_URL`/địa chỉ script đồng bộ | Hướng dẫn chung |
-| Đăng nhập quay lại wizard | Chưa hoàn tất thiết lập admin | Làm hết wizard, đăng nhập lại bằng admin nhóm | README |
-| `verify` báo không đúng 12 món | Thiếu seed/còn công thức demo | Đối chiếu bảng seed; chỉ dọn đúng dữ liệu tạm của mình | Điều kiện script |
+| Vướng mắc khi thiết lập/chạy | Nguyên nhân | Cách xử lý và kết quả |
+| --- | --- | --- |
+| Đăng nhập bằng tài khoản mặc định thì mở trình thiết lập | Mealie cần cấu hình tài khoản admin lần đầu | Điền tài khoản theo C.2, làm hết các bước rồi đăng nhập lại. Bản cổng 9926 vào được hệ thống bằng admin nhóm, API đăng nhập trả 200. |
+| Script báo `Sai phiên bản Mealie: develop` trên bản chạy từ mã nguồn | Bản mã nguồn báo version `develop`, trong khi script kiểm tra đúng bản phát hành `v3.28.0` | Khi đọc chéo, người kiểm tra tạm bỏ điều kiện version: seed chạy hai lần không trùng và verify đạt 16 bước. Với môi trường nộp bài, dùng image v3.28.0 theo Compose và giữ kiểm tra phiên bản trong script. |
 
-Đã có đủ ba ảnh wizard và xác minh đăng nhập sau thiết lập trên volume onboarding mới riêng. Chưa có phản hồi lỗi cài đặt của bốn thành viên khác; Quý bổ sung khi các bạn kiểm tra tài liệu. Phần đọc chéo vẫn cần Nhật Tiến kiểm tra độc lập toàn bộ hướng dẫn Compose và seed từ môi trường sạch trước khi nghiệm thu.
+Nhóm mới ghi nhận các vướng mắc trên trong lúc thiết lập và đọc chéo. Các lỗi cài đặt khác sẽ được bổ sung khi thành viên gửi hiện tượng và cách xử lý thực tế.

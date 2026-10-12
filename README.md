@@ -65,7 +65,7 @@ Lần đầu đăng nhập bằng tài khoản có sẵn của Mealie là `chang
 | Bước | Điền |
 | --- | --- |
 | Account Details | Username `nhom22`, Full Name `Nhom 22`, Email `nhom22@example.com`, Password `Nhom22@Mealie` |
-| Site Settings | Giữ nguyên mặc định |
+| Site Settings | Tắt Enable Advanced Content, tắt Enable Public Access, bật Use Seed Data |
 | AI Providers | Bỏ qua |
 | Summary | Kiểm tra lại rồi bấm hoàn tất |
 

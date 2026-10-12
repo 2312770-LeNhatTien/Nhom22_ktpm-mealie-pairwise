@@ -1,8 +1,8 @@
 # Dữ liệu mẫu của Nhóm 22
 
-Đã nạp và kiểm tra bộ dữ liệu dưới đây trên Mealie v3.28.0 ngày 12/10/2026, group `Home`, household `Family`. Khi đổi dữ liệu mẫu phải sửa file này cùng commit. Tên và nhãn giữ đúng bảng trong hướng dẫn TV2 để Toàn dùng làm oracle tìm kiếm.
+Bộ dữ liệu dưới đây dùng trên Mealie v3.28.0, group `Home`, household `Family`. Khi đổi dữ liệu mẫu phải sửa file này cùng commit. Tên và nhãn giữ đúng bảng trong hướng dẫn TV2 để Toàn đối chiếu kết quả tìm kiếm.
 
-Người phụ trách: Nguyễn Phú Quý (TV2), thống nhất với Bùi Ngọc Toàn (TV4) vì bảng công thức quyết định kết quả mong đợi của luồng tìm kiếm.
+Người phụ trách: Nguyễn Phú Quý (TV2). Bùi Ngọc Toàn (TV4) dùng bảng công thức này để xác định kết quả mong đợi của luồng tìm kiếm.
 
 ## Tài khoản
 

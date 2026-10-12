@@ -1,28 +1,37 @@
 # Bằng chứng mục C
 
-Thu trên bản Mealie local ngày 12/10/2026. Phân biệt dữ liệu đo thật với hướng dẫn trước khi dùng trong báo cáo.
+Nhóm dùng Mealie v3.28.0 ở cổng 9925 để chuẩn bị dữ liệu và kiểm tra ba luồng. Trình thiết lập lần đầu được chụp ở bản riêng cổng 9926.
 
-| File | Nguồn và ý nghĩa |
+| File | Nội dung |
 | --- | --- |
-| `C-environment.json` | Đầu ra lệnh Docker, OS và đường dẫn SQLite thực tế |
-| `C-seed-inventory.json` | Category/tag, 12 công thức và hai user đã nạp vào API |
-| `C-api-verification.json` | 16 bước API đã thực thi, status/response và kiểm tra khôi phục |
-| `C-01` đến `C-03` PNG | Ảnh trình duyệt chụp trang hiển thị log môi trường, không phải terminal |
-| `C-04`, `C-08`, `C-09` PNG | Trang đăng nhập, trang chủ, Swagger của Mealie |
-| `C-05` đến `C-07` PNG | Ảnh người dùng gửi từ bản phụ cổng 9926: Account Details, Summary, Setup Complete |
-| `C-onboarding-verification.json` | API đăng nhập sau wizard trả 200, admin đúng thông tin lab, version v3.28.0 và 0 công thức trên bản phụ |
-| `C-10` đến `C-12` PNG | Giao diện 12 món, lọc còn 5, thêm tag còn 2 |
-| `C-20` đến `C-23` PNG | Giao diện household trước/sau và công thức mới kế thừa cài đặt |
-| `C-30` PNG | Giao diện quyền thành viên |
-| `C-31` đến `C-33` PNG | Ảnh trình duyệt chụp log API: 403, cấp quyền, 201 |
-| `C-API-summary.png` | Ảnh tổng hợp log 16 bước, không phải kết quả cả bộ Pairwise |
+| `C-environment.json` | Kết quả lệnh Docker, thông tin hệ điều hành và đường dẫn SQLite |
+| `C-seed-inventory.json` | 3 category, 3 tag, 12 công thức và hai user lab |
+| `C-api-verification.json` | 16 bước kiểm tra API và kết quả khôi phục dữ liệu |
+| `C-04`, `C-08`, `C-09` PNG | Trang đăng nhập, trang chủ và Swagger |
+| `C-05` đến `C-07` PNG | Account Details, Summary và Setup Complete trên cổng 9926 |
+| `C-onboarding-verification.json` | Đăng nhập admin sau thiết lập trả 200, đúng tài khoản nhóm |
+| `C-10` đến `C-12` PNG | Danh sách 12 món, lọc category còn 5, thêm tag còn 2 |
+| `C-20` đến `C-23` PNG | Cài đặt household trước/sau và công thức mới nhận cài đặt mặc định |
+| `C-30` PNG | Thành viên household và các quyền của user lab |
+| `C-31` đến `C-33` PNG | Server response trong Swagger: user bị chặn 403, admin cấp quyền 200, user tạo category 201 |
+| `C-swagger-verification.json` | Request, kết quả của lần chụp Swagger và kiểm tra dọn dữ liệu sau đó |
 
-HTML `*-log.html` chỉ trình bày JSON gốc, không gọi API và không tạo số liệu thử nghiệm. Sau khi chạy lại seed/verify, chạy `python scripts/tao_trang_bang_chung_c.py` để cập nhật HTML; phải chụp lại PNG nếu muốn ảnh khớp lần chạy mới. Các UUID/tên demo có thể khác giữa các lần; kiểm tra thời điểm trong JSON/HTML.
+Ảnh C-31 đến C-33 giữ phần Request URL và Server response. Phần cURL chứa token nằm ngoài khung chụp. Các ảnh này được chụp trực tiếp trên `/docs`; JSON kiểm tra tự động lưu riêng để đối chiếu.
 
-Để xem HTML tại máy local, từ gốc repo chạy `python -m http.server 8765 --bind 127.0.0.1 --directory docs/evidence`, mở `http://127.0.0.1:8765/C-api-log.html`; Ctrl+C để dừng. Chỉ phục vụ thư mục bằng chứng.
+Ảnh C-08 và C-10 được chụp riêng: C-08 là trang chủ của admin; C-10 là danh sách công thức trong phiên user `khongquyen`. Bảng kết quả lọc nằm ở [seed-data.md](../seed-data.md).
 
-Ảnh wizard do người dùng chụp trên container `mealie-onboarding`, volume riêng `mealie-onboarding-data` mới tạo ngày 12/10/2026 lúc 11:16:21 (UTC+7). Giữ nguyên ảnh gốc được gửi, không chỉnh sửa nội dung. Đã xác minh tài khoản admin đăng nhập API được sau wizard. Summary có Use Seed Data được bật; đây là dữ liệu dựng sẵn của Mealie, khác bộ seed 12 công thức của nhóm ở cổng 9925.
+Bản thiết lập cổng 9926 dùng container `mealie-onboarding`, volume riêng `mealie-onboarding-data`. Site Settings: tắt Advanced Content, tắt Public Access, bật Use Seed Data, thống nhất với README và hướng dẫn bắt đầu. Dữ liệu có sẵn của Mealie khác bộ 12 công thức của nhóm; vẫn cần chạy script nạp dữ liệu.
 
-Chưa có phản hồi cài máy của bốn bạn khác; phần đọc chéo hướng dẫn Compose/seed vẫn cần người khác kiểm tra độc lập từ môi trường sạch. Chưa quay video/kịch bản demo (việc 5 nằm ngoài đợt này).
+## Ảnh môi trường cần bổ sung
 
-Log không chứa mật khẩu/token; email example.com và mật khẩu trong tài liệu seed là dữ liệu lab đã quy ước trong README.
+Các ảnh hiển thị lại log bằng HTML đã được bỏ. Cần chụp ba ảnh Command Prompt thật trước khi nghiệm thu mục C:
+
+| Tên ảnh | Lệnh chạy trước khi chụp |
+| --- | --- |
+| `C-01-docker-version.png` | `docker --version`, `docker compose version` |
+| `C-02-compose-up.png` | `docker compose up -d` |
+| `C-03-compose-ps.png` | `docker compose ps`, thấy healthy và cổng 9925 |
+
+Mở Command Prompt ở `D:\Nhom22_ktpm-mealie-pairwise`, chạy từng nhóm lệnh rồi chụp cả cửa sổ, gồm dòng lệnh và kết quả. Không dùng ảnh HTML thay cho ảnh terminal.
+
+Thời điểm chạy vẫn được giữ trong JSON gốc. Log và ảnh lưu trong repo không chứa mật khẩu/token đăng nhập. Tài khoản example.com là dữ liệu lab đã quy ước trong README. Kết quả 16 bước chỉ dùng kiểm tra môi trường, chưa thay cho toàn bộ bộ test Pairwise. Video demo thuộc việc riêng.

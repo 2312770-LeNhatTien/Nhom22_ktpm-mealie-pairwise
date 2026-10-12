@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-10-12T10:38:15+07:00",
+  "recordedAt": "2026-10-12T11:43:51+07:00",
   "baseUrl": "http://localhost:9925",
   "version": "v3.28.0",
   "steps": [
@@ -216,20 +216,20 @@
       "method": "POST",
       "path": "/api/recipes",
       "request": {
-        "name": "C22 Demo 9e54d3ee"
+        "name": "C22 Demo 6688a33b"
       },
       "status": 201,
-      "response": "c22-demo-9e54d3ee",
+      "response": "c22-demo-6688a33b",
       "passed": true
     },
     {
       "step": "C-23 công thức kế thừa đủ 5 tùy chọn",
       "method": "GET",
-      "path": "/api/recipes/c22-demo-9e54d3ee",
+      "path": "/api/recipes/c22-demo-6688a33b",
       "request": null,
       "status": 200,
       "response": {
-        "name": "C22 Demo 9e54d3ee",
+        "name": "C22 Demo 6688a33b",
         "settings": {
           "public": false,
           "showNutrition": true,
@@ -291,10 +291,10 @@
       "path": "/api/organizers/categories",
       "status": 201,
       "response": {
-        "name": "C22 Permission cfbd1272",
-        "id": "c217f75b-7ce5-4d9f-8d37-36ac018455ee",
+        "name": "C22 Permission 8a5b1e24",
+        "id": "2e571584-539e-4ce8-b10e-a5944bd8bf14",
         "groupId": "930d5547-29b7-474b-9918-80955420709d",
-        "slug": "c22-permission-cfbd1272",
+        "slug": "c22-permission-8a5b1e24",
         "recipeCount": 0
       },
       "passed": true
