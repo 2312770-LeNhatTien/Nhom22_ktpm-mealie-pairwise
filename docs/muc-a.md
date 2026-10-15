@@ -90,11 +90,63 @@ Các use case còn lại (UC1, UC2, UC4, UC5, UC8, UC9) nằm ngoài phạm vi, 
 
 ## A.4 Cây thư mục và module
 
-_Phần của Hồ Quốc Tiến._
+Số liệu đếm trên tag `v3.28.0` (commit `0552eaa4a80031b8572849cca0ed95d07f1be001`): backend có **463** file Python trong `mealie/`, giao diện có **227** file `.vue` trong `frontend/`, và dự án có sẵn **137** file test `test_*.py` trong `tests/`.
+
+Mealie là một ứng dụng web viết theo kiểu "backend + frontend tách riêng nhưng đóng gói chung": backend Python (FastAPI) cung cấp REST API dưới đường dẫn `/api`, frontend Nuxt/Vue được build thành file tĩnh và chính backend phục vụ các file này, nên khi chạy bằng Docker chỉ có **một container, một cổng**.
+
+### Khái niệm riêng của Mealie: group và household
+
+Mealie tổ chức dữ liệu theo hai cấp. **Group** là nhóm lớn nhất, dùng chung dữ liệu như công thức, category, tag. Trong một group có nhiều **household** (hộ gia đình); mỗi user thuộc đúng một household. Cấu hình household (`/api/households/preferences`) quyết định cài đặt mặc định của công thức mới, và quyền của user (`canManageHousehold`, `canManage`, `canInvite`, `canOrganize`, `admin`) cũng xoay quanh household. Luồng 2 (cấu hình household) và luồng 3 (phân quyền) của nhóm đều dựa trên khái niệm này.
+
+### Bảng module
+
+Tầng nào gọi tầng nào: `routes → services → repos → db`. Thư mục `schema` (kiểu dữ liệu) và `core` (cấu hình, đăng nhập) được các tầng trên dùng chung.
+
+| Thư mục | Vai trò | Liên quan tới kiểm thử của nhóm |
+| --- | --- | --- |
+| `mealie/routes/` | Tầng API. Mỗi thư mục con là một nhóm API (`recipe/`, `households/`, `users/`, `admin/`, `organizers/`...). Nhận request HTTP, kiểm tra quyền, rồi gọi service hoặc repo. Tất cả được gom dưới tiền tố `/api` trong `routes/__init__.py` | Script test của nhóm gọi vào đây, qua cổng 9925. `routes/_base/checks.py` chứa các phép kiểm tra quyền của luồng phân quyền; `routes/recipe/recipe_crud_routes.py` chứa API tìm kiếm và tạo công thức |
+| `mealie/schema/` | Định nghĩa dữ liệu vào và ra bằng Pydantic, kèm luật kiểm tra hợp lệ. Request sai luật bị từ chối với lỗi 422 hoặc 400 trước khi chạm tới nghiệp vụ | Nguồn để biết mỗi API có tham số nào và nhận giá trị nào, nên là **đầu vào để viết model PICT**. Ví dụ `schema/household/household_preferences.py` có 9 tham số của luồng household; `schema/response/pagination.py` có luật "`orderBy=random` thì bắt buộc có `paginationSeed`" |
+| `mealie/services/` | Xử lý nghiệp vụ: tạo công thức, nhập từ URL, lên kế hoạch bữa ăn, bộ lọc, lịch chạy nền... | `services/recipe/recipe_service.py` gán cài đặt mặc định cho công thức mới theo cấu hình household (luồng 2); `services/query_filter/` phân tích và dựng bộ lọc (luồng 1) |
+| `mealie/repos/` | Tầng truy vấn cơ sở dữ liệu. Mỗi "repository" bọc một bảng và cung cấp các hàm thêm, sửa, xóa, lọc, sắp xếp, phân trang | `repos/repository_generic.py` thực hiện sắp xếp, phân trang của luồng tìm kiếm; `repos/repository_recipes.py` thực hiện lọc theo category, tag |
+| `mealie/db/` | Model bảng dữ liệu bằng SQLAlchemy (`db/models/`) và khởi tạo kết nối, chạy nâng cấp cấu trúc (`init_db.py`, `db_setup.py`) | Cho biết dữ liệu lưu ở đâu khi phân tích nguyên nhân lỗi. `db/models/household/preferences.py` là bảng cấu hình household; `db/models/users/users.py` có hàm `_set_permissions` quyết định quyền của user |
+| `mealie/core/` | Cấu hình ứng dụng (`core/settings/settings.py`), bảo mật và đăng nhập (`core/security/`, `core/dependencies/`) | Tài khoản mặc định `changeme@example.com` và các biến môi trường nằm trong `settings.py`. `get_admin_user` trong `core/dependencies/dependencies.py` chặn người không phải admin |
+| `mealie/alembic/` | 53 bước nâng cấp cấu trúc cơ sở dữ liệu giữa các phiên bản | Không kiểm thử, chỉ nhắc tên |
+| `frontend/` | Giao diện web: Nuxt 4, Vue 3, Vuetify, TypeScript | Dùng để demo bằng tay. Test của nhóm không đi qua giao diện |
+| `tests/` | Test có sẵn của dự án (pytest cho backend, Playwright cho giao diện) | Tham khảo cách dự án gọi API. Nhóm không sửa |
+
+Ngoài ra `mealie/app.py` là điểm khởi động: tạo ứng dụng FastAPI, gắn router `/api`, bật bộ lập lịch (`start_scheduler`) và gắn giao diện (`mount_spa`).
 
 ## A.5 Dependency
 
-_Phần của Hồ Quốc Tiến._
+Phiên bản lấy đúng từ `pyproject.toml` và `frontend/package.json` của tag `v3.28.0`. Chỉ liệt kê các thư viện quan trọng; ba thư viện **in đậm** là những cái ảnh hưởng trực tiếp tới kết quả kiểm thử của nhóm.
+
+### Backend (Python 3.14)
+
+| Thư viện | Phiên bản | Dùng để |
+| --- | --- | --- |
+| **FastAPI** | 0.141.1 | Khung viết API: khai báo đường dẫn, nhận và trả JSON, tự sinh trang `/docs` mô tả toàn bộ API |
+| Uvicorn | 0.53.0 | Máy chủ chạy ứng dụng FastAPI |
+| **Pydantic** | 2.13.5 | Kiểm tra và chuyển kiểu dữ liệu vào ra. Lỗi 422 mà API trả về khi dữ liệu sai là do Pydantic báo |
+| **SQLAlchemy** | 2.0.54 | Ánh xạ bảng dữ liệu thành lớp Python, sinh câu lệnh SQL |
+| Alembic | 1.20.0 | Quản lý các bước nâng cấp cấu trúc cơ sở dữ liệu |
+| recipe-scrapers | 15.12.0 | Lấy công thức từ URL của các trang nấu ăn (ngoài phạm vi kiểm thử) |
+| bcrypt, PyJWT | 5.0.0, 2.14.0 | Băm mật khẩu; tạo và kiểm tra token đăng nhập |
+| Authlib, python-ldap | 1.8.0, 3.4.8 | Đăng nhập qua OIDC và LDAP (nhóm không dùng) |
+| Pillow | 12.3.0 | Xử lý ảnh công thức |
+| rapidfuzz | 3.14.6 | So khớp chuỗi gần đúng (dùng trong `services/matching.py` để khớp tên nguyên liệu); không liên quan tới ô tìm kiếm công thức |
+
+### Frontend
+
+| Thư viện | Phiên bản | Dùng để |
+| --- | --- | --- |
+| Nuxt | ^4.4.6 | Khung xây ứng dụng Vue, build ra file tĩnh để backend phục vụ |
+| Vue | ^3.5.35 | Thư viện dựng giao diện |
+| Vuetify | ^4.1.2 | Bộ thành phần giao diện (nút, bảng, hộp thoại) |
+| TypeScript | ^5.3 | Ngôn ngữ viết giao diện, có kiểm tra kiểu |
+
+### Cơ sở dữ liệu
+
+SQLite là mặc định (`DB_ENGINE = "sqlite"` trong `core/settings/settings.py`); có thể đổi sang PostgreSQL nhờ `psycopg2-binary`. Nhóm dùng SQLite, file nằm trong volume `mealie-data` của Docker.
 
 ## A.6 Luồng dữ liệu của 3 nghiệp vụ
 
