@@ -150,7 +150,7 @@ SQLite là mặc định (`DB_ENGINE = "sqlite"` trong `core/settings/settings.p
 
 ## A.6 Luồng dữ liệu của 3 nghiệp vụ
 
-Mỗi sơ đồ dưới đây là sơ đồ tuần tự gồm 5 cột: Client (script test hoặc trình duyệt), Routes, Services, Repos, Database. Mũi tên nét liền là lời gọi, nét đứt là kết quả trả về; trên mũi tên ghi tên hàm thật của Mealie `v3.28.0`, đường dẫn tính từ thư mục `mealie/` của mã nguồn. File nguồn `.drawio` nằm trong `docs/so-do/`.
+Mỗi sơ đồ dưới đây vẽ một luồng từ trên xuống dưới. Mỗi ô là một bước, tên API hoặc hàm thật của Mealie `v3.28.0` (nếu có) ghi bằng chữ nhỏ trong ô; ô màu xanh lá là kết quả mong đợi, ô màu đỏ là trường hợp bị từ chối hoặc cần cẩn thận, hình trụ là cơ sở dữ liệu. Phần mô tả bên dưới mỗi hình nêu thêm tên hàm trong mã nguồn, đường dẫn tính từ thư mục `mealie/`. File nguồn `.svg` của các hình nằm trong `docs/so-do/`.
 
 ### A.6.1 Cấu hình household
 

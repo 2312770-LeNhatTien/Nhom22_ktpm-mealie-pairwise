@@ -98,48 +98,55 @@ Một tuần chỉ có các ngày từ 0 đến 6 nhưng API nhận cả 7 và -
 
 - **Gọi:** `GET /api/recipes` với các tham số trên URL
 - **Quyền cần có:** chỉ cần đăng nhập
-- **Nhận:** 200, JSON phân trang `{"items": [...], "total": 6, "page": 1, "per_page": 50, "total_pages": 1, "next": null, "previous": null}`. Mỗi phần tử của `items` có `name`, `slug`, `recipeCategory`, `tags`, `createdAt`...
+- **Nhận:** 200, JSON phân trang `{"items": [...], "total": 12, "page": 1, "per_page": 50, "total_pages": 1, "next": null, "previous": null}`. Mỗi phần tử của `items` có `name`, `slug`, `recipeCategory`, `tags`, `createdAt`...
 
 | Tham số | Giá trị | Ghi chú |
 | --- | --- | --- |
 | `search` | từ khóa | Tìm theo tên |
-| `categories`, `tags` | slug hoặc id; lặp lại tham số để truyền nhiều giá trị | Slug của "Mon chinh" là `mon-chinh` |
+| `categories`, `tags` | slug hoặc id; lặp lại tham số để truyền nhiều giá trị | Slug của "Món chính" là `mon-chinh`, của "Tráng miệng" là `trang-mieng`, của tag "Chay" là `chay` |
 | `requireAllCategories`, `requireAllTags` | `true` hoặc `false` | `false` (mặc định): có ít nhất một giá trị. `true`: phải có đủ mọi giá trị |
 | `orderBy` | `name`, `created_at`, `rating`, `random` | Tên cột sai nhận 400 |
 | `orderDirection` | `asc`, `desc` | Giá trị khác nhận 422 |
 | `paginationSeed` | chuỗi bất kỳ | Bắt buộc khi `orderBy=random` |
 | `page`, `perPage` | số nguyên | |
 
-Tên tham số phải viết kiểu camelCase. Gửi `require_all_categories` (kiểu snake_case) **không báo lỗi mà bị bỏ qua**: gọi với `categories=mon-chinh&categories=trang-mieng&require_all_categories=true` vẫn trả về kết quả của chế độ "có ít nhất một" (5 công thức, thay vì 1).
+Tên tham số phải viết kiểu camelCase. Gửi `require_all_categories` (kiểu snake_case) **không báo lỗi mà bị bỏ qua**: gọi với `categories=mon-chinh&categories=trang-mieng&require_all_categories=true` vẫn trả về kết quả của chế độ "có ít nhất một" (8 công thức, thay vì 1).
 
 ### Dữ liệu mẫu dùng để ghi các ví dụ
 
-Các ví dụ dưới đây chạy trên 6 công thức nhỏ tạo riêng để ghi tài liệu. Số kết quả sẽ khác khi chạy trên bộ dữ liệu mẫu chính thức trong [seed-data.md](seed-data.md); khi bộ đó chốt thì gọi lại các ví dụ và thay số.
+Các ví dụ dưới đây chạy trên bộ dữ liệu mẫu chính thức của nhóm (12 công thức, 3 category, 3 tag, do TV2 chuẩn bị, xem [seed-data.md](seed-data.md)). Nạp lại bộ này bằng `python scripts\chuan_bi_muc_c.py seed`; số kết quả bên dưới khớp bảng "Kết quả mong đợi" trong `seed-data.md`.
 
-| Công thức | Category | Tag |
-| --- | --- | --- |
-| Pho bo | Mon chinh | Nhanh |
-| Com trang | Mon chinh | |
-| Goi cuon chay | Mon chinh | Nhanh, Chay |
-| Xoi xoai | Mon chinh, Trang mieng | Chay |
-| Che dau | Trang mieng | |
-| Sinh to bo | | Nhanh, Chay |
+| # | Công thức | Category | Tag |
+| --- | --- | --- | --- |
+| 1 | Phở bò | Món chính | |
+| 2 | Bún chả | Món chính | Nhanh |
+| 3 | Gỏi cuốn chay | Món chính | Nhanh, Chay |
+| 4 | Lẩu thái | Món chính | Cay |
+| 5 | Chè đậu | Tráng miệng | Chay |
+| 6 | Bánh flan | Tráng miệng | |
+| 7 | Sinh tố bơ | Đồ uống, Tráng miệng | Nhanh, Chay |
+| 8 | Trà đá | Đồ uống | Nhanh |
+| 9 | Cà phê sữa | Đồ uống | |
+| 10 | Nước mắm pha | | Cay |
+| 11 | Cơm trắng | | |
+| 12 | Xôi xoài | Món chính, Tráng miệng | Chay |
 
 ### Ví dụ gọi
 
 | Gọi | Kết quả |
 | --- | --- |
-| `categories=mon-chinh` | 200, 4 công thức |
-| `categories=mon-chinh&categories=trang-mieng&requireAllCategories=false` | 200, 5 công thức |
-| `categories=mon-chinh&categories=trang-mieng&requireAllCategories=true` | 200, 1 công thức: Xoi xoai |
-| `tags=nhanh&tags=chay&requireAllTags=true` | 200, 2 công thức: Sinh to bo, Goi cuon chay |
-| `tags=nhanh&tags=chay&requireAllTags=false` | 200, 4 công thức |
-| `categories=mon-chinh&tags=chay` | 200, 2 công thức: Xoi xoai, Goi cuon chay. Lọc category và tag cùng lúc là phép "và" |
-| `orderBy=name&orderDirection=asc` | 200, thứ tự: Che dau, Com trang, Goi cuon chay, Pho bo, Sinh to bo, Xoi xoai; `desc` cho thứ tự ngược lại |
-| `orderBy=created_at&orderDirection=asc` | 200, theo thứ tự tạo: Pho bo đầu tiên, Sinh to bo cuối cùng |
-| `orderBy=name&orderDirection=asc&perPage=2&page=2` | 200, 2 công thức (Goi cuon chay, Pho bo), `total` 6, `total_pages` 3 |
+| `categories=mon-chinh` | 200, 5 công thức: Bún chả, Gỏi cuốn chay, Lẩu thái, Phở bò, Xôi xoài |
+| `categories=mon-chinh&categories=trang-mieng&requireAllCategories=false` | 200, 8 công thức (hợp hai category, Xôi xoài chỉ đếm một lần) |
+| `categories=mon-chinh&categories=trang-mieng&requireAllCategories=true` | 200, 1 công thức: Xôi xoài |
+| `tags=nhanh&tags=chay&requireAllTags=true` | 200, 2 công thức: Gỏi cuốn chay, Sinh tố bơ |
+| `tags=nhanh&tags=chay&requireAllTags=false` | 200, 6 công thức: Bún chả, Chè đậu, Gỏi cuốn chay, Sinh tố bơ, Trà đá, Xôi xoài |
+| `categories=mon-chinh&tags=chay` | 200, 2 công thức: Gỏi cuốn chay, Xôi xoài. Lọc category và tag cùng lúc là phép "và" |
+| `orderBy=name&orderDirection=asc` | 200, 12 công thức theo thứ tự: Bánh flan, Bún chả, Chè đậu, Cà phê sữa, Cơm trắng, Gỏi cuốn chay, Lẩu thái, Nước mắm pha, Phở bò, Sinh tố bơ, Trà đá, Xôi xoài; `desc` cho thứ tự ngược lại. **Chè đậu đứng trước Cà phê sữa** vì Mealie so sánh theo mã ký tự: chữ `h` có mã nhỏ hơn chữ `à`, nên "Chè" đứng trước "Cà"; đây không phải thứ tự bảng chữ cái tiếng Việt, khi viết kết quả mong đợi phải dùng đúng thứ tự này |
+| `orderBy=created_at&orderDirection=asc` | 200, theo thứ tự tạo: Phở bò đầu tiên, Xôi xoài cuối cùng (đúng thứ tự script seed tạo từ 1 đến 12); `desc` cho thứ tự ngược lại. Thứ tự này phụ thuộc vào lần nạp seed trên máy chạy |
+| `orderBy=name&orderDirection=asc&perPage=2&page=2` | 200, 2 công thức (Chè đậu, Cà phê sữa), `total` 12, `total_pages` 6 |
 | `orderBy=random&paginationSeed=abc123`, gọi hai lần | 200, hai lần cùng thứ tự |
-| `search=pho` | 200, 1 công thức: Pho bo |
+| `search=pho` | 200, 1 công thức: Phở bò |
+| `search=bò` | 200, 2 công thức: Phở bò và Sinh tố bơ. Tìm kiếm **không phân biệt dấu**, nên "bò" khớp cả "bơ"; `search=bo` cho cùng kết quả |
 | `search=xyzkhongco` | 200, `items` rỗng, `total` 0 |
 
 ### Khi sai
@@ -155,9 +162,9 @@ Các ví dụ dưới đây chạy trên 6 công thức nhỏ tạo riêng để
 
 | Gọi | Kết quả |
 | --- | --- |
-| `categories=khong-ton-tai` | **200**, trả về cả 6 công thức (không lọc) thay vì rỗng |
+| `categories=khong-ton-tai` | **200**, trả về cả 12 công thức (không lọc) thay vì rỗng |
 | `perPage=0` | **200**, `items` rỗng, `total_pages` 0 |
-| `perPage=-1` | **200**, trả về tất cả công thức |
+| `perPage=-1` | **200**, trả về tất cả 12 công thức |
 
 ## 4. Luồng phân quyền
 
@@ -215,4 +222,4 @@ Cùng các user trên, `POST /api/organizers/tools` với `{"name": "..."}` tr�
 
 ## Dọn dẹp sau khi thử
 
-Xóa các user thử tại `http://localhost:9925/admin/manage/users`, xóa category và tag thử tại `http://localhost:9925/group/data/categories` và `/group/data/tags`, xóa công thức thử. Cấu hình household sau khi thử nên trả về như ban đầu (`PUT` lại 9 giá trị đã đọc ở đầu mục 2).
+Xóa các user thử tại `http://localhost:9925/admin/manage/users`, xóa category và tag thử tại `http://localhost:9925/group/data/categories` và `/group/data/tags`, xóa công thức thử. Giữ nguyên bộ dữ liệu mẫu 12 công thức, 3 category, 3 tag của TV2 (xem [seed-data.md](seed-data.md)). Cấu hình household sau khi thử nên trả về như ban đầu (`PUT` lại 9 giá trị đã đọc ở đầu mục 2).
