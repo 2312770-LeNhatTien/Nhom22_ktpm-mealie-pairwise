@@ -1,5 +1,7 @@
 # Dữ liệu mẫu của Nhóm 22
 
+> Ghi chú: 12 công thức, 3 category và 3 tag dưới đây là dữ liệu của luồng tìm kiếm và các luồng còn lại. Hai tài khoản `khongquyen` và `duquyen` chỉ phục vụ phạm vi cũ (phân quyền), không dùng trong 4 luồng hiện tại.
+
 Bộ dữ liệu dưới đây dùng trên Mealie v3.28.0, group `Home`, household `Family`. Khi đổi dữ liệu mẫu phải sửa file này cùng commit. Tên và nhãn giữ đúng bảng trong hướng dẫn TV2 để Toàn đối chiếu kết quả tìm kiếm.
 
 Người phụ trách: Nguyễn Phú Quý (TV2). Bùi Ngọc Toàn (TV4) dùng bảng công thức này để xác định kết quả mong đợi của luồng tìm kiếm.

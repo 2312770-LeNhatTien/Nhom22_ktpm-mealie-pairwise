@@ -4,29 +4,13 @@
 
 ## Thành viên
 
-| MSSV | Họ tên | Vai trò | Phụ trách trong báo cáo |
+| MSSV | Họ tên | Vai trò | Phụ trách trong báo cáo giữa kỳ |
 | --- | --- | --- | --- |
-| 2312770 | Lê Nhật Tiến | Nhóm trưởng, quản lý dự án | Mục A (mục tiêu, actor, use case), mục H, tổng hợp báo cáo, slide |
-| 2312731 | Nguyễn Phú Quý | Môi trường và demo | Mục C |
-| 2312769 | Hồ Quốc Tiến | Phân tích hệ thống | Mục A (module, dependency), mục B |
-| 2312776 | Bùi Ngọc Toàn | Kỹ thuật Pairwise | Mục D, mục E |
-| 2312792 | Nguyễn Đình Tuấn | API và tự động hóa | Mục A (luồng dữ liệu), mục F |
-
-## Bảng công việc và hướng dẫn
-
-Việc của từng người nằm ở tab **Issues** (lọc theo nhãn tên mình) và bảng kéo thả ở tab **Projects**. Mỗi thẻ ghi việc cần làm, file phải nộp, điều kiện để coi là xong và hạn. Ai xong thẻ nào thì mở Pull Request cho thẻ đó luôn, không cần chờ người khác.
-
-Hướng dẫn làm từng việc nằm trong `docs/huong-dan/`:
-
-| Đọc | Dành cho |
-| --- | --- |
-| [00-bat-dau.md](docs/huong-dan/00-bat-dau.md) | Cả nhóm: cài công cụ, chạy Mealie, quy trình nhánh, commit, Pull Request |
-| [TV1-nhom-truong.md](docs/huong-dan/TV1-nhom-truong.md) | Lê Nhật Tiến |
-| [TV2-moi-truong-demo.md](docs/huong-dan/TV2-moi-truong-demo.md) | Nguyễn Phú Quý |
-| [TV3-phan-tich-he-thong.md](docs/huong-dan/TV3-phan-tich-he-thong.md) | Hồ Quốc Tiến |
-| [TV4-pairwise.md](docs/huong-dan/TV4-pairwise.md) | Bùi Ngọc Toàn |
-| [TV5-api-tu-dong-hoa.md](docs/huong-dan/TV5-api-tu-dong-hoa.md) | Nguyễn Đình Tuấn |
-| [api-da-kiem-chung.md](docs/huong-dan/api-da-kiem-chung.md) | Ai cần biết API của 3 luồng nhận gì, trả gì |
+| 2312770 | Lê Nhật Tiến | Nhóm trưởng, quản lý dự án | Kế hoạch kiểm thử (mục 1.1–1.5, 3.3.1–3.3.3, 3.3.8–3.3.10, 3.4), ghép báo cáo, slide |
+| 2312731 | Nguyễn Phú Quý | Môi trường và demo | Môi trường, bằng chứng chạy (mục 4.2) |
+| 2312769 | Hồ Quốc Tiến | Phân tích hệ thống | Sơ đồ use case, kiến trúc, module (mục 3.2) |
+| 2312776 | Bùi Ngọc Toàn | Kỹ thuật Pairwise | Model PICT, test case, dữ liệu test (mục 2.1, 2.2, 3.3.6, 3.3.7) |
+| 2312792 | Nguyễn Đình Tuấn | API và tự động hóa | Luồng dữ liệu, bất biến, script chạy thử (mục 3.2.4, 3.3.5, 3.4.3) |
 
 ## Phiên bản hệ thống được kiểm thử
 
@@ -60,7 +44,7 @@ Chờ khoảng một phút rồi mở http://localhost:9925.
 
 ### Thiết lập lần đầu
 
-Lần đầu đăng nhập bằng tài khoản có sẵn của Mealie là `changeme@example.com` / `MyPassword`. Mealie sẽ mở trình thiết lập. Làm hết các bước chứ không bỏ qua, vì chừng nào admin còn dùng email có sẵn thì mỗi lần đăng nhập Mealie lại đẩy về trang này. Cả nhóm điền cùng một bộ giá trị để code test chạy được trên mọi máy:
+Lần đầu đăng nhập bằng tài khoản có sẵn của Mealie là `changeme@example.com` / `MyPassword`. Mealie sẽ mở trình thiết lập. Làm hết các bước chứ không bỏ qua, vì chừng nào admin còn dùng email có sẵn thì mỗi lần đăng nhập Mealie lại đẩy về trang này. Cả nhóm điền cùng một bộ giá trị để script test chạy được trên mọi máy:
 
 | Bước | Điền |
 | --- | --- |
@@ -81,17 +65,29 @@ Nếu chạy `docker compose down -v` thì dữ liệu bị xóa hết và phả
 | `docker compose stop` / `docker compose start` | Tạm dừng / chạy lại, giữ nguyên dữ liệu |
 | `docker compose down -v` | Xóa container và toàn bộ dữ liệu, quay về trạng thái mới cài |
 
+### Nạp dữ liệu mẫu
+
+Sau khi thiết lập xong, nạp dữ liệu mẫu (3 category, 3 tag, 12 công thức; chạy lại không tạo trùng):
+
+```bat
+python scripts\chuan_bi_muc_c.py seed
+```
+
+Bảng dữ liệu mẫu nằm ở [docs/seed-data.md](docs/seed-data.md).
+
 ## Phạm vi kiểm thử
 
-Nhóm kiểm thử 3 luồng qua API của Mealie, không bấm giao diện.
+Nhóm kiểm thử 4 luồng qua API của Mealie, không bấm giao diện. Luồng tìm kiếm và lọc là trọng tâm.
 
-| Luồng | Model | Số tham số | Exhaustive | Pairwise |
-| --- | --- | --- | --- | --- |
-| Cấu hình household | `models/household.txt` | 9 | 1.792 | 16 |
-| Tìm kiếm và lọc công thức | `models/search.txt` | 9, có 1 ràng buộc | 5.832 | 19 |
-| Phân quyền người dùng | `models/permissions.txt` | 6 | 192 | 14 |
+| Luồng | Model | Số tham số | Thử hết | 3-wise | Pairwise |
+| --- | --- | --- | --- | --- | --- |
+| Tìm kiếm và lọc (trọng tâm) | `models/search.txt` | 9, có 1 ràng buộc | 5.832 | 67 | 19 |
+| Quản lý công thức | `models/recipe.txt` | 8 | 2.916 | 50 | 14 |
+| Kế hoạch bữa ăn | `models/mealplan.txt` | 4 | 96 | 48 | 16 |
+| Danh sách mua sắm | `models/shopping.txt` | 6 | 144 | 23 | 9 |
+| Tổng | 4 model | | 8.988 | 188 | 58 |
 
-`models/demo.txt` là ví dụ 3 tham số để làm quen với PICT (18 tổ hợp, pairwise còn 9).
+Ngoài 58 test Pairwise còn 18 test dữ liệu sai và giá trị biên, tổng cộng 76 test case. Chi tiết từng test case (dữ liệu vào, các bước, kết quả mong đợi) nằm trong [docs/TestCase_GiuaKy.xlsx](docs/TestCase_GiuaKy.xlsx).
 
 ## Cấu trúc thư mục
 
@@ -99,17 +95,17 @@ Nhóm kiểm thử 3 luồng qua API của Mealie, không bấm giao diện.
 README.md            phiên bản đã chốt, cách chạy, ai làm gì
 docker-compose.yml   file chạy Mealie
 requirements.txt     thư viện Python cho code test
-docs/                các mục báo cáo (muc-a.md ... muc-d.md)
-docs/huong-dan/      hướng dẫn làm việc cho từng thành viên
-docs/so-do/          sơ đồ (.drawio và .png)
-docs/bao-cao/        bản báo cáo và slide nộp
-docs/evidence/       ảnh chụp và video bằng chứng
-docs/meetings/       biên bản họp nhóm
+models/              4 model PICT (recipe, search, mealplan, shopping)
+cases/               test case do PICT sinh: *.o2.tsv (2-wise), *.o3.tsv (3-wise)
+scripts/             sinh case, kiểm tra độ phủ cặp, chạy thử 4 luồng, nạp dữ liệu mẫu
+tests/               bộ pytest (làm ở cuối kỳ)
+docs/bao-cao/        báo cáo giữa kỳ (.docx, .pdf) và slide
+docs/TestCase_GiuaKy.xlsx   76 test case, mỗi luồng một sheet
+docs/so-do/          sơ đồ use case, kiến trúc, luồng dữ liệu, quy trình test
+docs/evidence/       ảnh chụp bằng chứng hệ thống chạy
+docs/huong-dan/      hướng dẫn cài công cụ và quy trình làm việc nhóm
 docs/seed-data.md    dữ liệu mẫu dùng cho test
-models/              file model PICT (.txt)
-cases/               file test case do PICT sinh ra (.tsv)
-tests/               code test tự động
-scripts/             script sinh case, tạo bảng công việc
+docs/cu-3-luong/     tài liệu và test của phạm vi cũ (household, phân quyền), chỉ để tham khảo
 ```
 
 ## Sinh lại test case
@@ -120,23 +116,42 @@ Tải `pict.exe` từ https://github.com/microsoft/pict/releases và thêm vào 
 scripts\sinh_case.bat
 ```
 
-Hoặc chạy tay cho từng model:
+Hoặc chạy tay cho từng model (`/o:2` phủ mọi cặp, `/o:3` phủ mọi bộ ba, `/r:22` cố định hạt giống để ai chạy cũng ra đúng bộ case):
 
 ```bat
-pict models\household.txt > cases\household.tsv
-pict models\household.txt /s
+pict models\search.txt /o:2 /r:22 > cases\search.o2.tsv
+pict models\search.txt /o:2 /r:22 /s
 ```
 
 Lệnh thứ hai in thống kê số cặp giá trị cần phủ và số test sinh ra. Số case có thể lệch 1–2 so với file trong `cases/` tùy phiên bản PICT, vì có nhiều bộ test cùng phủ đủ mọi cặp.
 
-## Chạy test
+Kiểm tra độc lập độ phủ cặp của cả 4 model (không tin hoàn toàn vào PICT):
 
-Code test viết bằng Python với `pytest` và `requests`. Cách cài đặt và lệnh chạy nằm trong `tests/README.md`.
+```bat
+python scripts\kiem_tra_cap.py --all
+```
+
+## Chạy thử 4 luồng
+
+Cần Python 3.10 trở lên và `pip install -r requirements.txt`. Mealie phải đang chạy và đã nạp dữ liệu mẫu. Địa chỉ và tài khoản đặt bằng biến môi trường (có sẵn giá trị mặc định đúng với bảng thiết lập ở trên):
+
+```bat
+set MEALIE_URL=http://localhost:9925
+set MEALIE_USER=nhom22@example.com
+set MEALIE_PASS=Nhom22@Mealie
+python scripts\chay_thu_4_luong.py
+python scripts\chay_ca_am_tinh.py
+```
+
+`chay_thu_4_luong.py` chạy 58 test Pairwise của 4 luồng, `chay_ca_am_tinh.py` chạy 18 test dữ liệu sai và giá trị biên. Mỗi test tự tạo dữ liệu có tiền tố `PW-` và xóa sau khi chạy. Kết quả ghi ra file `ket_qua*.json` trong `scripts/` (file này không đưa lên Git).
+
+Đây là bản chạy thử ở giữa kỳ. Ở cuối kỳ nhóm chuyển thành bộ pytest trong `tests/`, thêm CI trên GitHub Actions và chạy chính thức trên Docker image đã ghim.
 
 ## Quy ước làm việc
 
-- Mỗi người làm trên nhánh riêng tên `tvX/ten-viec`, ví dụ `tv4/model-household`, rồi gộp vào `main` qua Pull Request có ít nhất một người khác xem.
-- Lời nhắn commit bắt đầu bằng mục báo cáo trong ngoặc vuông, ví dụ `[D] Thêm tiêu chí pass/fail`.
+- Mỗi người làm trên nhánh riêng tên `tvX/ten-viec`, ví dụ `tv4/model-recipe`, rồi gộp vào `main` qua Pull Request có ít nhất một người khác xem.
+- Lời nhắn commit bắt đầu bằng mục việc trong ngoặc vuông, ví dụ `[D] Thêm tiêu chí pass/fail`.
 - Phần của ai người đó tự commit bằng tài khoản của mình.
 - Không đưa mật khẩu thật lên repo. Tài khoản trong README là tài khoản dùng chung của nhóm cho bản Mealie chạy trên máy cá nhân.
 - Mỗi Pull Request ghi `Closes #số-thẻ` trong phần mô tả để thẻ tự đóng khi gộp.
+- Hướng dẫn cài công cụ, quy trình nhánh, commit và Pull Request: [docs/huong-dan/00-bat-dau.md](docs/huong-dan/00-bat-dau.md).

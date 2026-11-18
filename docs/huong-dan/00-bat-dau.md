@@ -1,5 +1,7 @@
 # Bắt đầu: việc ai cũng phải làm
 
+> Ghi chú: phần cài công cụ, quy trình nhánh, commit và Pull Request ở dưới vẫn dùng. Các file `TV1` đến `TV5` và `api-da-kiem-chung.md` viết cho phạm vi 3 luồng cũ; phạm vi hiện tại xem README và báo cáo giữa kỳ.
+
 Đọc file này trước, rồi mới đọc hướng dẫn riêng của mình:
 
 | Vai | Người | Hướng dẫn |
