@@ -1,3 +1,0 @@
-orderBy:        name, created_at, random
-orderDirection: asc, desc
-perPage:        1, 10, 50
