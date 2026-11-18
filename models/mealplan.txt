@@ -1,0 +1,4 @@
+entryType: breakfast, lunch, dinner, side
+date:      past, today, future
+content:   recipe, title_short, title_accented, recipe_and_title
+text:      none, note

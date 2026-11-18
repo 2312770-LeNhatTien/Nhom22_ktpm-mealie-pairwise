@@ -1,5 +1,7 @@
 # Bằng chứng mục C
 
+> Ghi chú: ảnh `C-01` đến `C-12` và `D-01`, `D-02` dùng cho phạm vi hiện tại (môi trường, tìm kiếm và lọc, độ phủ cặp). Ảnh `C-20` đến `C-33` (household, phân quyền) và `F-00`, `F-01` thuộc phạm vi cũ, giữ lại để tham khảo.
+
 Nhóm dùng Mealie v3.28.0 ở cổng 9925 để chuẩn bị dữ liệu và kiểm tra ba luồng. Trình thiết lập lần đầu được chụp ở bản riêng cổng 9926.
 
 | File | Nội dung |

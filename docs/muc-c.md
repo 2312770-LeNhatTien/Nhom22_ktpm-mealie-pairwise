@@ -1,5 +1,7 @@
 # Mục C Môi trường và cách chạy hệ thống
 
+> Ghi chú: tài liệu này viết khi phạm vi còn 3 luồng. Phạm vi hiện tại là 4 luồng (tìm kiếm và lọc, quản lý công thức, kế hoạch bữa ăn, danh sách mua sắm); xem README và báo cáo giữa kỳ mục 4.2. Phần C.1 đến C.4 (môi trường, Docker, thiết lập lần đầu, dữ liệu mẫu) vẫn dùng nguyên; mục C.5 về household và phân quyền thuộc phạm vi cũ.
+
 Phần C do Nguyễn Phú Quý (2312731) phụ trách. Nhóm chạy Mealie v3.28.0 bằng Docker và chuẩn bị dữ liệu cho ba luồng: tìm kiếm công thức, cấu hình household và phân quyền người dùng.
 
 ## C.1 Môi trường và phiên bản
