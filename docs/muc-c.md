@@ -1,8 +1,7 @@
 # Mục C Môi trường và cách chạy hệ thống
 
-> Ghi chú: tài liệu này viết khi phạm vi còn 3 luồng. Phạm vi hiện tại là 4 luồng (tìm kiếm và lọc, quản lý công thức, kế hoạch bữa ăn, danh sách mua sắm); xem README và báo cáo giữa kỳ mục 4.2. Phần C.1 đến C.4 (môi trường, Docker, thiết lập lần đầu, dữ liệu mẫu) vẫn dùng nguyên; mục C.5 về household và phân quyền thuộc phạm vi cũ.
 
-Phần C do Nguyễn Phú Quý (2312731) phụ trách. Nhóm chạy Mealie v3.28.0 bằng Docker và chuẩn bị dữ liệu cho ba luồng: tìm kiếm công thức, cấu hình household và phân quyền người dùng.
+Phần C do Nguyễn Phú Quý (2312731) phụ trách. Nhóm chạy Mealie v3.28.0 bằng Docker và chuẩn bị dữ liệu mẫu cho 4 luồng kiểm thử: tìm kiếm và lọc, quản lý công thức, kế hoạch bữa ăn, danh sách mua sắm.
 
 ## C.1 Môi trường và phiên bản
 
@@ -137,70 +136,31 @@ Nếu cổng 9925 bị chiếm, đổi mapping thành `9926:9000`, đổi `BASE_
 
 ## C.4 Dữ liệu mẫu và cách chạy lại
 
-Bộ dữ liệu gồm admin `nhom22`, user `khongquyen`/`duquyen`, 3 category, 3 tag và 12 công thức. Bảng tên, nhãn, quyền và kết quả lọc nằm trong [seed-data.md](seed-data.md). [Inventory](evidence/C-seed-inventory.json) ghi ID thực tế; UUID khác nhau trên mỗi máy.
+Bộ dữ liệu gồm admin `nhom22`, 3 category, 3 tag và 12 công thức. Bảng tên, nhãn và kết quả lọc nằm trong [seed-data.md](seed-data.md). [Inventory](evidence/C-seed-inventory.json) ghi ID thực tế; UUID khác nhau trên mỗi máy.
 
 Sau khi thiết lập admin, chạy từ gốc repo:
 
 ```bat
 python scripts\chuan_bi_muc_c.py seed
-python scripts\chuan_bi_muc_c.py verify
 ```
 
-Chỉ cần Python 3.10 trở lên và thư viện chuẩn. `seed` nạp phần thiếu, không tạo trùng/ghi đè dữ liệu xung đột. `verify` chạy 16 bước API, tạo/xóa dữ liệu tạm, đổi rồi khôi phục household/quyền user. Không chạy cùng test/demo khác. Mặc định dùng `http://localhost:9925`; thêm `--base-url http://localhost:9926` khi đổi cổng. Script chỉ cho phép loopback, kiểm tra version v3.28.0, không lưu token/mật khẩu trong log.
+Chỉ cần Python 3.10 trở lên và thư viện chuẩn. `seed` nạp phần thiếu, không tạo trùng hay ghi đè dữ liệu có sẵn. Mặc định dùng `http://localhost:9925`; thêm `--base-url http://localhost:9926` khi đổi cổng. Script chỉ cho phép địa chỉ localhost, kiểm tra đúng phiên bản v3.28.0 và không lưu token hay mật khẩu trong log.
 
-`seed` và `verify` ghi lại log trong `docs/evidence/`, nên chạy xong có thể thấy hai file JSON bị sửa trong `git status`. Nếu không định nộp lại log và không có thay đổi bằng chứng khác cần giữ, chạy `git checkout -- docs/evidence` để trả thư mục bằng chứng về bản đã commit.
+Chạy xong script ghi lại file `docs/evidence/C-seed-inventory.json`, nên `git status` có thể thấy file này bị sửa. Nếu không cần nộp lại thì chạy `git checkout -- docs/evidence` để trả về bản đã commit.
 
-Kết quả thành công:
+Đây chỉ là bước chuẩn bị môi trường, chưa phải kết quả chạy bộ test Pairwise.
 
-```text
-PASS: 16 bước xác minh; 3 luồng; đã khôi phục household, quyền user và xóa dữ liệu tạm.
-```
+## C.5 Bằng chứng trên giao diện
 
-Đây là kiểm tra vận hành mục C, chưa phải kết quả chạy toàn bộ test Pairwise mục F/G.
+Các ảnh dưới đây ghi lại luồng tìm kiếm và lọc trên Mealie với dữ liệu ở C.4.
 
-## C.5 Bằng chứng ba luồng nghiệp vụ
-
-Nhóm kiểm tra từng luồng bằng dữ liệu ở C.4. Các ảnh dưới đây ghi lại thao tác và kết quả trên Mealie; kết quả kiểm tra tự động lưu trong [C-api-verification.json](evidence/C-api-verification.json).
-
-### Tìm kiếm và lọc
-
-Tại `/g/home`, chọn Categories → Món chính: từ 12 còn 5 công thức. Thêm Tags → Chay: còn Gỏi cuốn chay và Xôi xoài. API kiểm tra thêm category OR/AND, tag AND và thứ tự tên tăng/giảm.
+Tại `/g/home`, chọn Categories → Món chính: từ 12 còn 5 công thức. Thêm Tags → Chay: còn Gỏi cuốn chay và Xôi xoài. 
 
 ![Danh sách 12 công thức](evidence/C-10-search-danh-sach.png)
 
 ![Category Món chính trả về 5 công thức](evidence/C-11-search-loc-category.png)
 
 ![Thêm tag Chay còn 2 công thức](evidence/C-12-search-loc-them-tag.png)
-
-### Cấu hình household
-
-Vào `/household`, ghi cấu hình cũ. Bật Show nutrition information và Disable users from commenting on recipes, bấm Update. Tạo `Demo mục C`, mở Settings: Show Nutrition Values và Disable Comments đều bật. Phải tạo công thức mới sau khi lưu household để chứng minh kế thừa.
-
-![Cấu hình ban đầu](evidence/C-20-household-cai-dat.png)
-
-![Hai tùy chọn đã lưu](evidence/C-21-household-doi.png)
-
-![Tạo công thức mới](evidence/C-22-household-tao-cong-thuc.png)
-
-![Công thức mới nhận hai tùy chọn mặc định](evidence/C-23-household-ket-qua.png)
-
-API kiểm tra đủ 5 ánh xạ: `recipePublic → public`, `recipeShowNutrition → showNutrition`, `recipeShowAssets → showAssets`, `recipeLandscapeView → landscapeView`, `recipeDisableComments → disableComments` trong `settings`. Sau chụp đã xóa công thức demo, khôi phục hai cờ về false như ban đầu.
-
-### Phân quyền
-
-User `khongquyen` có admin=false và bốn quyền false. Trong Swagger tại `/docs`, dùng Authorize để đăng nhập `khongquyen@example.com`, mở `POST /api/organizers/categories`, bấm Try it out và nhập `{"name":"C22 Swagger Permission"}`. Lần đầu gọi trả 403.
-
-Trong Authorize, bấm Logout rồi đăng nhập admin `nhom22@example.com`. Gọi `GET /api/households/members` để lấy `id` của `khongquyen`, sau đó gọi `PUT /api/households/permissions` với `userId` đó, chỉ đặt `canOrganize=true`, ba quyền còn lại false. Đăng nhập lại bằng `khongquyen` và gọi cùng request tạo category: API trả 201. Sau khi chụp, nhóm dùng admin xóa category tạm và trả `canOrganize` về false.
-
-![Thành viên household và user lab](evidence/C-30-permission-user.png)
-
-![API từ chối với 403](evidence/C-31-permission-bi-chan.png)
-
-![Admin cấp riêng canOrganize](evidence/C-32-permission-cap-quyen.png)
-
-![API cho phép với 201](evidence/C-33-permission-duoc-phep.png)
-
-Ba ảnh C-31 đến C-33 ghi kết quả Server response trong Swagger: 403, cấp quyền 200 và tạo category 201. Khung ảnh giữ Request URL và response, bỏ phần cURL có token đăng nhập. [Log kiểm tra tự động](evidence/C-api-verification.json) lưu riêng 16 bước và kết quả khôi phục dữ liệu.
 
 ![Trang tài liệu API Mealie](evidence/C-09-api-docs.png)
 

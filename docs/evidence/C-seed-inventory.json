@@ -161,31 +161,5 @@
         "Chay"
       ]
     }
-  ],
-  "users": [
-    {
-      "id": "9322ccd0-b38e-4e6d-8b89-a1d27c3a8616",
-      "username": "khongquyen",
-      "email": "khongquyen@example.com",
-      "admin": false,
-      "group": "Home",
-      "household": "Family",
-      "canInvite": false,
-      "canManage": false,
-      "canManageHousehold": false,
-      "canOrganize": false
-    },
-    {
-      "id": "b6c49da0-7d3c-4c4c-9a4c-cd99286ed718",
-      "username": "duquyen",
-      "email": "duquyen@example.com",
-      "admin": false,
-      "group": "Home",
-      "household": "Family",
-      "canInvite": true,
-      "canManage": true,
-      "canManageHousehold": true,
-      "canOrganize": true
-    }
   ]
 }

@@ -1,8 +1,7 @@
-"""Nạp seed và xác minh ba luồng mục C trên Mealie local, chỉ dùng Python stdlib.
+"""Nạp dữ liệu mẫu (3 category, 3 tag, 12 công thức) vào Mealie local, chỉ dùng Python stdlib.
 
 python scripts/chuan_bi_muc_c.py seed
-python scripts/chuan_bi_muc_c.py verify
-Tài khoản lab mặc định theo README; có thể đổi bằng MEALIE_EMAIL/MEALIE_PASSWORD.
+Tài khoản admin mặc định theo README; có thể đổi bằng MEALIE_EMAIL/MEALIE_PASSWORD.
 Không ghi token hoặc mật khẩu vào bằng chứng.
 """
 import argparse
@@ -20,7 +19,6 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "evidence"
 PASSWORD = os.environ.get("MEALIE_PASSWORD", "Nhom22@Mealie")
 EMAIL = os.environ.get("MEALIE_EMAIL", "nhom22@example.com")
-FLAGS = ["canInvite", "canManage", "canManageHousehold", "canOrganize"]
 RECIPES = [
     ("Phở bò", ["Món chính"], []),
     ("Bún chả", ["Món chính"], ["Nhanh"]),
@@ -129,116 +127,16 @@ def seed(api):
             recipe["tags"] = expected_tags
             api.call("PUT", "/api/recipes/" + slug, recipe, expected=200)
         recipes.append({"name": name, "slug": slug, "categories": cats, "tags": tags})
-    users = {x["email"]: x for x in all_items(api, "/api/admin/users")}
-    accounts = []
-    for username, enabled in [("khongquyen", False), ("duquyen", True)]:
-        email = username + "@example.com"
-        if email not in users:
-            body = {"username": username, "fullName": username, "email": email, "password": PASSWORD,
-                    "group": me["group"], "household": me["household"], "admin": False,
-                    **{f: enabled for f in FLAGS}}
-            _, users[email] = api.call("POST", "/api/admin/users", body, expected=201)
-        u = Api(api.base, email).get("/api/users/self")
-        if u["admin"] or any(u[f] != enabled for f in FLAGS) or u["group"] != me["group"] or u["household"] != me["household"]:
-            raise RuntimeError(f"{email}: tài khoản đã có khác seed; không tự sửa quyền.")
-        accounts.append({k: u[k] for k in ["id", "username", "email", "admin", "group", "household", *FLAGS]})
     inventory = {"recordedAt": now(), "baseUrl": api.base, "version": api.get("/api/app/about")["version"],
                  "categories": list(organizers["categories"].values()), "tags": list(organizers["tags"].values()),
-                 "recipes": recipes, "users": accounts}
+                 "recipes": recipes}
     save("C-seed-inventory.json", inventory)
-    print("Seed OK: 3 category, 3 tag, 12 công thức, 2 user lab. Không tạo trùng khi chạy lại.")
-
-
-def verify(api):
-    records = []
-    def record(label, method, path, body=None, expected=200, check=None):
-        status, data = api.call(method, path, body, expected=expected)
-        if check is not None and not check(data):
-            raise RuntimeError("Kết quả sai: " + label)
-        records.append({"step": label, "method": method, "path": path, "request": body,
-                        "status": status, "response": data, "passed": True})
-        return data
-    all_recipes = api.get("/api/recipes?perPage=100")
-    if all_recipes["total"] != 12 or {x["name"] for x in all_recipes["items"]} != {x[0] for x in RECIPES}:
-        raise RuntimeError("Cần đúng bộ 12 công thức seed, không có công thức demo tồn dư.")
-    cases = [
-        ("C-10 đủ 12 công thức", {}, {x[0] for x in RECIPES}),
-        ("C-11 Món chính", {"categories": "mon-chinh"}, {"Bún chả", "Gỏi cuốn chay", "Lẩu thái", "Phở bò", "Xôi xoài"}),
-        ("C-12 Món chính và Chay", {"categories": "mon-chinh", "tags": "chay"}, {"Gỏi cuốn chay", "Xôi xoài"}),
-        ("Hai category OR", {"categories": ["mon-chinh", "trang-mieng"], "requireAllCategories": "false"}, {"Bún chả", "Gỏi cuốn chay", "Lẩu thái", "Phở bò", "Xôi xoài", "Bánh flan", "Chè đậu", "Sinh tố bơ"}),
-        ("Hai category AND", {"categories": ["mon-chinh", "trang-mieng"], "requireAllCategories": "true"}, {"Xôi xoài"}),
-        ("Hai tag AND", {"tags": ["nhanh", "chay"], "requireAllTags": "true"}, {"Gỏi cuốn chay", "Sinh tố bơ"}),
-    ]
-    for label, query, names in cases:
-        path = "/api/recipes?" + urlencode({"perPage": 50, **query}, doseq=True)
-        d = record(label, "GET", path, check=lambda d, names=names: d["total"] == len(names) and {x["name"] for x in d["items"]} == names)
-        # Giữ response gọn, đủ chứng minh tập kết quả.
-        records[-1]["response"] = {"total": d["total"], "names": [x["name"] for x in d["items"]]}
-    asc = record("C-13 sắp xếp tăng", "GET", "/api/recipes?perPage=50&orderBy=name&orderDirection=asc")
-    desc = record("C-13 sắp xếp giảm", "GET", "/api/recipes?perPage=50&orderBy=name&orderDirection=desc",
-                  check=lambda d: [x["name"] for x in d["items"]] == [x["name"] for x in asc["items"]][::-1])
-    for row, data in zip(records[-2:], [asc, desc]):
-        row["response"] = {"total": data["total"], "names": [x["name"] for x in data["items"]]}
-
-    original = record("C-20 cấu hình ban đầu", "GET", "/api/households/preferences")
-    changed = {k: v for k, v in original.items() if k != "id"}
-    changed.update(recipeShowNutrition=not original["recipeShowNutrition"], recipeDisableComments=not original["recipeDisableComments"])
-    slug = None
-    try:
-        record("C-21 lưu cấu hình", "PUT", "/api/households/preferences", changed,
-               check=lambda d: all(d[k] == v for k, v in changed.items()))
-        slug = record("C-22 tạo công thức mới", "POST", "/api/recipes", {"name": "C22 Demo " + uuid.uuid4().hex[:8]}, expected=201)
-        mapping = {"public": "recipePublic", "showNutrition": "recipeShowNutrition", "showAssets": "recipeShowAssets",
-                   "landscapeView": "recipeLandscapeView", "disableComments": "recipeDisableComments"}
-        d = record("C-23 công thức kế thừa đủ 5 tùy chọn", "GET", "/api/recipes/" + slug,
-                   check=lambda d: all(d["settings"][k] == changed[v] for k, v in mapping.items()))
-        records[-1]["response"] = {"name": d["name"], "settings": d["settings"]}
-    finally:
-        # Khôi phục cấu hình ngay cả khi kiểm tra/xóa công thức gặp lỗi.
-        try:
-            if slug is not None:
-                api.call("DELETE", "/api/recipes/" + slug, expected=200)
-        finally:
-            api.call("PUT", "/api/households/preferences", original, expected=200)
-    if api.get("/api/households/preferences") != original:
-        raise RuntimeError("Chưa khôi phục đúng cấu hình household.")
-
-    user_api = Api(api.base, "khongquyen@example.com")
-    user = user_api.get("/api/users/self")
-    if user["admin"] or any(user[f] for f in FLAGS):
-        raise RuntimeError("User khongquyen chưa ở trạng thái không quyền.")
-    records.append({"step": "C-30 user không quyền", "response": {"username": user["username"], "admin": user["admin"], **{f: user[f] for f in FLAGS}}, "passed": True})
-    name = "C22 Permission " + uuid.uuid4().hex[:8]
-    status, data = user_api.call("POST", "/api/organizers/categories", {"name": name}, expected=403)
-    records.append({"step": "C-31 tạo category bị chặn", "method": "POST", "path": "/api/organizers/categories", "status": status, "response": data, "passed": True})
-    category_id = None
-    permissions = {"userId": user["id"], **{f: user[f] for f in FLAGS}}
-    try:
-        record("C-32 admin cấp canOrganize", "PUT", "/api/households/permissions", {**permissions, "canOrganize": True})
-        records[-1]["response"] = {k: records[-1]["response"][k] for k in ["username", "admin", *FLAGS]}
-        user_api = Api(api.base, "khongquyen@example.com")
-        status, category = user_api.call("POST", "/api/organizers/categories", {"name": name}, expected=201)
-        category_id = category["id"]
-        records.append({"step": "C-33 tạo category được phép", "method": "POST", "path": "/api/organizers/categories", "status": status, "response": category, "passed": True})
-    finally:
-        try:
-            if category_id is not None:
-                api.call("DELETE", "/api/organizers/categories/" + category_id, expected=200)
-        finally:
-            api.call("PUT", "/api/households/permissions", permissions, expected=200)
-    restored = Api(api.base, "khongquyen@example.com").get("/api/users/self")
-    if any(restored[f] for f in FLAGS) or restored["admin"]:
-        raise RuntimeError("Chưa khôi phục user không quyền.")
-    if api.get("/api/recipes?perPage=1")["total"] != 12:
-        raise RuntimeError("Còn công thức demo tồn dư.")
-    save("C-api-verification.json", {"recordedAt": now(), "baseUrl": api.base, "version": api.get("/api/app/about")["version"],
-         "steps": records, "cleanup": {"householdRestored": True, "userPermissionsRestored": True, "recipeTotal": 12, "temporaryCategoryDeleted": True}})
-    print(f"PASS: {len(records)} bước xác minh; 3 luồng; đã khôi phục household, quyền user và xóa dữ liệu tạm.")
+    print("Seed OK: 3 category, 3 tag, 12 công thức. Không tạo trùng khi chạy lại.")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=["seed", "verify"])
+    parser.add_argument("action", choices=["seed"])
     parser.add_argument("--base-url", default="http://localhost:9925")
     args = parser.parse_args()
     url = urlparse(args.base_url)
@@ -248,7 +146,7 @@ def main():
     version = api.get("/api/app/about")["version"]
     if version != "v3.28.0":
         raise RuntimeError(f"Sai phiên bản Mealie: {version}")
-    {"seed": seed, "verify": verify}[args.action](api)
+    seed(api)
 
 
 if __name__ == "__main__":

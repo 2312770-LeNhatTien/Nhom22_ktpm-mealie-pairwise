@@ -8,7 +8,6 @@ Code test tự động của nhóm, viết bằng Python với `pytest` (chạy 
 | --- | --- |
 | `conftest.py` | Phần dùng chung: địa chỉ Mealie, đăng nhập, đọc file case, tạo tên không trùng |
 
-File test của luồng household (phạm vi cũ) nằm ở `docs/cu-3-luong/tests/test_household.py`.
 
 ## Cài đặt (làm một lần trên mỗi máy)
 

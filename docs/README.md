@@ -12,7 +12,6 @@ Nơi để báo cáo, hướng dẫn, sơ đồ và bằng chứng.
 | `evidence/` | Ảnh chụp và file kết quả chứng minh hệ thống chạy được |
 | `huong-dan/` | Cài công cụ và quy trình làm việc nhóm, bắt đầu từ `00-bat-dau.md` |
 | `meetings/` | Biên bản họp nhóm, mỗi buổi một file |
-| `cu-3-luong/` | Tài liệu và test của phạm vi cũ (household, phân quyền), chỉ để tham khảo |
 
 Quy ước đặt tên ảnh trong `evidence/`: chữ cái của mục, số thứ tự, mô tả ngắn. Ví dụ `C-01-docker-version.png`, `C-11-search-loc-category.png`.
 
