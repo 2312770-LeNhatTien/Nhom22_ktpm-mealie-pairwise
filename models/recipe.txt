@@ -1,0 +1,8 @@
+description:  none, short, accented
+servings:     1, 4, 2.5
+time:         none, both
+ingredients:  0, 1, 3
+instructions: 0, 1, 3
+categories:   none, one, two
+tags:         none, one, two
+public:       true, false

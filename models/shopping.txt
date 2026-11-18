@@ -1,0 +1,6 @@
+note:     none, short, accented
+quantity: 1, 2.5, 100
+unit:     none, gram
+food:     none, tomato
+label:    none, veggie
+checked:  true, false

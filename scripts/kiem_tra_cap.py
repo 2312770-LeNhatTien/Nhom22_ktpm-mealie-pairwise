@@ -8,7 +8,7 @@ Dung de tu xac nhan so lieu cua `pict <model> /s` ma khong tin vao PICT:
   4. In: so to hop vet can, so cap can phu, so case, so cap bi sot.
 
 Cach chay (thu muc goc repo):
-    python scripts/kiem_tra_cap.py models/household.txt cases/household.tsv
+    python scripts/kiem_tra_cap.py models/search.txt cases/search.o2.tsv
     python scripts/kiem_tra_cap.py --all
 
 Chi dung thu vien chuan. Ma thoat 0 neu phu 100% cap, 1 neu con cap bi sot.
@@ -119,8 +119,8 @@ def main():
     if args.all:
         root = Path(__file__).resolve().parent.parent
         ok = True
-        for n in ("demo", "household", "search", "permissions"):
-            ok &= check(root / "models" / f"{n}.txt", root / "cases" / f"{n}.tsv")
+        for n in ("recipe", "search", "mealplan", "shopping"):
+            ok &= check(root / "models" / f"{n}.txt", root / "cases" / f"{n}.o2.tsv")
         sys.exit(0 if ok else 1)
     if not (args.model and args.cases):
         ap.error("can <model> <cases> hoac --all")

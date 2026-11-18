@@ -1,0 +1,10 @@
+note	quantity	unit	food	label	checked
+none	2.5	gram	tomato	veggie	true
+short	2.5	none	none	none	false
+accented	1	none	tomato	veggie	false
+accented	100	gram	none	none	true
+accented	2.5	gram	none	veggie	false
+none	100	none	tomato	none	false
+none	1	none	none	none	true
+short	100	gram	tomato	veggie	true
+short	1	gram	tomato	none	false

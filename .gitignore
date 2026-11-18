@@ -15,3 +15,6 @@ Thumbs.db
 
 # Binaries
 *.exe
+
+# Ket qua chay thu (khong dua len Git)
+scripts/ket_qua*.json
