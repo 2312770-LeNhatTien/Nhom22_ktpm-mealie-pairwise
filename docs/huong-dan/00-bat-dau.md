@@ -1,20 +1,8 @@
 # Bắt đầu: việc ai cũng phải làm
 
-> Ghi chú: phần cài công cụ, quy trình nhánh, commit và Pull Request ở dưới vẫn dùng. Các file `TV1` đến `TV5` và `api-da-kiem-chung.md` viết cho phạm vi 3 luồng cũ; phạm vi hiện tại xem README và báo cáo giữa kỳ.
+Đọc file này trước khi làm việc trong repo: cài công cụ, quy trình nhánh, commit và Pull Request.
 
-Đọc file này trước, rồi mới đọc hướng dẫn riêng của mình:
-
-| Vai | Người | Hướng dẫn |
-| --- | --- | --- |
-| TV1 Nhóm trưởng | Lê Nhật Tiến | [TV1-nhom-truong.md](TV1-nhom-truong.md) |
-| TV2 Môi trường và demo | Nguyễn Phú Quý | [TV2-moi-truong-demo.md](TV2-moi-truong-demo.md) |
-| TV3 Phân tích hệ thống | Hồ Quốc Tiến | [TV3-phan-tich-he-thong.md](TV3-phan-tich-he-thong.md) |
-| TV4 Kỹ thuật Pairwise | Bùi Ngọc Toàn | [TV4-pairwise.md](TV4-pairwise.md) |
-| TV5 API và tự động hóa | Nguyễn Đình Tuấn | [TV5-api-tu-dong-hoa.md](TV5-api-tu-dong-hoa.md) |
-
-Việc của từng người và hạn nằm trên bảng công việc (tab **Issues** và **Projects** của repo). Mỗi thẻ ghi rõ phải làm gì, nộp file nào, thế nào là xong. Không có thứ tự bắt buộc giữa các thành viên: ai xong thẻ nào thì mở Pull Request cho thẻ đó luôn, không cần chờ người khác.
-
-Xem riêng việc của mình: mở tab **Issues**, bấm **Label**, chọn nhãn có tên mình, ví dụ `TV2 Quý`.
+Việc của từng người và hạn nằm trên bảng công việc (tab **Issues** và **Projects** của repo). Mỗi thẻ ghi rõ phải làm gì, nộp file nào, thế nào là xong. Ai xong thẻ nào thì mở Pull Request cho thẻ đó luôn, không cần chờ người khác.
 
 ## 1. Cài công cụ
 
@@ -96,8 +84,6 @@ Kiểm tra: đăng xuất, đăng nhập lại bằng `nhom22@example.com` / `Nh
 | Tìm và lọc công thức | `http://localhost:9925/g/home/recipes/finder` |
 | Quản lý category | `http://localhost:9925/group/data/categories` |
 | Quản lý tag | `http://localhost:9925/group/data/tags` |
-| Cài đặt household | `http://localhost:9925/household` |
-| Thành viên và quyền trong household | `http://localhost:9925/household/members` |
 | Admin: danh sách user | `http://localhost:9925/admin/manage/users` |
 | Admin: tạo user | `http://localhost:9925/admin/manage/users/create` |
 | Kế hoạch bữa ăn | `http://localhost:9925/household/mealplan/planner/view` |

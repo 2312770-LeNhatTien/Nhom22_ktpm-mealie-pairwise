@@ -16,6 +16,7 @@ Chay duoc voi file case do PICT sinh ra o bat ky bac nao (/o:2, /o:3).
 """
 import argparse
 import itertools
+import os
 import re
 import sys
 from pathlib import Path
@@ -96,8 +97,8 @@ def check(model_path, case_path, verbose=True):
         covered.update(pairs_of(c, names))
     missing = needed - covered
     if verbose:
-        print(f"Model     : {model_path}")
-        print(f"Case      : {case_path}")
+        print(f"Model     : {os.path.relpath(model_path)}")
+        print(f"Case      : {os.path.relpath(case_path)}")
         print(f"Tham so   : {len(names)}")
         print(f"Vet can   : {total} to hop hop le")
         print(f"Cap can phu: {len(needed)}")

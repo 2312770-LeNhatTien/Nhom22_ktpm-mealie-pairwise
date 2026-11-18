@@ -105,7 +105,6 @@ docs/so-do/          sơ đồ use case, kiến trúc, luồng dữ liệu, quy 
 docs/evidence/       ảnh chụp bằng chứng hệ thống chạy
 docs/huong-dan/      hướng dẫn cài công cụ và quy trình làm việc nhóm
 docs/seed-data.md    dữ liệu mẫu dùng cho test
-docs/cu-3-luong/     tài liệu và test của phạm vi cũ (household, phân quyền), chỉ để tham khảo
 ```
 
 ## Sinh lại test case

@@ -1,20 +1,16 @@
 # Dữ liệu mẫu của Nhóm 22
 
-> Ghi chú: 12 công thức, 3 category và 3 tag dưới đây là dữ liệu của luồng tìm kiếm và các luồng còn lại. Hai tài khoản `khongquyen` và `duquyen` chỉ phục vụ phạm vi cũ (phân quyền), không dùng trong 4 luồng hiện tại.
+Bộ dữ liệu dưới đây dùng trên Mealie v3.28.0, group `Home`, household `Family`. Khi đổi dữ liệu mẫu phải sửa file này cùng commit.
 
-Bộ dữ liệu dưới đây dùng trên Mealie v3.28.0, group `Home`, household `Family`. Khi đổi dữ liệu mẫu phải sửa file này cùng commit. Tên và nhãn giữ đúng bảng trong hướng dẫn TV2 để Toàn đối chiếu kết quả tìm kiếm.
-
-Người phụ trách: Nguyễn Phú Quý (TV2). Bùi Ngọc Toàn (TV4) dùng bảng công thức này để xác định kết quả mong đợi của luồng tìm kiếm.
+Người phụ trách: Nguyễn Phú Quý. Bùi Ngọc Toàn dùng bảng công thức này để xác định kết quả mong đợi của luồng tìm kiếm.
 
 ## Tài khoản
 
 | Tài khoản | Mật khẩu | Quyền | Dùng cho |
 | --- | --- | --- | --- |
-| `nhom22@example.com` | `Nhom22@Mealie` | admin, tạo ở bước thiết lập lần đầu | Tạo dữ liệu, luồng household |
-| `khongquyen@example.com` | `Nhom22@Mealie` | admin=false; cả 4 quyền false | Luồng phân quyền |
-| `duquyen@example.com` | `Nhom22@Mealie` | admin=false; cả 4 quyền true | Luồng phân quyền |
+| `nhom22@example.com` | `Nhom22@Mealie` | admin, tạo ở bước thiết lập lần đầu | Tạo dữ liệu và chạy test |
 
-Username lần lượt là `nhom22`, `khongquyen`, `duquyen`. Bốn quyền: `canInvite`, `canManage`, `canManageHousehold`, `canOrganize`. Mật khẩu chỉ dùng cho bản lab local của môn học, theo README.
+Mật khẩu chỉ dùng cho bản lab local của môn học, theo README.
 
 ## Category và tag
 
@@ -48,16 +44,15 @@ Username lần lượt là `nhom22`, `khongquyen`, `duquyen`. Bốn quyền: `ca
 
 ## Tạo lại dữ liệu
 
-Chạy Mealie và hoàn tất admin theo [mục C](muc-c.md). Tạo thủ công tại `/group/data/categories`, `/group/data/tags`, `/g/home/r/create/new`, `/admin/manage/users/create` theo bảng trên, hoặc nạp bằng API tại thư mục gốc repo:
+Chạy Mealie và hoàn tất admin theo [mục C](muc-c.md). Tạo thủ công tại `/group/data/categories`, `/group/data/tags`, `/g/home/r/create/new` theo bảng trên, hoặc nạp bằng API tại thư mục gốc repo:
 
 ```bat
 python scripts\chuan_bi_muc_c.py seed
-python scripts\chuan_bi_muc_c.py verify
 ```
 
-Cần Python 3.10 trở lên, chỉ dùng thư viện chuẩn; không cần cài requirements để chạy script này. Mặc định địa chỉ `http://localhost:9925`; có thể thêm `--base-url http://localhost:9926`. Chỉ nhận HTTP loopback. Admin mặc định theo bảng; nếu cần, đặt `MEALIE_EMAIL` và `MEALIE_PASSWORD`. Mật khẩu này cũng dùng cho hai user lab mới.
+Cần Python 3.10 trở lên, chỉ dùng thư viện chuẩn; không cần cài requirements để chạy script này. Mặc định địa chỉ `http://localhost:9925`; có thể thêm `--base-url http://localhost:9926`. Chỉ nhận HTTP loopback. Admin mặc định theo bảng; nếu cần, đặt `MEALIE_EMAIL` và `MEALIE_PASSWORD`.
 
-`seed` không tạo trùng khi chạy lại. Nếu công thức cùng tên có nhãn khác hoặc user có quyền khác bảng, script dừng để kiểm tra thủ công, không ghi đè. Script không xóa dữ liệu ngoài seed. `verify` yêu cầu đúng 12 công thức để kiểm tra tổng số; nếu có dữ liệu khác, dùng bản lab riêng hoặc kiểm tra dữ liệu thừa trước, không tự xóa cả volume.
+`seed` không tạo trùng khi chạy lại. Nếu công thức cùng tên có nhãn khác bảng, script dừng để kiểm tra thủ công, không ghi đè. Script không xóa dữ liệu ngoài seed.
 
 ## Kết quả mong đợi
 
@@ -75,12 +70,8 @@ Cần Python 3.10 trở lên, chỉ dùng thư viện chuẩn; không cần cài
 | Nhanh AND Chay | 2 | Gỏi cuốn chay, Sinh tố bơ |
 | Món chính AND tag Chay | 2 | Gỏi cuốn chay, Xôi xoài |
 
-`verify` gọi 6 truy vấn đại diện (không lọc, Món chính, Món chính+Chay, category OR/AND, tag AND), kiểm tra tập tên chính xác và sắp xếp tăng/giảm. Các dòng lọc đơn còn lại suy ra từ bảng seed, không phải tất cả đều có lần gọi riêng trong log.
+## Khôi phục sau khi test
 
-## Khôi phục sau demo
+Xóa đúng dữ liệu tạm do test tạo; giữ nguyên 12 món và ba category/tag. Không chạy hai lượt test cùng lúc vì cùng thay đổi dữ liệu trên một bản Mealie.
 
-Xóa đúng công thức/category tạm do demo tạo; giữ nguyên 12 món và ba category/tag. Trả user `khongquyen` về cả bốn quyền false và admin=false. Khôi phục toàn bộ cấu hình household đã ghi trước demo. Trạng thái ban đầu máy này: `privateHousehold=true`, `showAnnouncements=true`, `lockRecipeEditsFromOtherHouseholds=true`, `firstDayOfWeek=0`; cả năm cờ `recipe...` false.
-
-Không chạy demo và test đồng thời vì cùng thay đổi cấu hình/quyền. Script `verify` dùng `finally` để khôi phục khi có lỗi; nếu mất kết nối/mất điện, phải kiểm tra lại thủ công.
-
-[Inventory thực tế](evidence/C-seed-inventory.json) ghi ID trên máy đã chạy. UUID sẽ khác trên máy mới; tra theo tên/slug, không chép cứng UUID. [Log xác minh](evidence/C-api-verification.json) ghi status/response của ba luồng và trạng thái sau dọn dẹp.
+[Inventory thực tế](evidence/C-seed-inventory.json) ghi ID trên máy đã chạy. UUID sẽ khác trên máy mới; tra theo tên hoặc slug, không chép cứng UUID.
