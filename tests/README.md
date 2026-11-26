@@ -90,7 +90,7 @@ Mỗi test gửi `GET /api/recipes` với một tổ hợp tham số trong `case
 - `orderBy` = `created_at` thì đúng thứ tự thời gian tạo trên mọi trang, tăng hoặc giảm theo `orderDirection`.
 - `orderBy` = `name` thì đúng thứ tự mã Unicode trên mọi trang.
 - `orderBy` = `random` thì gọi hai lần cùng `paginationSeed` phải ra cùng thứ tự.
-- Riêng hai test `test_sap_xep_ten_theo_bang_chu_cai[asc]` và `[desc]`: sắp xếp theo tên phải theo bảng chữ cái (bỏ dấu). Mealie sắp theo mã Unicode nên "Cà phê sữa" đứng sau "Chè đậu"; hai test này đang để xfail, chờ nhóm xác nhận và cấp mã DEF.
+- Riêng hai test `test_sap_xep_ten_theo_bang_chu_cai[asc]` và `[desc]`: kiểm tra sắp xếp tên theo alphabet tiếng Việt, không phân biệt dấu. Trên Mealie v3.28.0, "Cà phê sữa" đứng sau "Chè đậu" ở chiều tăng dần; lỗi mức thấp đã ghi ở [DEF-01](../docs/loi/DEF-01.md), nên hai test đang XFAIL.
 
 Thông báo lỗi ghi rõ bất biến bị vi phạm (I1, I2, I3, I6, I7), có thể đưa thẳng vào phiếu lỗi.
 
@@ -100,11 +100,11 @@ Khi có phiếu lỗi `DEF-xx`, thêm một dòng vào `tests/loi_da_bao.py`. T�
 
 ```python
 LOI_DA_BAO = {
-    "test_tim_kiem_2wise[S12]": "DEF-01: perPage=1 kết hợp orderBy=random trả 500",
+    "test_tim_kiem_2wise[S12]": "DEF-xx: perPage=1 kết hợp orderBy=random trả 500",
 }
 ```
 
-Hai test sắp xếp tên hiện được đánh dấu XFAIL tạm thời với mã `DEF-chua-cap-ma`. Đây là phát hiện chờ nhóm xác nhận, chưa phải lỗi đã được cấp mã DEF.
+Hai test sắp xếp tên được đánh dấu XFAIL theo phiếu [DEF-01](../docs/loi/DEF-01.md). Mục nguyên nhân trong phiếu đang để trống để Quốc Tiến bổ sung.
 
 Chỉ Tuấn sửa `chung.py`, `conftest.py`, `pytest.ini`, `loi_da_bao.py`. Cần thêm gì thì nhắn Tuấn.
 
