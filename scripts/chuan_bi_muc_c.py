@@ -17,8 +17,8 @@ from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "evidence"
-PASSWORD = os.environ.get("MEALIE_PASSWORD", "Nhom22@Mealie")
-EMAIL = os.environ.get("MEALIE_EMAIL", "nhom22@example.com")
+PASSWORD = os.environ.get("MEALIE_PASSWORD", "MyPassword")
+EMAIL = os.environ.get("MEALIE_EMAIL", "changeme@example.com")
 RECIPES = [
     ("Phở bò", ["Món chính"], []),
     ("Bún chả", ["Món chính"], ["Nhanh"]),

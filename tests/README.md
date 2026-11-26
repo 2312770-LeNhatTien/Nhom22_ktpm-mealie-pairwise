@@ -39,15 +39,15 @@ Chờ khoảng một phút cho Mealie chạy xong. Lệnh `seed` nạp 12 công 
 
 ```bat
 set MEALIE_URL=http://localhost:9925
-set MEALIE_USER=nhom22@example.com
-set MEALIE_PASS=Nhom22@Mealie
-set MEALIE_EMAIL=nhom22@example.com
-set MEALIE_PASSWORD=Nhom22@Mealie
+set MEALIE_USER=changeme@example.com
+set MEALIE_PASS=MyPassword
+set MEALIE_EMAIL=changeme@example.com
+set MEALIE_PASSWORD=MyPassword
 ```
 
 - `MEALIE_URL`, `MEALIE_USER`, `MEALIE_PASS` dùng cho test. Không đặt thì lấy đúng ba giá trị trên.
 - `MEALIE_EMAIL`, `MEALIE_PASSWORD` dùng cho script nạp dữ liệu mẫu.
-- Nếu dựng lại bằng `scripts\dung_lai.bat` hoặc chạy trên CI thì Mealie chỉ có tài khoản mặc định, đổi cả hai nhóm thành `changeme@example.com` / `MyPassword` (script `dung_lai.bat` đã tự đặt sẵn).
+- Nếu đã làm trình thiết lập trên giao diện (tài khoản `nhom22@example.com` / `Nhom22@Mealie`) thì đặt các biến trên sang tài khoản đó, hoặc chạy `scripts\dung_lai.bat` để quay về tài khoản mặc định.
 - Tên cũ `MEALIE_BASE_URL` và `MEALIE_PASSWORD` vẫn dùng được thay cho `MEALIE_URL` và `MEALIE_PASS`.
 
 ## Lệnh chạy

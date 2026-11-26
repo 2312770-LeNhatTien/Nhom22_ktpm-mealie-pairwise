@@ -42,9 +42,11 @@ docker compose up -d
 
 Chờ khoảng một phút rồi mở http://localhost:9925.
 
-### Thiết lập lần đầu
+### Tài khoản và thiết lập lần đầu
 
-Lần đầu đăng nhập bằng tài khoản có sẵn của Mealie là `changeme@example.com` / `MyPassword`. Mealie sẽ mở trình thiết lập. Làm hết các bước chứ không bỏ qua, vì chừng nào admin còn dùng email có sẵn thì mỗi lần đăng nhập Mealie lại đẩy về trang này. Cả nhóm điền cùng một bộ giá trị để script test chạy được trên mọi máy:
+Mealie mới dựng có sẵn tài khoản `changeme@example.com` / `MyPassword`. **Test và CI dùng tài khoản này** qua API nên không cần làm trình thiết lập.
+
+Trình thiết lập chỉ cần khi muốn mở giao diện web xem bằng mắt: lần đầu đăng nhập, Mealie sẽ đẩy sang trang thiết lập. Làm hết các bước, điền theo bảng:
 
 | Bước | Điền |
 | --- | --- |
@@ -53,9 +55,9 @@ Lần đầu đăng nhập bằng tài khoản có sẵn của Mealie là `chang
 | AI Providers | Bỏ qua |
 | Summary | Kiểm tra lại rồi bấm hoàn tất |
 
-Từ đó về sau đăng nhập bằng `nhom22@example.com` / `Nhom22@Mealie`. Trang liệt kê API nằm ở http://localhost:9925/docs.
+Làm xong thì tài khoản `changeme` không còn dùng được, đăng nhập bằng `nhom22@example.com` / `Nhom22@Mealie`. Muốn chạy test lúc này thì đặt `MEALIE_USER=nhom22@example.com`, `MEALIE_PASS=Nhom22@Mealie` (và `MEALIE_EMAIL`, `MEALIE_PASSWORD` cho script nạp dữ liệu), hoặc chạy `scripts\dung_lai.bat` để quay về tài khoản mặc định. Trang liệt kê API nằm ở http://localhost:9925/docs.
 
-Nếu chạy `docker compose down -v` thì dữ liệu bị xóa hết và phải thiết lập lại từ đầu.
+Nếu chạy `docker compose down -v` thì dữ liệu bị xóa hết, Mealie quay về tài khoản mặc định `changeme`.
 
 ### Dựng lại Mealie sạch bằng một lệnh
 
@@ -142,12 +144,12 @@ python scripts\kiem_tra_cap.py --all
 
 ## Chạy thử 4 luồng
 
-Cần Python 3.10 trở lên và `pip install -r requirements.txt`. Mealie phải đang chạy và đã nạp dữ liệu mẫu. Địa chỉ và tài khoản đặt bằng biến môi trường (có sẵn giá trị mặc định đúng với bảng thiết lập ở trên):
+Cần Python 3.10 trở lên và `pip install -r requirements.txt`. Mealie phải đang chạy và đã nạp dữ liệu mẫu. Địa chỉ và tài khoản đặt bằng biến môi trường (giá trị mặc định là tài khoản có sẵn của Mealie):
 
 ```bat
 set MEALIE_URL=http://localhost:9925
-set MEALIE_USER=nhom22@example.com
-set MEALIE_PASS=Nhom22@Mealie
+set MEALIE_USER=changeme@example.com
+set MEALIE_PASS=MyPassword
 python scripts\chay_thu_4_luong.py
 python scripts\chay_ca_am_tinh.py
 ```

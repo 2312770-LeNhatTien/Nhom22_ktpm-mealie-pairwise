@@ -7,8 +7,8 @@ Luong 4: Danh sach mua   - them muc, doc lai, tick, xoa     (cases/shopping.o2.t
 
 Cach chay:
     set MEALIE_URL=http://localhost:9925
-    set MEALIE_USER=nhom22@example.com
-    set MEALIE_PASS=Nhom22@Mealie
+    set MEALIE_USER=changeme@example.com
+    set MEALIE_PASS=MyPassword
     python scripts/chay_thu_4_luong.py
 
 Script tu tao du lieu rieng (ten bat dau bang "PW-") va tu don sau khi chay.
@@ -24,8 +24,8 @@ import uuid
 import requests
 
 URL = os.environ.get("MEALIE_URL", "http://localhost:9925")
-USER = os.environ.get("MEALIE_USER", "nhom22@example.com")
-PASS = os.environ.get("MEALIE_PASS", "Nhom22@Mealie")
+USER = os.environ.get("MEALIE_USER", "changeme@example.com")
+PASS = os.environ.get("MEALIE_PASS", "MyPassword")
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 S = requests.Session()

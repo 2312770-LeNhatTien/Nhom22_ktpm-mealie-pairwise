@@ -5,8 +5,8 @@ import pytest
 import requests
 
 URL = os.environ.get("MEALIE_URL") or os.environ.get("MEALIE_BASE_URL") or "http://localhost:9925"
-USER = os.environ.get("MEALIE_USER", "nhom22@example.com")
-PASS = os.environ.get("MEALIE_PASS") or os.environ.get("MEALIE_PASSWORD") or "Nhom22@Mealie"
+USER = os.environ.get("MEALIE_USER", "changeme@example.com")
+PASS = os.environ.get("MEALIE_PASS") or os.environ.get("MEALIE_PASSWORD") or "MyPassword"
 GOC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
