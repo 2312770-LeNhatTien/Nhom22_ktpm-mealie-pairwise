@@ -48,3 +48,4 @@ Bảng kết quả tổng hợp của chức năng tìm kiếm nằm trong [báo
 | --- | --- |
 | `CI-run45807749019.md` | Ghi nhận PR #53, commit, trạng thái xanh, thời gian chạy và đường dẫn run trên GitHub |
 | `CI-run45807749019-ket-qua-test.zip` | Artifact `ket-qua-test` tải từ run #1; bên trong có JUnit `ket-qua.xml` với 19 ca đạt |
+| `CI-run45809078827.md` / `CI-run45809078827-ket-qua-test.zip` | Run #2 trên commit cập nhật: thành công, JUnit 19/19 đạt và artifact đã tải về |
