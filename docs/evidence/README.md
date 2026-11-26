@@ -41,3 +41,10 @@ Thời điểm chạy vẫn được giữ trong JSON gốc. Log và ảnh lưu 
 Các test G chạy trong Ubuntu/WSL với Docker client/engine 29.1.3, Docker Compose 2.40.3+ds1-0ubuntu1~24.04.1, Python 3.12.3, pytest 9.1.1 và Mealie v3.28.0. Ảnh C-01 đến C-03 ghi nhận một môi trường Windows PowerShell riêng: Docker 29.8.0, Compose v5.5.1. Không dùng các phiên bản Windows đó làm môi trường của kết quả test G. Ảnh G là bản tóm tắt được dựng từ stdout pytest; file .log giữ stdout đầy đủ và .xml là JUnit.
 
 Bảng kết quả tổng hợp của chức năng tìm kiếm nằm trong [báo cáo kiểm thử cuối kỳ](../bao-cao/BaoCao_TongKet_KiemThuTimKiem.docx).
+
+## GitHub Actions
+
+| File | Nội dung |
+| --- | --- |
+| `CI-run45807749019.md` | Ghi nhận PR #53, commit, trạng thái xanh, thời gian chạy và đường dẫn run trên GitHub |
+| `CI-run45807749019-ket-qua-test.zip` | Artifact `ket-qua-test` tải từ run #1; bên trong có JUnit `ket-qua.xml` với 19 ca đạt |
