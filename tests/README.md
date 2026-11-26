@@ -27,7 +27,7 @@ Mỗi lần mở Command Prompt mới phải chạy lại lệnh `activate`.
 ## Chuẩn bị Mealie
 
 ```bat
-docker compose up -d
+docker compose up -d --wait
 python scripts\chuan_bi_muc_c.py seed
 ```
 
@@ -47,14 +47,15 @@ set MEALIE_PASSWORD=MyPassword
 
 - `MEALIE_URL`, `MEALIE_USER`, `MEALIE_PASS` dùng cho test. Không đặt thì lấy đúng ba giá trị trên.
 - `MEALIE_EMAIL`, `MEALIE_PASSWORD` dùng cho script nạp dữ liệu mẫu.
-- Nếu đã làm trình thiết lập trên giao diện (tài khoản `nhom22@example.com` / `Nhom22@Mealie`) thì đặt các biến trên sang tài khoản đó, hoặc chạy `scripts\dung_lai.bat` để quay về tài khoản mặc định.
+- Mealie mới dựng mặc định có tài khoản `changeme@example.com` / `MyPassword`; test, seed và CI đều dùng tài khoản này nếu không đặt biến.
+- Máy nào đã chạy trình thiết lập trên giao diện và dùng tài khoản riêng (ví dụ `nhom22@example.com` / `Nhom22@Mealie`) thì đặt cả bốn biến `MEALIE_USER`, `MEALIE_PASS`, `MEALIE_EMAIL`, `MEALIE_PASSWORD` theo tài khoản đó; hoặc chạy `scripts\dung_lai.bat` để quay về mặc định.
 - Tên cũ `MEALIE_BASE_URL` và `MEALIE_PASSWORD` vẫn dùng được thay cho `MEALIE_URL` và `MEALIE_PASS`.
 
 ## Lệnh chạy
 
 | Lệnh | Tác dụng |
 | --- | --- |
-| `pytest` | Bộ mặc định: 2-wise (tìm kiếm 19 test) |
+| `pytest` | Bộ mặc định: 2-wise (tìm kiếm 19 test) và 2 test thứ tự tên (đang xfail) |
 | `pytest -m o3` | Bộ 3-wise (tìm kiếm 67 test) |
 | `pytest -m het` | Thử hết mọi tổ hợp (tìm kiếm 5.832 test, cần có `cases/search.all.tsv`, chạy khoảng 1 đến 2 phút) |
 | `pytest -k tim_kiem` | Chỉ các test có chữ `tim_kiem` |
@@ -82,14 +83,16 @@ Dòng cuối của pytest ghi số test đạt, đỏ và thời gian chạy. Ha
 Mỗi test gửi `GET /api/recipes` với một tổ hợp tham số trong `cases/search.*.tsv`, rồi kiểm tra:
 
 - Mã trạng thái phải là 200 (không lỗi 500).
-- Không trả quá `perPage` công thức.
-- Công thức nào trả về cũng phải đúng bộ lọc category và tag (đúng với `requireAllCategories`, `requireAllTags`).
-- Từ khóa không có trong dữ liệu thì không có kết quả.
-- Khi không có từ khóa và `perPage` = 50, tập kết quả phải đúng bằng tập công thức tự lọc bằng tay.
-- `orderBy` = `created_at` thì đúng thứ tự thời gian tạo, tăng hoặc giảm theo `orderDirection`.
+- Thông tin phân trang đúng: `page`, `per_page`, `total`, `total_pages`, và số công thức ở trang 1 (I3).
+- Công thức nào trả về cũng phải đúng bộ lọc category và tag, đúng với `requireAllCategories` và `requireAllTags` (I6).
+- Từ khóa không có trong dữ liệu thì không có kết quả (I6).
+- Duyệt hết mọi trang: không công thức nào xuất hiện hai lần, và gộp lại phải đúng bằng tập công thức tự lọc từ danh sách đầy đủ (I7). Từ khóa `ch` khớp theo tên, không phân biệt dấu.
+- `orderBy` = `created_at` thì đúng thứ tự thời gian tạo trên mọi trang, tăng hoặc giảm theo `orderDirection`.
+- `orderBy` = `name` thì đúng thứ tự mã Unicode trên mọi trang.
 - `orderBy` = `random` thì gọi hai lần cùng `paginationSeed` phải ra cùng thứ tự.
+- Riêng hai test `test_sap_xep_ten_theo_bang_chu_cai[asc]` và `[desc]`: sắp xếp theo tên phải theo bảng chữ cái (bỏ dấu). Mealie sắp theo mã Unicode nên "Cà phê sữa" đứng sau "Chè đậu"; hai test này đang để xfail, chờ nhóm xác nhận và cấp mã DEF.
 
-Thông báo lỗi ghi rõ bất biến bị vi phạm (I1, I2, I6), có thể đưa thẳng vào phiếu lỗi.
+Thông báo lỗi ghi rõ bất biến bị vi phạm (I1, I2, I3, I6, I7), có thể đưa thẳng vào phiếu lỗi.
 
 ## Ghi lỗi đã báo (xfail)
 
@@ -100,6 +103,8 @@ LOI_DA_BAO = {
     "test_tim_kiem_2wise[S12]": "DEF-01: perPage=1 kết hợp orderBy=random trả 500",
 }
 ```
+
+Hai test sắp xếp tên hiện được đánh dấu XFAIL tạm thời với mã `DEF-chua-cap-ma`. Đây là phát hiện chờ nhóm xác nhận, chưa phải lỗi đã được cấp mã DEF.
 
 Chỉ Tuấn sửa `chung.py`, `conftest.py`, `pytest.ini`, `loi_da_bao.py`. Cần thêm gì thì nhắn Tuấn.
 

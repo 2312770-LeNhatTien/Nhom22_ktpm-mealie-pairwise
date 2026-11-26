@@ -1,31 +1,32 @@
-$ pytest -v --junitxml=docs/evidence/G-tim-kiem-lan1.xml
 ============================= test session starts ==============================
-platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.7.0 -- /mnt/f/KTPM/.venv/bin/python
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.7.0 -- /home/abc/.cache/ktpm-pytest-venv/bin/python3
 cachedir: .pytest_cache
 rootdir: /mnt/f/KTPM
 configfile: pytest.ini
 testpaths: tests
-collecting ... collected 5918 items / 5899 deselected / 19 selected
+collecting ... collected 5920 items / 5899 deselected / 21 selected
 
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S01] PASSED                  [  5%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S02] PASSED                  [ 10%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S03] PASSED                  [ 15%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S04] PASSED                  [ 21%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S05] PASSED                  [ 26%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S06] PASSED                  [ 31%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S07] PASSED                  [ 36%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S08] PASSED                  [ 42%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S09] PASSED                  [ 47%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S10] PASSED                  [ 52%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S11] PASSED                  [ 57%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S12] PASSED                  [ 63%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S13] PASSED                  [ 68%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S14] PASSED                  [ 73%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S15] PASSED                  [ 78%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S16] PASSED                  [ 84%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S17] PASSED                  [ 89%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S18] PASSED                  [ 94%]
-tests/test_tim_kiem.py::test_tim_kiem_2wise[S19] PASSED                  [100%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S01] PASSED                  [  4%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S02] PASSED                  [  9%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S03] PASSED                  [ 14%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S04] PASSED                  [ 19%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S05] PASSED                  [ 23%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S06] PASSED                  [ 28%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S07] PASSED                  [ 33%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S08] PASSED                  [ 38%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S09] PASSED                  [ 42%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S10] PASSED                  [ 47%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S11] PASSED                  [ 52%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S12] PASSED                  [ 57%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S13] PASSED                  [ 61%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S14] PASSED                  [ 66%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S15] PASSED                  [ 71%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S16] PASSED                  [ 76%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S17] PASSED                  [ 80%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S18] PASSED                  [ 85%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S19] PASSED                  [ 90%]
+tests/test_tim_kiem.py::test_sap_xep_ten_theo_bang_chu_cai[asc] XFAIL    [ 95%]
+tests/test_tim_kiem.py::test_sap_xep_ten_theo_bang_chu_cai[desc] XFAIL   [100%]
 
 ------ generated xml file: /mnt/f/KTPM/docs/evidence/G-tim-kiem-lan1.xml -------
-===================== 19 passed, 5899 deselected in 2.00s ======================
+================ 19 passed, 5899 deselected, 2 xfailed in 1.82s ================

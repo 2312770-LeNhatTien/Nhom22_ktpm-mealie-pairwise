@@ -1,11 +1,10 @@
-$ pytest -v -m het --junitxml=docs/evidence/G-tim-kiem-thu-het.xml
 ============================= test session starts ==============================
-platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.7.0 -- /mnt/f/KTPM/.venv/bin/python
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.7.0 -- /home/abc/.cache/ktpm-pytest-venv/bin/python3
 cachedir: .pytest_cache
 rootdir: /mnt/f/KTPM
 configfile: pytest.ini
 testpaths: tests
-collecting ... collected 5918 items / 86 deselected / 5832 selected
+collecting ... collected 5920 items / 88 deselected / 5832 selected
 
 tests/test_tim_kiem.py::test_tim_kiem_thu_het[S0001] PASSED              [  0%]
 tests/test_tim_kiem.py::test_tim_kiem_thu_het[S0002] PASSED              [  0%]
@@ -5841,4 +5840,4 @@ tests/test_tim_kiem.py::test_tim_kiem_thu_het[S5831] PASSED              [ 99%]
 tests/test_tim_kiem.py::test_tim_kiem_thu_het[S5832] PASSED              [100%]
 
 ----- generated xml file: /mnt/f/KTPM/docs/evidence/G-tim-kiem-thu-het.xml -----
-================ 5832 passed, 86 deselected in 99.21s (0:01:39) ================
+=============== 5832 passed, 88 deselected in 131.79s (0:02:11) ================
