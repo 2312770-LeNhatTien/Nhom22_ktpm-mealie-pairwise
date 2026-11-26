@@ -14,7 +14,7 @@
 
    **Thực tế:** `Cà phê sữa` đứng sau `Chè đậu`. Chiều `desc` cho thứ tự đảo tương ứng.
 
-5. **Nguyên nhân (file và hàm trong mã Mealie v3.28.0):**
+5. **Nguyên nhân (file và hàm trong mã Mealie v3.28.0):** Trong `mealie/repos/repository_recipes.py` và `mealie/repos/repository_generic.py` (hàm xử lý phân trang và sắp xếp `get_all` / `page_all`), tham số `orderBy` và `orderDirection` được đưa trực tiếp vào mệnh đề `.order_by()` của SQLAlchemy trên cột `RecipeModel.name` mà không cấu hình Collation tiếng Việt (như `COLLATE "vi_VN"` hoặc ICU collation). Do đó, cơ sở dữ liệu so sánh theo thứ tự mã điểm nhị phân Unicode (Code Point): ký tự 'à' (`U+00E0`, giá trị 224) lớn hơn ký tự ASCII 'h' (`U+0068`, giá trị 104), khiến từ "Cà" bị xếp sau "Ch", không đúng quy tắc alphabet tiếng Việt.
 
 6. **Mức độ:** Thấp — danh sách vẫn trả về đầy đủ và API không lỗi, nhưng thứ tự tên chưa phù hợp với cách đọc alphabet tiếng Việt.
 7. **Bằng chứng:** `docs/evidence/G-tim-kiem-lan1.log`, `G-tim-kiem-lan1.xml`, `G-tim-kiem-lan2.log` và `G-tim-kiem-lan2.xml`.
