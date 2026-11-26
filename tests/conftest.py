@@ -1,44 +1,46 @@
-"""Phần dùng chung cho mọi file test: địa chỉ Mealie, đăng nhập, đọc file case."""
-import csv
-import os
-import uuid
-from pathlib import Path
-
 import pytest
-import requests
 
-# Mặc định theo bảng dùng chung trong README. Máy nào đổi cổng thì đặt biến môi trường
-# MEALIE_BASE_URL thay vì sửa file này, ví dụ:  set MEALIE_BASE_URL=http://localhost:9926
-BASE_URL = os.getenv("MEALIE_BASE_URL", "http://localhost:9925").rstrip("/")
-ADMIN_EMAIL = os.getenv("MEALIE_USER", "nhom22@example.com")
-ADMIN_PASSWORD = os.getenv("MEALIE_PASSWORD", "Nhom22@Mealie")
-
-CASES_DIR = Path(__file__).resolve().parent.parent / "cases"
-
-
-def doc_cases(ten_file):
-    """Đọc một file .tsv do PICT sinh ra, trả về danh sách dict (mỗi dict là một test case)."""
-    with open(CASES_DIR / ten_file, encoding="utf-8", newline="") as f:
-        return list(csv.DictReader(f, delimiter="\t"))
-
-
-def dang_nhap(email, mat_khau):
-    """Gọi API đăng nhập, trả về header Authorization để gắn vào các lần gọi sau."""
-    r = requests.post(
-        f"{BASE_URL}/api/auth/token",
-        data={"username": email, "password": mat_khau},
-        timeout=10,
-    )
-    assert r.status_code == 200, f"Đăng nhập thất bại: {r.status_code} {r.text}"
-    return {"Authorization": "Bearer " + r.json()["access_token"]}
+from chung import Api
+from loi_da_bao import LOI_DA_BAO
 
 
 @pytest.fixture(scope="session")
-def admin():
-    """Header của tài khoản admin dùng chung. Chỉ đăng nhập một lần cho cả lượt chạy."""
-    return dang_nhap(ADMIN_EMAIL, ADMIN_PASSWORD)
+def api():
+    return Api()
 
 
-def ten_khong_trung(tien_to):
-    """Tạo tên không trùng để các case không giẫm lên dữ liệu của nhau."""
-    return f"{tien_to} {uuid.uuid4().hex[:8]}"
+def tim_hoac_tao(api, path_list, path_create, ten):
+    s, d = api("GET", path_list, params={"perPage": 200})
+    for it in d["items"]:
+        if it.get("name") == ten:
+            return it
+    s, d = api("POST", path_create, json={"name": ten})
+    assert s in (200, 201), (path_create, s, d)
+    return d
+
+
+@pytest.fixture(scope="session")
+def nen(api):
+    n = {}
+    s, d = api("GET", "/api/organizers/categories", params={"perPage": 50})
+    cats = {c["name"]: c for c in d["items"]}
+    s, d = api("GET", "/api/organizers/tags", params={"perPage": 50})
+    tags = {t["name"]: t for t in d["items"]}
+    n["cats"] = [cats["Món chính"], cats["Tráng miệng"]]
+    n["tags"] = [tags["Chay"], tags["Nhanh"]]
+    n["unit"] = tim_hoac_tao(api, "/api/units", "/api/units", "PW-gram")
+    n["food"] = tim_hoac_tao(api, "/api/foods", "/api/foods", "PW-ca chua")
+    s, d = api("GET", "/api/groups/labels", params={"perPage": 200})
+    lab = next((x for x in d["items"] if x["name"] == "PW-rau cu"), None)
+    if lab is None:
+        s, lab = api("POST", "/api/groups/labels", json={"name": "PW-rau cu", "color": "#4caf50"})
+    n["label"] = lab
+    s, d = api("GET", "/api/recipes", params={"search": "Phở bò", "perPage": 1})
+    n["recipe_id"] = d["items"][0]["id"]
+    return n
+
+
+def pytest_collection_modifyitems(items):
+    for it in items:
+        if it.name in LOI_DA_BAO:
+            it.add_marker(pytest.mark.xfail(reason=LOI_DA_BAO[it.name], strict=False))

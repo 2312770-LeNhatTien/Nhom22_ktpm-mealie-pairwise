@@ -1,0 +1,9 @@
+PICT 3.7.4 (Windows CLI)
+Official release: https://github.com/microsoft/pict/releases/tag/v3.7.4
+Download: https://github.com/microsoft/pict/releases/download/v3.7.4/pict.exe
+Size: 207,360 bytes
+SHA-256: 80ABA862739CF18B4FAA13D408163324D188A1C4EFCCDD977D9C5BA3F8950BBD
+License: MIT; see PICT-LICENSE.TXT.
+
+The binary is included at tools\pict.exe. scripts\sinh_case.bat adds tools to PATH for the current Command Prompt window. To generate exhaustive search cases manually:
+  tools\pict.exe models\search.txt /o:9 /r:22 > cases\search.all.tsv
