@@ -1,5 +1,5 @@
 ============================= test session starts ==============================
-platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.7.0 -- /home/abc/.cache/ktpm-pytest-venv/bin/python3
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.7.0 -- /home/abc/.cache/ktpm-pytest-venv/bin/python
 cachedir: .pytest_cache
 rootdir: /mnt/f/KTPM
 configfile: pytest.ini
@@ -5840,4 +5840,4 @@ tests/test_tim_kiem.py::test_tim_kiem_thu_het[S5831] PASSED              [ 99%]
 tests/test_tim_kiem.py::test_tim_kiem_thu_het[S5832] PASSED              [100%]
 
 ----- generated xml file: /mnt/f/KTPM/docs/evidence/G-tim-kiem-thu-het.xml -----
-=============== 5832 passed, 88 deselected in 131.79s (0:02:11) ================
+=============== 5832 passed, 88 deselected in 130.21s (0:02:10) ================

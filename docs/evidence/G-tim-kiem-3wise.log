@@ -1,5 +1,5 @@
 ============================= test session starts ==============================
-platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.7.0 -- /home/abc/.cache/ktpm-pytest-venv/bin/python3
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.7.0 -- /home/abc/.cache/ktpm-pytest-venv/bin/python
 cachedir: .pytest_cache
 rootdir: /mnt/f/KTPM
 configfile: pytest.ini
@@ -75,4 +75,4 @@ tests/test_tim_kiem.py::test_tim_kiem_3wise[S066] PASSED                 [ 98%]
 tests/test_tim_kiem.py::test_tim_kiem_3wise[S067] PASSED                 [100%]
 
 ------ generated xml file: /mnt/f/KTPM/docs/evidence/G-tim-kiem-3wise.xml ------
-===================== 67 passed, 5853 deselected in 2.95s ======================
+===================== 67 passed, 5853 deselected in 2.63s ======================

@@ -1,5 +1,5 @@
 ============================= test session starts ==============================
-platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.7.0 -- /home/abc/.cache/ktpm-pytest-venv/bin/python3
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.7.0 -- /home/abc/.cache/ktpm-pytest-venv/bin/python
 cachedir: .pytest_cache
 rootdir: /mnt/f/KTPM
 configfile: pytest.ini
@@ -29,4 +29,4 @@ tests/test_tim_kiem.py::test_sap_xep_ten_theo_bang_chu_cai[asc] XFAIL    [ 95%]
 tests/test_tim_kiem.py::test_sap_xep_ten_theo_bang_chu_cai[desc] XFAIL   [100%]
 
 ------ generated xml file: /mnt/f/KTPM/docs/evidence/G-tim-kiem-lan1.xml -------
-================ 19 passed, 5899 deselected, 2 xfailed in 1.82s ================
+================ 19 passed, 5899 deselected, 2 xfailed in 1.73s ================

@@ -13,10 +13,10 @@ Nhóm dùng Mealie v3.28.0 ở cổng 9925 để chuẩn bị dữ liệu và ki
 | `C-10` đến `C-12` PNG | Danh sách 12 món, lọc category còn 5, thêm tag còn 2 |
 | `D-01` PNG | Thống kê của PICT cho 4 model (19, 14, 16 và 9 test case ở mức 2-wise) |
 | `D-02` PNG | Kết quả `kiem_tra_cap.py --all`: cả 4 file case phủ 100% cặp giá trị |
-| `G-tim-kiem-lan1.log` / `.xml` | Docker 2-wise lượt 1: 19 đạt, 2 xfail; stdout đầy đủ và JUnit XML |
-| `G-tim-kiem-lan2.log` / `.xml` | Docker 2-wise lượt 2: 19 đạt, 2 xfail; stdout đầy đủ và JUnit XML |
-| `G-tim-kiem-3wise.log` / `.xml` | Docker 3-wise: 67/67 đạt; stdout đầy đủ và JUnit XML |
-| `G-tim-kiem-thu-het.log` / `.xml` | Docker vét cạn: 5.832/5.832 đạt; stdout đầy đủ và JUnit XML |
+| `G-tim-kiem-lan1.log` / `.xml` / `.png` | Ubuntu/WSL 2-wise lượt 1: 19 đạt, 2 xfail; stdout đầy đủ, JUnit và ảnh chụp lệnh/kết quả |
+| `G-tim-kiem-lan2.log` / `.xml` / `.png` | Ubuntu/WSL 2-wise lượt 2: 19 đạt, 2 xfail; stdout đầy đủ, JUnit và ảnh chụp lệnh/kết quả |
+| `G-tim-kiem-3wise.log` / `.xml` / `.png` | Ubuntu/WSL 3-wise: 67/67 đạt; stdout đầy đủ, JUnit và ảnh chụp lệnh/kết quả |
+| `G-tim-kiem-thu-het.log` / `.xml` / `.png` | Ubuntu/WSL vét cạn: 5.832/5.832 đạt; stdout đầy đủ, JUnit và ảnh chụp lệnh/kết quả |
 
 Hai ảnh D-01 và D-02 là kết quả in ra của lệnh, lưu thành ảnh để đưa vào báo cáo; có thể chạy lại bằng `scripts\sinh_case.bat` và `python scripts\kiem_tra_cap.py --all`.
 
@@ -38,7 +38,7 @@ Các ảnh giữ nguyên dòng lệnh và kết quả: Docker 29.8.0, Compose v5
 
 Thời điểm chạy vẫn được giữ trong JSON gốc. Log và ảnh lưu trong repo không chứa mật khẩu/token đăng nhập. Tài khoản example.com là dữ liệu lab đã quy ước trong README.
 
-Các test G chạy trong Ubuntu/WSL với Docker client/engine 29.1.3, Docker Compose 2.40.3+ds1-0ubuntu1~24.04.1, Python 3.12.3, pytest 9.1.1 và Mealie v3.28.0. Ảnh C-01 đến C-03 ghi nhận một môi trường Windows PowerShell riêng: Docker 29.8.0, Compose v5.5.1. Không dùng các phiên bản Windows đó làm môi trường của kết quả test G. Bằng chứng chạy mới gồm stdout đầy đủ trong file .log và JUnit trong file .xml; ảnh chụp giao diện sẽ được bổ sung riêng.
+Các test G chạy trong Ubuntu/WSL với Docker client/engine 29.1.3, Docker Compose 2.40.3+ds1-0ubuntu1~24.04.1, Python 3.12.3, pytest 9.1.1 và Mealie v3.28.0. Ảnh C-01 đến C-03 ghi nhận một môi trường Windows PowerShell riêng: Docker 29.8.0, Compose v5.5.1. Không dùng các phiên bản Windows đó làm môi trường của kết quả test G. Mỗi ảnh G là ảnh chụp trực tiếp terminal Ubuntu/WSL, hiển thị lệnh chạy và kết quả cuối; file .log giữ stdout đầy đủ và file .xml là JUnit.
 
 Bảng kết quả tổng hợp của chức năng tìm kiếm nằm trong [báo cáo kiểm thử cuối kỳ](../bao-cao/BaoCao_TongKet_KiemThuTimKiem.docx).
 
@@ -47,3 +47,4 @@ Bảng kết quả tổng hợp của chức năng tìm kiếm nằm trong [báo
 | File | Nội dung |
 | --- | --- |
 | `CI-run45819586316.md` / `CI-run45819586316-ket-qua-test.zip` | PR #54, run #6: thành công; 19 đạt, 2 xfail, 0 lỗi; artifact JUnit đã tải về |
+| `CI-run45826298971.md` / `CI-run45826298971-ket-qua-test.zip` | PR #55, run #10: thành công; 19 đạt, 2 xfail; artifact JUnit đã tải về |
