@@ -18,3 +18,9 @@ Thumbs.db
 
 # Ket qua chay thu (khong dua len Git)
 scripts/ket_qua*.json
+
+# Ket qua pytest chay o thu muc goc
+ket-qua.xml
+
+# Track the bundled PICT generator
+!tools/pict.exe

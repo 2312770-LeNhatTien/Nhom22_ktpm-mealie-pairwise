@@ -1,0 +1,40 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  chay-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      MEALIE_URL: http://localhost:9925
+      MEALIE_USER: changeme@example.com
+      MEALIE_PASS: MyPassword
+      MEALIE_EMAIL: changeme@example.com
+      MEALIE_PASSWORD: MyPassword
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Cai thu vien
+        run: pip install -r requirements.txt
+      - name: Dung Mealie
+        run: docker compose up -d --wait
+      - name: Nap du lieu mau
+        run: python scripts/chuan_bi_muc_c.py seed
+      - name: Chay test
+        run: pytest -v --junitxml=ket-qua.xml
+      - name: Log Mealie khi loi
+        if: failure()
+        run: docker compose logs mealie
+      - name: Luu ket qua
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ket-qua-test
+          path: ket-qua.xml

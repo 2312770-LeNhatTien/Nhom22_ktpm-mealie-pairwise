@@ -16,3 +16,6 @@ Nơi để báo cáo, hướng dẫn, sơ đồ và bằng chứng.
 Quy ước đặt tên ảnh trong `evidence/`: chữ cái của mục, số thứ tự, mô tả ngắn. Ví dụ `C-01-docker-version.png`, `C-11-search-loc-category.png`.
 
 Phần môi trường có [hướng dẫn môi trường và kết quả kiểm tra](muc-c.md), [bảng dữ liệu mẫu](seed-data.md) và [danh sách bằng chứng](evidence/README.md). Nạp dữ liệu bằng `python scripts/chuan_bi_muc_c.py seed` từ thư mục gốc repo.
+## Báo cáo kiểm thử cuối kỳ
+
+[Báo cáo kết quả kiểm thử chức năng tìm kiếm](bao-cao/BaoCao_TongKet_KiemThuTimKiem.docx) ghi lại kết quả 2-wise, 3-wise, vét cạn, môi trường Docker và các giới hạn của bộ dữ liệu mẫu.

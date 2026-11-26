@@ -1,0 +1,31 @@
+$ pytest -v --junitxml=docs/evidence/G-tim-kiem-lan1.xml
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.7.0 -- /mnt/f/KTPM/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /mnt/f/KTPM
+configfile: pytest.ini
+testpaths: tests
+collecting ... collected 5918 items / 5899 deselected / 19 selected
+
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S01] PASSED                  [  5%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S02] PASSED                  [ 10%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S03] PASSED                  [ 15%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S04] PASSED                  [ 21%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S05] PASSED                  [ 26%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S06] PASSED                  [ 31%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S07] PASSED                  [ 36%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S08] PASSED                  [ 42%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S09] PASSED                  [ 47%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S10] PASSED                  [ 52%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S11] PASSED                  [ 57%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S12] PASSED                  [ 63%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S13] PASSED                  [ 68%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S14] PASSED                  [ 73%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S15] PASSED                  [ 78%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S16] PASSED                  [ 84%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S17] PASSED                  [ 89%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S18] PASSED                  [ 94%]
+tests/test_tim_kiem.py::test_tim_kiem_2wise[S19] PASSED                  [100%]
+
+------ generated xml file: /mnt/f/KTPM/docs/evidence/G-tim-kiem-lan1.xml -------
+===================== 19 passed, 5899 deselected in 2.00s ======================

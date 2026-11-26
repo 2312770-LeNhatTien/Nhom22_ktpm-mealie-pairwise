@@ -1,7 +1,9 @@
 @echo off
 rem Sinh lai cac file test case tu 4 model PICT (2-wise va 3-wise, hat giong co dinh /r:22).
 rem Cach dung: mo Command Prompt o thu muc goc cua repo, go: scripts\sinh_case.bat
-rem Yeu cau: pict.exe nam trong PATH (tai tu https://github.com/microsoft/pict/releases)
+rem PICT 3.7.4 is bundled at tools\pict.exe.
+rem Add the bundled directory to PATH for this Command Prompt only.
+set "PATH=%~dp0..\tools;%PATH%"
 
 for %%M in (recipe search mealplan shopping) do (
     pict models\%%M.txt /o:2 /r:22 > cases\%%M.o2.tsv

@@ -119,7 +119,7 @@ docs/seed-data.md    dữ liệu mẫu dùng cho test
 
 ## Sinh lại test case
 
-Tải `pict.exe` từ https://github.com/microsoft/pict/releases và thêm vào PATH. Mở **Command Prompt** (không dùng PowerShell cho lệnh có dấu `>`) ở thư mục gốc của repo:
+Repo kèm PICT 3.7.4 tại `tools\pict.exe`; `scripts\sinh_case.bat` tự thêm thư mục này vào PATH trong cửa sổ Command Prompt hiện tại. Nếu tải PICT riêng, lấy từ https://github.com/microsoft/pict/releases. Mở **Command Prompt** (không dùng PowerShell cho lệnh có dấu `>`) ở thư mục gốc repo:
 
 ```bat
 scripts\sinh_case.bat
@@ -128,8 +128,8 @@ scripts\sinh_case.bat
 Hoặc chạy tay cho từng model (`/o:2` phủ mọi cặp, `/o:3` phủ mọi bộ ba, `/r:22` cố định hạt giống để ai chạy cũng ra đúng bộ case):
 
 ```bat
-pict models\search.txt /o:2 /r:22 > cases\search.o2.tsv
-pict models\search.txt /o:2 /r:22 /s
+tools\pict.exe models\search.txt /o:2 /r:22 > cases\search.o2.tsv
+tools\pict.exe models\search.txt /o:2 /r:22 /s
 ```
 
 Lệnh thứ hai in thống kê số cặp giá trị cần phủ và số test sinh ra. Số case có thể lệch 1–2 so với file trong `cases/` tùy phiên bản PICT, vì có nhiều bộ test cùng phủ đủ mọi cặp.
