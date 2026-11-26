@@ -1,51 +1,51 @@
 {
-  "recordedAt": "2026-10-12T10:38:12+07:00",
+  "recordedAt": "2026-11-26T18:50:30+07:00",
   "baseUrl": "http://localhost:9925",
   "version": "v3.28.0",
   "categories": [
     {
-      "id": "7ee140e6-385a-44b1-87ff-31343f6aee65",
-      "groupId": "930d5547-29b7-474b-9918-80955420709d",
       "name": "Món chính",
+      "id": "ca0b5982-67fc-47d3-810d-501868f5d202",
+      "groupId": "09aa6be2-d27d-49e4-8646-531b1346497c",
       "slug": "mon-chinh",
-      "recipeCount": 5
+      "recipeCount": 0
     },
     {
-      "id": "4a48dcff-8591-49e0-a717-292eaa288c13",
-      "groupId": "930d5547-29b7-474b-9918-80955420709d",
       "name": "Tráng miệng",
+      "id": "885c1571-e76b-4577-a9eb-d57d36898c93",
+      "groupId": "09aa6be2-d27d-49e4-8646-531b1346497c",
       "slug": "trang-mieng",
-      "recipeCount": 4
+      "recipeCount": 0
     },
     {
-      "id": "5adbd2ad-eb1f-4036-af73-81cc99a30317",
-      "groupId": "930d5547-29b7-474b-9918-80955420709d",
       "name": "Đồ uống",
+      "id": "24b7ca8f-dd04-4b4e-a244-d3f4160435c1",
+      "groupId": "09aa6be2-d27d-49e4-8646-531b1346497c",
       "slug": "do-uong",
-      "recipeCount": 3
+      "recipeCount": 0
     }
   ],
   "tags": [
     {
-      "id": "46e46da8-a5d4-404c-8603-02bc273f7eff",
-      "groupId": "930d5547-29b7-474b-9918-80955420709d",
       "name": "Nhanh",
+      "groupId": "09aa6be2-d27d-49e4-8646-531b1346497c",
+      "id": "f451518f-dc99-4f72-b3c0-5d168ff261ba",
       "slug": "nhanh",
-      "recipeCount": 4
+      "recipeCount": 0
     },
     {
-      "id": "f0811341-b0c4-4fdf-ae97-78f40b5cf6b9",
-      "groupId": "930d5547-29b7-474b-9918-80955420709d",
       "name": "Chay",
+      "groupId": "09aa6be2-d27d-49e4-8646-531b1346497c",
+      "id": "d9dad338-2799-4711-a7da-8af53fa5a054",
       "slug": "chay",
-      "recipeCount": 4
+      "recipeCount": 0
     },
     {
-      "id": "6f44e8ff-6d9b-4f80-af8f-f65f91c8127a",
-      "groupId": "930d5547-29b7-474b-9918-80955420709d",
       "name": "Cay",
+      "groupId": "09aa6be2-d27d-49e4-8646-531b1346497c",
+      "id": "b34cd4fa-7710-4020-884f-bd3969bfb86c",
       "slug": "cay",
-      "recipeCount": 2
+      "recipeCount": 0
     }
   ],
   "recipes": [
