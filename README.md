@@ -57,6 +57,16 @@ Từ đó về sau đăng nhập bằng `nhom22@example.com` / `Nhom22@Mealie`. 
 
 Nếu chạy `docker compose down -v` thì dữ liệu bị xóa hết và phải thiết lập lại từ đầu.
 
+### Dựng lại Mealie sạch bằng một lệnh
+
+Bật Docker Desktop, rồi ở thư mục gốc của repo chạy:
+
+```bat
+scripts\dung_lai.bat
+```
+
+Script xóa dữ liệu, dựng lại Mealie, nạp 12 công thức mẫu rồi mở một cửa sổ đã đặt sẵn biến môi trường để chạy `pytest` (mất khoảng 40 giây). **Cẩn thận:** script chạy `docker compose down -v` nên mất luôn tài khoản `nhom22` đã thiết lập. Sau khi dựng lại chỉ còn tài khoản mặc định `changeme@example.com` / `MyPassword`, và script dùng đúng tài khoản này.
+
 | Lệnh | Tác dụng |
 | --- | --- |
 | `docker compose up -d` | Tải image (lần đầu) và chạy Mealie ở chế độ nền |
@@ -97,7 +107,7 @@ docker-compose.yml   file chạy Mealie
 requirements.txt     thư viện Python cho code test
 models/              4 model PICT (recipe, search, mealplan, shopping)
 cases/               test case do PICT sinh: *.o2.tsv (2-wise), *.o3.tsv (3-wise)
-scripts/             sinh case, kiểm tra độ phủ cặp, chạy thử 4 luồng, nạp dữ liệu mẫu
+scripts/             sinh case, kiểm tra độ phủ cặp, chạy thử 4 luồng, nạp dữ liệu mẫu, dựng lại Mealie (dung_lai.bat)
 tests/               bộ pytest (làm ở cuối kỳ)
 docs/bao-cao/        báo cáo giữa kỳ (.docx, .pdf) và slide
 docs/TestCase_GiuaKy.xlsx   76 test case, mỗi luồng một sheet
