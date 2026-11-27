@@ -115,20 +115,20 @@ Quy tắc kỳ vọng: Dữ liệu sai phạm vi hoặc giá trị biên phải 
 - **Nguyên nhân:** Khi xử lý `orderBy=name`, hàm `_transform_model_attr` bọc cột tên bằng `func.lower()`. Do Mealie mặc định chạy SQLite và không cấu hình collation tiếng Việt, SQLite thực hiện so sánh theo mã điểm Unicode nhị phân (Code Point). Ký tự có dấu `'à'` (`U+00E0` = 224) có mã lớn hơn chữ cái ASCII `'h'` (`U+0068` = 104), dẫn đến *"Chè đậu"* bị xếp trước *"Cà phê sữa"*.
 
 #### DEF-02: Tên công thức rỗng gây lỗi 500 (Trung bình)
-- **File & Hàm:** `mealie/schema/recipe/recipe.py` — hàm `create_recipe_slug()`: trường `name: str` trong class `CreateRecipe` không có ràng buộc `min_length=1`; khi `slugify(name)` trả về chuỗi rỗng, hàm ném `SlugError` chưa được bắt ở route, khiến FastAPI trả về mã 500.
-- **Nguyên nhân:** Thiếu ràng buộc `min_length=1` trên trường `name` và chưa có xử lý `SlugError` trong route handler. Khi tên rỗng, `slugify("")` trả về chuỗi rỗng → `SlugError` không được bắt → HTTP 500 thay vì 422.
+- **File & Hàm:** `mealie/schema/recipe/recipe.py` — class `CreateRecipe` (dòng 115), trường `name: str` (dòng 116) và `RecipeSummary` (dòng 119), trường `name: str | None = None` (dòng 127); `mealie/db/models/recipe/recipe.py` — hàm `validate_name` (dòng 187).
+- **Nguyên nhân:** Schema không có ràng buộc `min_length=1` cho `name`. Khi tên rỗng `""`, hàm `validate_name` (dòng 187) thực hiện `assert name != ""` và ném `AssertionError` (xác nhận qua `docker compose logs mealie`), không được bắt thành 4xx nên FastAPI trả về HTTP 500.
 
 #### DEF-03: Thêm mục mua sắm vào danh sách không tồn tại gây lỗi 500 (Trung bình)
-- **File & Hàm:** `mealie/routes/households/controller_shopping_lists.py` — hàm `create_one()` → gọi service; `mealie/services/household_services/shopping_lists.py` — hàm `bulk_create_items()`: không kiểm tra sự tồn tại của `shoppingListId` trước khi lưu, ngoại lệ DB không được bắt ở controller.
-- **Nguyên nhân:** Service không kiểm tra sự tồn tại của `shoppingListId` trước khi tạo item. Khi lưu vào CSDL, DB ném lỗi vi phạm toàn vẹn dữ liệu, ngoại lệ truyền lên controller mà không được bắt, dẫn đến HTTP 500 thay vì 404 Not Found.
+- **File & Hàm:** `mealie/routes/households/controller_shopping_lists.py` (`create_one` dòng 128–129, `create_many` dòng 122–123); `mealie/services/household_services/shopping_lists.py` (`bulk_create_items` dòng 154, gọi `create_many` dòng 215); `mealie/repos/repository_generic.py` (`create_many` dòng 210: `self.schema.model_validate(x)`).
+- **Nguyên nhân:** Service không kiểm tra sự tồn tại của `shoppingListId` trước khi tạo item. Khi `create_many` (dòng 210) validate `ShoppingListItemOut`, `group_id` và `household_id` bị `None` nên Pydantic ném `ValidationError` (`uuid_type`, xác nhận qua `docker compose logs mealie`), dẫn đến HTTP 500 thay vì 404 Not Found.
 
 #### DEF-04: Số lượng mua sắm âm (-3 lưu 201, -0.5 lỗi 500) (Trung bình)
-- **File & Hàm:** `mealie/schema/household/group_shopping_list.py` — class `ShoppingListItemBase`, trường `quantity: float = 1` không có ràng buộc `ge=0`; `mealie/schema/recipe/recipe_ingredient.py` — hàm `display_fraction()` (dòng ~30–35): dùng dict `SUPERSCRIPT` tra từng ký tự, gây `KeyError: '-'` với số âm.
-- **Nguyên nhân:** Trường `quantity` không có ràng buộc giá trị không âm (`ge=0`), cho phép `-3` lưu thành công vào CSDL. Khi số lượng là số âm lẻ (`-0.5`), hàm `display_fraction` trong `recipe_ingredient.py` tra dict `SUPERSCRIPT` gặp ký tự `'-'` không có trong dict → `KeyError: '-'` không được bắt → HTTP 500.
+- **File & Hàm:** `mealie/schema/household/group_shopping_list.py` — class `ShoppingListItemBase` (dòng 58), trường `quantity: float = 1` (dòng 63); `mealie/schema/recipe/recipe_ingredient.py` — hàm `display_fraction()` (dòng 30–32) dùng `SUPERSCRIPT` (dòng 26).
+- **Nguyên nhân:** Trường `quantity` không có ràng buộc giá trị không âm (`ge=0`), cho phép `-3` lưu thành công vào CSDL. Khi số lượng là số âm lẻ (`-0.5`), hàm `display_fraction` (dòng 32) tra dict `SUPERSCRIPT` gặp ký tự `'-'` không có trong dict → `KeyError: '-'` không được bắt → HTTP 500.
 
 #### DEF-05: Số khẩu phần âm vẫn được lưu (Thấp)
-- **File & Hàm:** `mealie/schema/recipe/recipe.py` — class `RecipeSummary`, trường `recipe_servings: float = 0` không có ràng buộc `ge=0`.
-- **Nguyên nhân:** Schema `RecipeSummary` định nghĩa `recipe_servings: float = 0` nhưng không khai báo điều kiện `ge=0`. Khi gửi `PATCH` với `recipeServings: -5`, Mealie chấp nhận cập nhật và trả về HTTP 200, lưu trữ giá trị `-5.0` phi thực tế vào CSDL.
+- **File & Hàm:** `mealie/schema/recipe/recipe.py` — class `RecipeSummary` (dòng 119), trường `recipe_servings: float = 0` (dòng 130) không có ràng buộc `ge=0`.
+- **Nguyên nhân:** Schema `RecipeSummary` định nghĩa `recipe_servings: float = 0` (dòng 130) nhưng không khai báo điều kiện `ge=0`. Khi gửi `PATCH` với `recipeServings: -5`, Mealie chấp nhận cập nhật và trả về HTTP 200, lưu trữ giá trị `-5.0` phi thực tế vào CSDL.
 
 #### DEF-06: recipeId / foodId không tồn tại vẫn được lưu (Thấp)
 - **File & Hàm:** `mealie/db/models/household/mealplan.py` — cột `recipe_id` có `ForeignKey("recipes.id")` nhưng SQLite mặc định không bật kiểm tra khóa ngoại (`PRAGMA foreign_keys = OFF`); `mealie/schema/household/group_shopping_list.py` — class `ShoppingListItemBase`, trường `food_id: UUID4 | None = None` không được kiểm tra sự tồn tại trước khi lưu.
