@@ -17,9 +17,9 @@ khác nhau, nên so thời gian giữa các mức trong cùng một luồng.
 | Kế hoạch bữa ăn | Pairwise | 16 | 16 | 0 | 0 | 1,711 / 1,448 |
 | Kế hoạch bữa ăn | 3-wise | 48 | 48 | 0 | 0 | 3,686 / 3,872 |
 | Kế hoạch bữa ăn | Thử hết | 96 | 96 | 0 | 0 | 6,806 / 8,811 |
-| Danh sách mua sắm | Pairwise | 9 | — | — | — | — |
-| Danh sách mua sắm | 3-wise | 23 | — | — | — | — |
-| Danh sách mua sắm | Thử hết | 144 | — | — | — | — |
+| Danh sách mua sắm | Pairwise | 9 | 9 | 0 | 0 | 2,014 / 2,037 |
+| Danh sách mua sắm | 3-wise | 23 | 23 | 0 | 0 | 4,703 / 4,600 |
+| Danh sách mua sắm | Thử hết | 144 | 144 | 0 | 0 | 26,854 / 32,489 |
 
 ## Nhận xét
 
@@ -30,9 +30,8 @@ khác nhau, nên so thời gian giữa các mức trong cùng một luồng.
 - **Công thức.** Cả ba mức đều đạt qua hai lượt. Thử thêm 3-wise và thử hết không phát hiện lỗi mới trong phạm vi model. Pairwise giảm 99,52% số ca so với 2.916 tổ hợp.
 - **Kế hoạch bữa ăn.** Cả ba mức đều đạt trong hai lượt đối chiếu. Pairwise
   chạy 16 ca thay vì 96, giảm 83,33% số ca.
-- **Danh sách mua sắm.** Model có 9 ca Pairwise, 23 ca 3-wise và 144 ca thử
-  hết. Theo phân công, Quý phụ trách chạy Pairwise và thử hết. Chưa có
-  bằng chứng của luồng này trên `main` tại thời điểm đối chiếu.
+- **Danh sách mua sắm.** Pairwise chạy 9 ca thay vì 144, giảm 93,75% số
+  ca. Cả ba mức đều đạt qua hai lượt. 3-wise và thử hết không phát hiện thêm lỗi trong phạm vi model.
 
 Số lỗi mới trong bảng chỉ tính lỗi có phiếu được ghi nhận từ bộ ca tương ứng.
 Kết quả áp dụng cho các giá trị và ràng buộc trong bốn model đã thiết kế.
@@ -45,3 +44,12 @@ Kết quả áp dụng cho các giá trị và ràng buộc trong bốn model đ
   lượt trong [báo cáo công thức](bao-cao/BaoCao_KetQua_CongThuc.md).
 - Kế hoạch bữa ăn chạy lại bộ pytest đã gộp ở PR #57 trên Mealie v3.28.0.
   Bằng chứng nằm trong các XML `G-so-sanh-ke-hoach-*.xml`.
+- Danh sách mua sắm chạy hai lượt cho từng mức trên Mealie v3.28.0 với
+  dữ liệu mẫu. Bằng chứng nằm trong các XML `G-so-sanh-mua-sam-*.xml`.
+  Sau khi dựng Mealie và nạp seed theo README, chạy các lệnh sau để đối chiếu.
+
+  ```text
+  python -m pytest -q scripts/doi_chieu_mua_sam.py
+  python -m pytest -q scripts/doi_chieu_mua_sam.py -m o3
+  python -m pytest -q scripts/doi_chieu_mua_sam.py -m het
+  ```
