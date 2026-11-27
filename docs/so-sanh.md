@@ -27,7 +27,7 @@ khác nhau, nên so thời gian giữa các mức trong cùng một luồng.
   giảm 99,67% số ca so với 5.832 tổ hợp hợp lệ. Hai ca kiểm thử hồi quy
   sắp tên ngoài bộ PICT được đánh dấu XFAIL cho cùng một lỗi
   [DEF-01](loi/DEF-01.md). Chúng không tính vào 19 ca Pairwise trong bảng.
-- **Công thức.** Cả ba mức đều đạt qua hai lượt. Thử thêm 3-wise và thử hết không phát hiện lỗi mới trong phạm vi model. Pairwise giảm 99,52% số ca so với 2.916 tổ hợp. Theo bộ test âm của Quốc Tiến ở [PR #58](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/pull/58), tên rỗng gây HTTP 500 và số khẩu phần âm vẫn được lưu. Hai lỗi này nằm ngoài số liệu Pairwise trong bảng.
+- **Công thức.** Cả ba mức đều đạt qua hai lượt. Thử thêm 3-wise và thử hết không phát hiện lỗi mới trong phạm vi model. Pairwise giảm 99,52% số ca so với 2.916 tổ hợp. Bộ test âm của Quốc Tiến phát hiện hai lỗi nằm ngoài số liệu Pairwise trong bảng: tên công thức rỗng gây HTTP 500 và số khẩu phần âm vẫn được lưu. [DEF-02](loi/DEF-02.md) · [DEF-05](loi/DEF-05.md)
 - **Kế hoạch bữa ăn.** Cả ba mức đều đạt trong hai lượt đối chiếu. Pairwise
   chạy 16 ca thay vì 96, giảm 83,33% số ca.
 - **Danh sách mua sắm.** Pairwise chạy 9 ca thay vì 144, giảm 93,75% số
