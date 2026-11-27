@@ -3,7 +3,7 @@
 **Nhóm 22 — Kiểm thử phần mềm (Đề tài: R02 Mealie v3.28.0 + K06 Pairwise Microsoft PICT)**  
 **Người thực hiện:** Hồ Quốc Tiến (MSSV: 2312769)  
 **Thẻ việc:** CK-18, CK-19  
-**Ngày hoàn thành:** 26/11/2026  
+**Ngày hoàn thành:** 27/11/2026  
 
 ---
 
@@ -15,11 +15,13 @@
    - Thử hết toàn bộ tổ hợp (96 ca: `M001` .. `M096`)  
    **Kết quả:** 100% ca kiểm thử đều **ĐẠT (PASSED)**. Tất cả các bất biến cốt lõi **I1** (không lỗi 500), **I2** (mã HTTP tạo 201, đọc 200), **I3** (toàn vẹn dữ liệu tạo/đọc lại) và **I5** (xóa dữ liệu sạch trong khối `try ... finally`) đều được bảo đảm.
 
-2. **Bộ 18 test âm tính và giá trị biên (Negative Tests):** Đã chuyển đổi từ script chạy thử sang bộ kiểm thử chuẩn `pytest` (`tests/test_am_tinh.py`).
+2. **Bộ 18 test âm tính và giá trị biên (Negative Tests):** Đã chuyển đổi từ script chạy thử sang bộ kiểm thử chuẩn `pytest` (`tests/test_am_tinh.py`) với cơ chế quản lý lỗi tập trung tại `tests/loi_da_bao.py`:
    - **8 ca ĐẠT:** Mealie từ chối hợp lệ bằng mã `4xx` (400 hoặc 422).
-   - **10 ca KHÁC MONG ĐỢI:** Phát hiện 10 lỗi thật của Mealie v3.28.0 (4 ca ném lỗi 500, 6 ca chấp nhận và lưu dữ liệu sai với mã 200/201). Cả 10 ca đã được đánh dấu `@pytest.mark.xfail(strict=False)` theo đúng cơ chế kiểm thử hồi quy (mục 5.6 tài liệu hướng dẫn), giúp CI GitHub Actions luôn đạt trạng thái **XANH (PASS 100%)**.
+   - **9 ca LỖI THẬT (DEF-02 đến DEF-07):** Phát hiện 9 ca lỗi thật (lỗi 500 máy chủ hoặc chấp nhận lưu dữ liệu sai với mã 200/201). Cả 9 ca đều được gắn mã lỗi chính xác trong `tests/loi_da_bao.py`.
+   - **1 ca HÀNH VI CẦN BIẾT (TK-N1):** Lọc category không tồn tại trả về toàn bộ 12 công thức do cơ chế query builder không thêm điều kiện lọc.
+   - Nhờ cơ chế `LOI_DA_BAO` và `pytest_collection_modifyitems`, toàn bộ các ca lỗi được gắn `xfail`, giúp CI GitHub Actions luôn đạt trạng thái **XANH (PASS 100%)**.
 
-3. **Phân tích nguyên nhân lỗi DEF-01 (CK-14):** Đã xác định rõ file và hàm gây lỗi trong mã nguồn Mealie v3.28.0 (`repository_recipes.py` và `repository_generic.py`), giải thích chi tiết cơ chế sắp xếp mã điểm Unicode Code Point trong hệ CSDL.
+3. **Phân tích nguyên nhân lỗi DEF-01 đến DEF-07 và Hành vi cần biết:** Đã xác định rõ file và hàm gây lỗi trong mã nguồn Mealie v3.28.0, hoàn thiện đầy đủ phiếu lỗi chi tiết trong thư mục `docs/loi/`.
 
 ---
 
@@ -51,28 +53,28 @@
 
 Quy tắc kỳ vọng: Dữ liệu sai phạm vi hoặc giá trị biên phải bị từ chối bằng mã `4xx`, không được gây lỗi máy chủ 500 và không được lưu dữ liệu sai lệch.
 
-| Mã ca | Luồng | Mô tả ca kiểm thử | Kết quả thực tế Mealie v3.28.0 | Phân loại |
+| Mã ca | Luồng | Mô tả ca kiểm thử | Kết quả thực tế Mealie v3.28.0 | Phân loại & Mã DEF |
 | :---: | :--- | :--- | :--- | :---: |
-| **CT-N1** | Công thức | Tạo công thức tên rỗng `""` | Trả mã 500 (`AssertionError` trong `validate_name`) | **Lỗi thật (XFAIL)** |
-| **CT-N2** | Công thức | Sửa tên công thức thành rỗng qua PATCH | Trả mã 500 | **Lỗi thật (XFAIL)** |
-| **CT-N3** | Công thức | Số khẩu phần âm (`recipeServings: -5`) | Trả mã 200, lưu khẩu phần = `-5.0` | **Lỗi thật (XFAIL)** |
+| **CT-N1** | Công thức | Tạo công thức tên rỗng `""` | Trả mã 500 (`AssertionError` trong `validate_name`) | **DEF-02 (XFAIL)** |
+| **CT-N2** | Công thức | Sửa tên công thức thành rỗng qua PATCH | Trả mã 500 | **DEF-02 (XFAIL)** |
+| **CT-N3** | Công thức | Số khẩu phần âm (`recipeServings: -5`) | Trả mã 200, lưu khẩu phần = `-5.0` | **DEF-05 (XFAIL)** |
 | **CT-N4** | Công thức | Số khẩu phần là chuỗi chữ (`"abc"`) | Từ chối bằng mã 422 Unprocessable Entity | **Đạt** |
 | **CT-N5** | Công thức | Tên chỉ toàn dấu cách (`"   "`) | Từ chối bằng mã 422 Unprocessable Entity | **Đạt** |
-| **TK-N1** | Tìm kiếm | Lọc category không tồn tại | Trả mã 200, hiển thị toàn bộ 12 công thức | **Lỗi thật (XFAIL)** |
+| **TK-N1** | Tìm kiếm | Lọc category không tồn tại | Trả mã 200, hiển thị toàn bộ 12 công thức | **Hành vi cần biết (XFAIL)** |
 | **TK-N2** | Tìm kiếm | Tên tham số sai kiểu chữ (`require_all_categories`) | FastAPI bỏ qua tham số lạ, lọc theo mặc định (OR) | **Đạt (FastAPI)** |
 | **TK-N3** | Tìm kiếm | `orderBy=random` không có `paginationSeed` | Từ chối bằng mã 400 Bad Request | **Đạt** |
 | **TK-N4** | Tìm kiếm | `perPage = -1` | Trả toàn bộ công thức theo thiết kế của Mealie | **Đạt** |
 | **KH-N1** | Kế hoạch | `entryType` không hợp lệ (`"brunch"`) | Từ chối bằng mã 422 Unprocessable Entity | **Đạt** |
 | **KH-N2** | Kế hoạch | Ngày không tồn tại (`"2026-13-45"`) | Từ chối bằng mã 422 Unprocessable Entity | **Đạt** |
 | **KH-N3** | Kế hoạch | Không có tiêu đề và không có `recipeId` | Từ chối bằng mã 422 Unprocessable Entity | **Đạt** |
-| **KH-N4** | Kế hoạch | `recipeId` không tồn tại (UUID ngẫu nhiên) | Trả mã 201 Created, vẫn lưu `recipeId` giả | **Lỗi thật (XFAIL)** |
-| **MS-N1** | Mua sắm | `shoppingListId` không tồn tại | Trả mã 500 (`ValidationError` khi lưu) | **Lỗi thật (XFAIL)** |
-| **MS-N2** | Mua sắm | Số lượng âm (`quantity: -3`) | Trả mã 201 Created, lưu số lượng `-3` | **Lỗi thật (XFAIL)** |
-| **MS-N3** | Mua sắm | Số lượng âm lẻ (`quantity: -0.5`) | Trả mã 500 (`KeyError '-'` trong `display_fraction`) | **Lỗi thật (XFAIL)** |
-| **MS-N4** | Mua sắm | `foodId` không tồn tại | Trả mã 201 Created, vẫn lưu `foodId` giả | **Lỗi thật (XFAIL)** |
-| **MS-N5** | Mua sắm | Tạo danh sách mua sắm tên rỗng `""` | Trả mã 201 Created, tạo danh sách tên rỗng | **Lỗi thật (XFAIL)** |
+| **KH-N4** | Kế hoạch | `recipeId` không tồn tại (UUID ngẫu nhiên) | Trả mã 201 Created, vẫn lưu `recipeId` giả | **DEF-06 (XFAIL)** |
+| **MS-N1** | Mua sắm | `shoppingListId` không tồn tại | Trả mã 500 (`ValidationError` khi lưu) | **DEF-03 (XFAIL)** |
+| **MS-N2** | Mua sắm | Số lượng âm (`quantity: -3`) | Trả mã 201 Created, lưu số lượng `-3` | **DEF-04 (XFAIL)** |
+| **MS-N3** | Mua sắm | Số lượng âm lẻ (`quantity: -0.5`) | Trả mã 500 (`KeyError '-'` trong `display_fraction`) | **DEF-04 (XFAIL)** |
+| **MS-N4** | Mua sắm | `foodId` không tồn tại | Trả mã 201 Created, vẫn lưu `foodId` giả | **DEF-06 (XFAIL)** |
+| **MS-N5** | Mua sắm | Tạo danh sách mua sắm tên rỗng `""` | Trả mã 201 Created, tạo danh sách tên rỗng | **DEF-07 (XFAIL)** |
 
-**Tổng hợp:** 8 ca Đạt mong đợi, 10 ca phát hiện lỗi thật (được bảo vệ bằng `XFAIL` trong kiểm thử hồi quy).
+**Tổng hợp:** 8 ca Đạt mong đợi, 9 ca Lỗi thật (DEF-02 đến DEF-07), 1 ca Hành vi cần biết (TK-N1).
 
 ---
 
@@ -90,9 +92,56 @@ Quy tắc kỳ vọng: Dữ liệu sai phạm vi hoặc giá trị biên phải 
 
 ---
 
-## 5. Nguyên nhân gốc lỗi DEF-01 (CK-14)
+## 5. Danh sách lỗi phần mềm ghi nhận (DEF-01 đến DEF-07) và Hành vi cần biết
 
-- **Mã lỗi:** DEF-01 (Mức độ: Thấp)
-- **Tên lỗi:** Sắp xếp tên công thức không theo alphabet tiếng Việt.
-- **Nguyên nhân trong mã nguồn Mealie v3.28.0:**
-  Trong `mealie/repos/repository_recipes.py` và `mealie/repos/repository_generic.py`, khi xử lý tham số `orderBy=name`, truy vấn SQLAlchemy gọi thẳng `.order_by(RecipeModel.name.asc())` trên cơ sở dữ liệu mà không cấu hình Collation tiếng Việt (như `COLLATE "vi_VN"`). CSDL so sánh chuỗi theo mã điểm nhị phân Unicode (Code Point). Ký tự có dấu `'à'` (`U+00E0`, mã 224) có giá trị mã lớn hơn chữ cái ASCII `'h'` (`U+0068`, mã 104), dẫn đến kết quả *"Chè đậu"* bị xếp trước *"Cà phê sữa"*.
+### 5.1. Bảng tổng hợp lỗi
+
+| Mã lỗi | Tên lỗi | Luồng / Ca test | Mức độ | Trạng thái |
+| :---: | :--- | :---: | :---: | :---: |
+| **DEF-01** | Sắp xếp tên công thức không theo alphabet tiếng Việt | Tìm kiếm (Sắp xếp) | Thấp | Đã lập phiếu |
+| **DEF-02** | Tên công thức rỗng gây lỗi 500 | Công thức (CT-N1, CT-N2) | Trung bình | Đã lập phiếu |
+| **DEF-03** | Thêm mục mua sắm vào danh sách không tồn tại gây lỗi 500 | Mua sắm (MS-N1) | Trung bình | Đã lập phiếu |
+| **DEF-04** | Số lượng mua sắm âm (-3 lưu 201, -0.5 lỗi 500) | Mua sắm (MS-N2, MS-N3) | Trung bình | Đã lập phiếu |
+| **DEF-05** | Số khẩu phần âm vẫn được lưu | Công thức (CT-N3) | Thấp | Đã lập phiếu |
+| **DEF-06** | recipeId / foodId không tồn tại vẫn được lưu | Kế hoạch, Mua sắm (KH-N4, MS-N4) | Thấp | Đã lập phiếu |
+| **DEF-07** | Tạo danh sách mua sắm tên rỗng vẫn được lưu | Mua sắm (MS-N5) | Thấp | Đã lập phiếu |
+
+---
+
+### 5.2. Phân tích nguyên nhân chi tiết trong mã nguồn Mealie v3.28.0
+
+#### DEF-01: Sắp xếp tên công thức không theo alphabet tiếng Việt (Thấp)
+- **File & Hàm:** `mealie/repos/repository_generic.py` -> `QueryFilterBuilder.get_order_attr` trong `mealie/services/query_filter/builder.py` -> `_transform_model_attr`.
+- **Nguyên nhân:** Khi xử lý `orderBy=name`, hàm `_transform_model_attr` bọc cột tên bằng `func.lower()`. Do Mealie mặc định chạy SQLite và không cấu hình collation tiếng Việt, SQLite thực hiện so sánh theo mã điểm Unicode nhị phân (Code Point). Ký tự có dấu `'à'` (`U+00E0` = 224) có mã lớn hơn chữ cái ASCII `'h'` (`U+0068` = 104), dẫn đến *"Chè đậu"* bị xếp trước *"Cà phê sữa"*.
+
+#### DEF-02: Tên công thức rỗng gây lỗi 500 (Trung bình)
+- **File & Hàm:** `mealie/schema/recipe/recipe.py` (hàm `validate_name`), `mealie/services/recipe/recipe_service.py`.
+- **Nguyên nhân:** Schema Pydantic sử dụng lệnh `assert` kiểm tra độ dài tên (`assert len(v.strip()) > 0`). Khi tên rỗng, `AssertionError` không được bắt thành `RequestValidationError` của FastAPI mà văng ra ngoài, làm middleware chuyển thành lỗi HTTP 500 thay vì trả về 422 Unprocessable Entity.
+
+#### DEF-03: Thêm mục mua sắm vào danh sách không tồn tại gây lỗi 500 (Trung bình)
+- **File & Hàm:** `mealie/services/shopping_list/shopping_list_service.py` (hàm `create_item`), `mealie/repos/repository_generic.py`.
+- **Nguyên nhân:** Service không kiểm tra sự tồn tại của `shoppingListId` trước khi tạo item. Khi lưu vào CSDL, CSDL ném lỗi vi phạm toàn vẹn dữ liệu / Pydantic ném `ValidationError`, dẫn đến máy chủ sập và trả lỗi 500 thay vì 404 Not Found.
+
+#### DEF-04: Số lượng mua sắm âm (-3 lưu 201, -0.5 lỗi 500) (Trung bình)
+- **File & Hàm:** `mealie/schema/shopping_list/item.py`, `mealie/core/utils/fraction.py` (hàm `display_fraction`).
+- **Nguyên nhân:** Trường `quantity` không có ràng buộc giá trị không âm (`ge=0`), cho phép `-3` lưu thành công vào CSDL. Khi số lượng là số âm lẻ (`-0.5`), hàm `display_fraction` chuyển đổi số thành chuỗi phân số và cố gắng tách ký tự, dẫn đến `KeyError: '-'` khi tra bảng ký tự Unicode phân số và ném lỗi 500.
+
+#### DEF-05: Số khẩu phần âm vẫn được lưu (Thấp)
+- **File & Hàm:** `mealie/schema/recipe/recipe.py` (trường `recipeServings`).
+- **Nguyên nhân:** Schema định nghĩa `recipeServings: Optional[float] = None` nhưng không khai báo điều kiện `gt=0` hoặc `ge=0`. Khi gửi `PATCH` với `recipeServings: -5`, Mealie chấp nhận cập nhật và trả về HTTP 200, lưu trữ giá trị `-5.0` phi thực tế vào CSDL.
+
+#### DEF-06: recipeId / foodId không tồn tại vẫn được lưu (Thấp)
+- **File & Hàm:** `mealie/services/mealplan/mealplan_service.py`, `mealie/services/shopping_list/shopping_list_service.py`.
+- **Nguyên nhân:** Các trường khóa ngoại `recipeId` trong mealplan và `foodId` trong shopping item được lưu trực tiếp dưới dạng chuỗi UUID mà không có kiểm tra kiểm tra khóa ngoại (Foreign Key constraint) xem ID đó có tồn tại trong bảng `recipes` hay `foods` hay không, dẫn đến dữ liệu mồ côi (orphaned data).
+
+#### DEF-07: Tạo danh sách mua sắm tên rỗng vẫn được lưu (Thấp)
+- **File & Hàm:** `mealie/schema/shopping_list/shopping_list.py` (class `ShoppingListIn`).
+- **Nguyên nhân:** Trường `name: str` không có tham số `min_length=1`. Khi người dùng gửi chuỗi rỗng `""`, schema vẫn coi là hợp lệ và tạo bản ghi danh sách mua sắm không có tên trong CSDL với mã HTTP 201.
+
+---
+
+### 5.3. Hành vi cần biết: Lọc category không tồn tại trả về toàn bộ công thức (TK-N1)
+
+- **File & Hàm:** `mealie/services/query_filter/builder.py`, `mealie/repos/repository_recipes.py`.
+- **Mô tả hành vi:** Khi gửi request `GET /api/recipes?categories=khong-ton-tai`, API trả về mã HTTP 200 và danh sách chứa toàn bộ 12 công thức (`total = 12`) thay vì trả về danh sách rỗng (`total = 0`).
+- **Bản chất kỹ thuật:** Trong QueryBuilder của Mealie, trước khi thêm điều kiện lọc theo category, hệ thống thực hiện truy vấn bảng `categories` theo slug/name truyền vào. Nếu không tìm thấy category nào khớp, QueryBuilder sẽ bỏ qua và không gắn mệnh đề `WHERE` vào câu truy vấn SQLAlchemy. Do đó, truy vấn SELECT thực thi lấy toàn bộ công thức. Đây là đặc tính xử lý mặc định của Query Builder trong thiết kế Mealie, nhóm ghi nhận là **Hành vi cần biết** để người dùng và bên tích hợp lưu ý.
