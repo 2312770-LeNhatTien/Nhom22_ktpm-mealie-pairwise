@@ -1,40 +1,21 @@
-============================= test session starts ==============================
-platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.7.0 -- /home/abc/.cache/ktpm-pytest-venv/bin/python
-cachedir: .pytest_cache
-rootdir: /mnt/f/KTPM
+============================= test session starts =============================
+platform win32 -- Python 3.13.12, pytest-9.2.0, pluggy-1.7.0
+rootdir: D:\Download\Kiểm thử phần mềm\repo_nhom22
 configfile: pytest.ini
-testpaths: tests
-collecting ... collected 18 items
+collected 18 items
 
-tests/test_am_tinh.py::test_ct_n1_tao_cong_thuc_ten_rong XFAIL            [  5%]
-tests/test_am_tinh.py::test_ct_n2_sua_ten_cong_thuc_thanh_rong XFAIL      [ 11%]
-tests/test_am_tinh.py::test_ct_n3_so_khau_phan_am XFAIL                   [ 16%]
-tests/test_ct_n4_so_khau_phan_la_chu PASSED                              [ 22%]
-tests/test_ct_n5_ten_chi_toan_dau_cach PASSED                            [ 27%]
-tests/test_tk_n1_loc_category_khong_ton_tai XFAIL                         [ 33%]
-tests/test_tk_n2_ten_tham_so_sai_kieu_chu PASSED                          [ 38%]
-tests/test_tk_n3_random_khong_co_seed PASSED                              [ 44%]
-tests/test_tk_n4_per_page_am_mot_lay_tat_ca PASSED                        [ 50%]
-tests/test_kh_n1_entry_type_khong_hop_le PASSED                           [ 55%]
-tests/test_kh_n2_ngay_khong_ton_tai PASSED                                [ 61%]
-tests/test_kh_n3_khong_tieu_de_khong_cong_thuc PASSED                     [ 66%]
-tests/test_kh_n4_recipe_id_khong_ton_tai XFAIL                            [ 72%]
-tests/test_ms_n1_shopping_list_id_khong_ton_tai XFAIL                    [ 77%]
-tests/test_ms_n2_so_luong_am XFAIL                                        [ 83%]
-tests/test_ms_n3_so_luong_am_le XFAIL                                     [ 88%]
-tests/test_ms_n4_food_id_khong_ton_tai XFAIL                             [ 94%]
-tests/test_ms_n5_tao_danh_sach_ten_rong XFAIL                             [100%]
+tests\test_am_tinh.py xxx..x......xxxxxx                                 [100%]
 
-=========================== short test summary info ============================
+- generated xml file: D:\Download\Kiểm thử phần mềm\repo_nhom22\docs\evidence\G-am-tinh-lan1.xml -
+=========================== short test summary info ===========================
 XFAIL tests/test_am_tinh.py::test_ct_n1_tao_cong_thuc_ten_rong - DEF-02: Tên công thức rỗng gây lỗi 500
 XFAIL tests/test_am_tinh.py::test_ct_n2_sua_ten_cong_thuc_thanh_rong - DEF-02: Tên công thức rỗng gây lỗi 500
 XFAIL tests/test_am_tinh.py::test_ct_n3_so_khau_phan_am - DEF-05: Số khẩu phần âm vẫn được lưu
 XFAIL tests/test_am_tinh.py::test_tk_n1_loc_category_khong_ton_tai - Hành vi cần biết: Lọc category không tồn tại trả về toàn bộ 12 công thức
-XFAIL tests/test_kh_n4_recipe_id_khong_ton_tai - DEF-06: recipeId / foodId không tồn tại vẫn được lưu
-XFAIL tests/test_ms_n1_shopping_list_id_khong_ton_tai - DEF-03: Thêm mục mua sắm vào danh sách không tồn tại gây lỗi 500
-XFAIL tests/test_ms_n2_so_luong_am - DEF-04: Số lượng mua sắm âm, -3 vẫn lưu còn -0.5 gây lỗi 500
-XFAIL tests/test_ms_n3_so_luong_am_le - DEF-04: Số lượng mua sắm âm, -3 vẫn lưu còn -0.5 gây lỗi 500
-XFAIL tests/test_ms_n4_food_id_khong_ton_tai - DEF-06: recipeId / foodId không tồn tại vẫn được lưu
-XFAIL tests/test_ms_n5_tao_danh_sach_ten_rong - DEF-07: Tạo danh sách mua sắm tên rỗng vẫn được
-------- generated xml file: /mnt/f/KTPM/docs/evidence/G-am-tinh-lan1.xml -------
-======================== 8 passed, 10 xfailed in 1.42s =========================
+XFAIL tests/test_am_tinh.py::test_kh_n4_recipe_id_khong_ton_tai - DEF-06: recipeId / foodId không tồn tại vẫn được lưu
+XFAIL tests/test_am_tinh.py::test_ms_n1_shopping_list_id_khong_ton_tai - DEF-03: Thêm mục mua sắm vào danh sách không tồn tại gây lỗi 500
+XFAIL tests/test_am_tinh.py::test_ms_n2_so_luong_am - DEF-04: Số lượng mua sắm âm, -3 vẫn lưu còn -0.5 gây lỗi 500
+XFAIL tests/test_am_tinh.py::test_ms_n3_so_luong_am_le - DEF-04: Số lượng mua sắm âm, -3 vẫn lưu còn -0.5 gây lỗi 500
+XFAIL tests/test_am_tinh.py::test_ms_n4_food_id_khong_ton_tai - DEF-06: recipeId / foodId không tồn tại vẫn được lưu
+XFAIL tests/test_am_tinh.py::test_ms_n5_tao_danh_sach_ten_rong - DEF-07: Tạo danh sách mua sắm tên rỗng vẫn được
+================== 8 passed, 10 xfailed in 88.26s (0:01:28) ===================
