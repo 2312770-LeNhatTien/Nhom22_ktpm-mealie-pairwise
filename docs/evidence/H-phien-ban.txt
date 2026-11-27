@@ -23,4 +23,4 @@ requests==2.34.2
 urllib3==2.8.0
 
 [git commit cua repo nhom]
-b018adb9113a56ee517b5a19bd16e19eabf40c9f
+df3d563d8a3db381a90894db2bb79b21cd8a8659
