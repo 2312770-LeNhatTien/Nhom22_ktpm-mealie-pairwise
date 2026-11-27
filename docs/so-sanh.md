@@ -46,6 +46,8 @@ Kết quả áp dụng cho các giá trị và ràng buộc trong bốn model đ
   Bằng chứng nằm trong các XML `G-so-sanh-ke-hoach-*.xml`.
 - Danh sách mua sắm chạy hai lượt cho từng mức trên Mealie v3.28.0 với
   dữ liệu mẫu. Bằng chứng nằm trong các XML `G-so-sanh-mua-sam-*.xml`.
+  Đây là lượt chạy riêng để đối chiếu CK-16. GitHub Actions mặc định
+  thu thập test trong `tests/`, còn script đối chiếu nằm trong `scripts/`.
   Sau khi dựng Mealie và nạp seed theo README, chạy các lệnh sau để đối chiếu.
 
   ```text
