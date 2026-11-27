@@ -52,20 +52,22 @@ Kết quả chạy thử liên tiếp trên máy thật:
 ## 3. Tái lập kết quả và ghim phiên bản — Mục H (CK-17)
 
 ### 3.1. Thông tin phiên bản đã ghim (`docs/evidence/H-phien-ban.txt`)
-- **Mealie:** tag `v3.28.0`, mã nguồn commit `0552eaa4a80031b8572849cca0ed95d07f1be001`
+- **Mealie:** tag `v3.28.0`, mã nguồn commit `0552eaa4a80031b8572849cca0ed95d07f1be001` (đã đối chiếu qua `git ls-remote`: `refs/tags/v3.28.0` trỏ đúng về SHA này)
 - **Digest Docker image thực tế:** `ghcr.io/mealie-recipes/mealie@sha256:8b02290f4d1806f02acac6f25f6d48a3c965612fda1f8e914d5af533276f8688`
 - **Docker:** `Docker version 29.9.3, build 5457199`
 - **Python:** `Python 3.13.2`
 - **Thư viện Python (`pip freeze`):** `pytest==9.1.1`, `requests==2.34.2` (cùng các gói phụ thuộc ghi đầy đủ trong `docs/evidence/H-phien-ban.txt`)
-- **Commit repo nhóm khi chạy kiểm chứng sạch:** `b018adb9113a56ee517b5a19bd16e19eabf40c9f` (tag `v1.0-cuoi-ky` sẽ được gắn sau khi các PR cuối kỳ của nhóm được gộp vào `main`).
+- **Commit repo nhóm khi chạy kiểm chứng sạch:** `df3d563d8a3db381a90894db2bb79b21cd8a8659` (ghi nhận tại `docs/evidence/H-phien-ban.txt`).
 
 ### 3.2. Kết quả chạy sạch 2 lần liên tiếp (`scripts/may_sach.bat`)
 
-Quy trình chạy lại trên môi trường sạch (xóa container và volume cũ, dựng mới Mealie, cài đặt `.venv` từ `requirements.txt`, chạy bộ `pytest` mặc định gồm 46 test: 16 kế hoạch bữa ăn + 9 mua sắm + 19 tìm kiếm + 2 kiểm tra thứ tự tên):
+Mục H chỉ chạy bộ kiểm thử mặc định theo cấu hình `pytest.ini` (gồm 58 ca **2-wise** của 4 luồng, 18 test âm tính/giá trị biên và 2 ca hồi quy sắp xếp tên — tổng 78 test); còn các bộ **3-wise** và **thử hết** được chạy riêng ở mục G.
+
+Quy trình chạy lại trên môi trường sạch (xóa container và volume cũ, dựng mới Mealie, cài đặt `.venv` từ `requirements.txt`, chạy bộ `pytest` mặc định gồm 78 test; chạy kiểm chứng `scripts\may_sach.bat` 2 lần liên tiếp đều cho kết quả giống nhau):
 
 | Lần chạy | Lệnh | Tổng số test | PASSED | FAILED | XFAIL | Thời gian | File kết quả |
 | --- | --- | :---: | :---: | :---: | :---: | :---: | --- |
-| **Lần 1** | `pytest -v --junitxml=docs\evidence\H-may-sach-lan1.xml` | 46 | 44 | 0 | 2 (`DEF-01`) | 5,44s | `docs/evidence/H-may-sach-lan1.xml` |
-| **Lần 2** | `pytest -v --junitxml=docs\evidence\H-may-sach-lan2.xml` | 46 | 44 | 0 | 2 (`DEF-01`) | 4,72s | `docs/evidence/H-may-sach-lan2.xml` |
+| **Lần 1** | `pytest -v --junitxml=docs\evidence\H-may-sach-lan1.xml` | 78 | 66 | 0 | 12 (`DEF-01`..`DEF-07` & hành vi cần biết) | 11,25s (`11,225s` XML) | `docs/evidence/H-may-sach-lan1.xml` |
+| **Lần 2** | `pytest -v --junitxml=docs\evidence\H-may-sach-lan2.xml` | 78 | 66 | 0 | 12 (`DEF-01`..`DEF-07` & hành vi cần biết) | 10,67s (`10,634s` XML) | `docs/evidence/H-may-sach-lan2.xml` |
 
-Cả hai lần chạy cho kết quả giống nhau hoàn toàn (**44 passed, 0 failed, 2 xfailed**), chứng minh bộ kiểm thử chạy lại được ổn định trên môi trường Docker đã ghim phiên bản.
+Cả hai lần chạy cho kết quả giống nhau hoàn toàn (**66 passed, 0 failed, 12 xfailed**), chứng minh bộ kiểm thử chạy lại được ổn định trên môi trường Docker đã ghim phiên bản.
