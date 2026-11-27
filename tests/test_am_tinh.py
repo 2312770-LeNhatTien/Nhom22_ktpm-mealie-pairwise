@@ -5,7 +5,7 @@
   - Danh sach mua sam: MS-N1 .. MS-N5
 
 Quy tac chung: Du lieu sai phai bi tu choi bang ma 4xx (khong luu, khong bi loi 500).
-Cac ca phat hien loi that tren Mealie v3.28.0 duoc danh dau xfail kem giai thich.
+Cac ca phat hien loi that tren Mealie v3.28.0 duoc khai bao xfail trong tests/loi_da_bao.py.
 """
 import datetime as dt
 import uuid
@@ -18,18 +18,17 @@ TODAY = dt.date.today().isoformat()
 # Luong 1: Cong thuc (CT-N1 .. CT-N5)
 # ==============================================================================
 
-@pytest.mark.xfail(reason="DEF: Mealie ném 500 (AssertionError trong validate_name) khi tạo công thức tên rỗng", strict=False)
 def test_ct_n1_tao_cong_thuc_ten_rong(api):
     """CT-N1: Tao cong thuc voi ten rong -> mong doi 4xx."""
     s, d = api("POST", "/api/recipes", json={"name": ""})
     try:
         assert 400 <= s < 500, f"Mong đợi 4xx nhưng nhận được {s}"
     finally:
-        if s == 201 and isinstance(d, dict) and "slug" in d:
-            api("DELETE", f"/api/recipes/{d['slug']}")
+        slug = d if isinstance(d, str) else (d.get("slug") if isinstance(d, dict) else None)
+        if slug:
+            api("DELETE", f"/api/recipes/{slug}")
 
 
-@pytest.mark.xfail(reason="DEF: Mealie ném 500 khi sửa tên công thức thành rỗng qua PATCH", strict=False)
 def test_ct_n2_sua_ten_cong_thuc_thanh_rong(api):
     """CT-N2: Sua ten cong thuc thanh rong -> mong doi 4xx."""
     s_create, slug = api("POST", "/api/recipes", json={"name": "PW-N-" + uuid.uuid4().hex[:5]})
@@ -41,7 +40,6 @@ def test_ct_n2_sua_ten_cong_thuc_thanh_rong(api):
         api("DELETE", f"/api/recipes/{slug}")
 
 
-@pytest.mark.xfail(reason="DEF: Mealie cho phép lưu số khẩu phần âm (-5) và trả 200 thay vì 4xx", strict=False)
 def test_ct_n3_so_khau_phan_am(api):
     """CT-N3: So khau phan am (-5) -> mong doi 4xx, khong luu gia tri am."""
     s_create, slug = api("POST", "/api/recipes", json={"name": "PW-N-" + uuid.uuid4().hex[:5]})
@@ -72,15 +70,15 @@ def test_ct_n5_ten_chi_toan_dau_cach(api):
     try:
         assert 400 <= s < 500, f"Mong đợi 4xx nhưng nhận được {s}"
     finally:
-        if s == 201 and isinstance(d, dict) and "slug" in d:
-            api("DELETE", f"/api/recipes/{d['slug']}")
+        slug = d if isinstance(d, str) else (d.get("slug") if isinstance(d, dict) else None)
+        if slug:
+            api("DELETE", f"/api/recipes/{slug}")
 
 
 # ==============================================================================
 # Luong 2: Tim kiem va loc (TK-N1 .. TK-N4)
 # ==============================================================================
 
-@pytest.mark.xfail(reason="DEF: Lọc category không tồn tại trả về toàn bộ 12 công thức thay vì rỗng/4xx", strict=False)
 def test_tk_n1_loc_category_khong_ton_tai(api):
     """TK-N1: Loc category khong ton tai -> mong doi danh sach rong (total=0) hoac 4xx."""
     s, d = api("GET", "/api/recipes", params={"categories": "khong-ton-tai", "perPage": 50})
@@ -151,7 +149,6 @@ def test_kh_n3_khong_tieu_de_khong_cong_thuc(api):
             api("DELETE", f"/api/households/mealplans/{d['id']}")
 
 
-@pytest.mark.xfail(reason="DEF: Mealie cho phép tạo kế hoạch bữa ăn với recipeId không tồn tại (trả 201)", strict=False)
 def test_kh_n4_recipe_id_khong_ton_tai(api):
     """KH-N4: recipeId la UUID ngau nhien khong ton tai -> mong doi 4xx."""
     fake_recipe_id = str(uuid.uuid4())
@@ -167,14 +164,12 @@ def test_kh_n4_recipe_id_khong_ton_tai(api):
 # Luong 4: Danh sach mua sam (MS-N1 .. MS-N5)
 # ==============================================================================
 
-@pytest.mark.xfail(reason="DEF: Mealie ném 500 (ValidationError) khi thêm mục vào shoppingListId không tồn tại", strict=False)
 def test_ms_n1_shopping_list_id_khong_ton_tai(api):
     """MS-N1: shoppingListId khong ton tai -> mong doi 404 hoac 4xx."""
     s, _ = api("POST", "/api/households/shopping/items", json={"shoppingListId": str(uuid.uuid4()), "note": "x"})
     assert 400 <= s < 500, f"Mong đợi 4xx nhưng nhận được {s}"
 
 
-@pytest.mark.xfail(reason="DEF: Mealie cho phép thêm mục mua sắm số lượng âm (-3) và trả 201", strict=False)
 def test_ms_n2_so_luong_am(api):
     """MS-N2: So luong am (-3) -> mong doi 4xx."""
     s_lst, lst = api("POST", "/api/households/shopping/lists", json={"name": "PW-N-MS2"})
@@ -187,7 +182,6 @@ def test_ms_n2_so_luong_am(api):
         api("DELETE", f"/api/households/shopping/lists/{lid}")
 
 
-@pytest.mark.xfail(reason="DEF: Mealie ném 500 (KeyError '-' trong display_fraction) khi số lượng âm lẻ (-0.5)", strict=False)
 def test_ms_n3_so_luong_am_le(api):
     """MS-N3: So luong am le (-0.5) -> mong doi 4xx."""
     s_lst, lst = api("POST", "/api/households/shopping/lists", json={"name": "PW-N-MS3"})
@@ -200,7 +194,6 @@ def test_ms_n3_so_luong_am_le(api):
         api("DELETE", f"/api/households/shopping/lists/{lid}")
 
 
-@pytest.mark.xfail(reason="DEF: Mealie cho phép thêm mục mua sắm với foodId không tồn tại (trả 201)", strict=False)
 def test_ms_n4_food_id_khong_ton_tai(api):
     """MS-N4: foodId la UUID ngau nhien khong ton tai -> mong doi 4xx."""
     s_lst, lst = api("POST", "/api/households/shopping/lists", json={"name": "PW-N-MS4"})
@@ -213,7 +206,6 @@ def test_ms_n4_food_id_khong_ton_tai(api):
         api("DELETE", f"/api/households/shopping/lists/{lid}")
 
 
-@pytest.mark.xfail(reason="DEF: Mealie cho phép tạo danh sách mua sắm với tên rỗng (trả 201)", strict=False)
 def test_ms_n5_tao_danh_sach_ten_rong(api):
     """MS-N5: Tao danh sach mua sam ten rong -> mong doi 4xx."""
     s, d = api("POST", "/api/households/shopping/lists", json={"name": ""})

@@ -17,6 +17,8 @@ Nhóm dùng Mealie v3.28.0 ở cổng 9925 để chuẩn bị dữ liệu và ki
 | `G-tim-kiem-lan2.log` / `.xml` / `.png` | Ubuntu/WSL 2-wise lượt 2: 19 đạt, 2 xfail; stdout đầy đủ, JUnit và ảnh chụp lệnh/kết quả |
 | `G-tim-kiem-3wise.log` / `.xml` / `.png` | Ubuntu/WSL 3-wise: 67/67 đạt; stdout đầy đủ, JUnit và ảnh chụp lệnh/kết quả |
 | `G-tim-kiem-thu-het.log` / `.xml` / `.png` | Ubuntu/WSL vét cạn: 5.832/5.832 đạt; stdout đầy đủ, JUnit và ảnh chụp lệnh/kết quả |
+| `G-am-tinh-lan1.log` / `.xml` | 18 test âm tính lượt 1: 8 đạt, 10 xfail; stdout đầy đủ (-rx) và JUnit XML |
+| `G-am-tinh-lan2.log` / `.xml` | 18 test âm tính lượt 2: 8 đạt, 10 xfail; stdout đầy đủ (-rx) và JUnit XML |
 
 Hai ảnh D-01 và D-02 là kết quả in ra của lệnh, lưu thành ảnh để đưa vào báo cáo; có thể chạy lại bằng `scripts\sinh_case.bat` và `python scripts\kiem_tra_cap.py --all`.
 
