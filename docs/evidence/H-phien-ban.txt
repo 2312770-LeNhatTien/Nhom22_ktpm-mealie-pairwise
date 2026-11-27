@@ -1,0 +1,26 @@
+# Phien ban moi truong chay test
+
+[docker]
+Docker version 29.9.3, build 5457199
+
+[image Mealie]
+ghcr.io/mealie-recipes/mealie@sha256:8b02290f4d1806f02acac6f25f6d48a3c965612fda1f8e914d5af533276f8688
+
+[python]
+Python 3.13.2
+
+[pip freeze]
+certifi==2026.11.20
+charset-normalizer==3.5.3
+colorama==0.4.6
+idna==3.20
+iniconfig==2.3.1
+packaging==26.4
+pluggy==1.7.0
+Pygments==2.21.0
+pytest==9.1.1
+requests==2.34.2
+urllib3==2.8.0
+
+[git commit cua repo nhom]
+b018adb9113a56ee517b5a19bd16e19eabf40c9f
