@@ -65,6 +65,20 @@ def doi_chieu(loi, da_luu, body, cong_khai):
         loi.append("I3: trạng thái công khai đọc lại khác giá trị đã gửi")
 
 
+def tim_duong_dan_de_don(api, ten, loi):
+    """Tìm công thức của ca hiện tại khi phản hồi tạo trả slug bất thường."""
+    ma, data = api("GET", "/api/recipes", params={"search": ten, "perPage": 50})
+    if not kiem_tra_ma(loi, "tìm công thức để dọn", ma, (200,), "I5"):
+        return None
+    slugs = [item.get("slug") for item in data["items"] if item.get("name") == ten]
+    if len(slugs) == 1:
+        slug = slugs[0]
+        if isinstance(slug, str) and slug.replace("-", "").replace("_", "").isalnum():
+            return f"/api/recipes/{slug}"
+    loi.append("I5: không xác định được duy nhất công thức vừa tạo để dọn")
+    return None
+
+
 def kiem_tra(api, nen, c):
     loi = []
     body = tham_so(c, nen)
@@ -79,6 +93,7 @@ def kiem_tra(api, nen, c):
             return loi
         if not duong_dan:
             loi.append("I3: slug tạo mới không khớp tên của ca kiểm thử")
+            duong_dan = tim_duong_dan_de_don(api, ten, loi)
             return loi
         ma, _ = api("PATCH", duong_dan, json=body)
         if not kiem_tra_ma(loi, "sửa công thức", ma, (200,)):
