@@ -115,28 +115,28 @@ Quy tắc kỳ vọng: Dữ liệu sai phạm vi hoặc giá trị biên phải 
 - **Nguyên nhân:** Khi xử lý `orderBy=name`, hàm `_transform_model_attr` bọc cột tên bằng `func.lower()`. Do Mealie mặc định chạy SQLite và không cấu hình collation tiếng Việt, SQLite thực hiện so sánh theo mã điểm Unicode nhị phân (Code Point). Ký tự có dấu `'à'` (`U+00E0` = 224) có mã lớn hơn chữ cái ASCII `'h'` (`U+0068` = 104), dẫn đến *"Chè đậu"* bị xếp trước *"Cà phê sữa"*.
 
 #### DEF-02: Tên công thức rỗng gây lỗi 500 (Trung bình)
-- **File & Hàm:** `mealie/schema/recipe/recipe.py` (hàm `validate_name`), `mealie/services/recipe/recipe_service.py`.
-- **Nguyên nhân:** Schema Pydantic sử dụng lệnh `assert` kiểm tra độ dài tên (`assert len(v.strip()) > 0`). Khi tên rỗng, `AssertionError` không được bắt thành `RequestValidationError` của FastAPI mà văng ra ngoài, làm middleware chuyển thành lỗi HTTP 500 thay vì trả về 422 Unprocessable Entity.
+- **File & Hàm:** `mealie/schema/recipe/recipe.py` — hàm `create_recipe_slug()`: trường `name: str` trong class `CreateRecipe` không có ràng buộc `min_length=1`; khi `slugify(name)` trả về chuỗi rỗng, hàm ném `SlugError` chưa được bắt ở route, khiến FastAPI trả về mã 500.
+- **Nguyên nhân:** Thiếu ràng buộc `min_length=1` trên trường `name` và chưa có xử lý `SlugError` trong route handler. Khi tên rỗng, `slugify("")` trả về chuỗi rỗng → `SlugError` không được bắt → HTTP 500 thay vì 422.
 
 #### DEF-03: Thêm mục mua sắm vào danh sách không tồn tại gây lỗi 500 (Trung bình)
-- **File & Hàm:** `mealie/services/shopping_list/shopping_list_service.py` (hàm `create_item`), `mealie/repos/repository_generic.py`.
-- **Nguyên nhân:** Service không kiểm tra sự tồn tại của `shoppingListId` trước khi tạo item. Khi lưu vào CSDL, CSDL ném lỗi vi phạm toàn vẹn dữ liệu / Pydantic ném `ValidationError`, dẫn đến máy chủ sập và trả lỗi 500 thay vì 404 Not Found.
+- **File & Hàm:** `mealie/routes/households/controller_shopping_lists.py` — hàm `create_one()` → gọi service; `mealie/services/household_services/shopping_lists.py` — hàm `bulk_create_items()`: không kiểm tra sự tồn tại của `shoppingListId` trước khi lưu, ngoại lệ DB không được bắt ở controller.
+- **Nguyên nhân:** Service không kiểm tra sự tồn tại của `shoppingListId` trước khi tạo item. Khi lưu vào CSDL, DB ném lỗi vi phạm toàn vẹn dữ liệu, ngoại lệ truyền lên controller mà không được bắt, dẫn đến HTTP 500 thay vì 404 Not Found.
 
 #### DEF-04: Số lượng mua sắm âm (-3 lưu 201, -0.5 lỗi 500) (Trung bình)
-- **File & Hàm:** `mealie/schema/shopping_list/item.py`, `mealie/core/utils/fraction.py` (hàm `display_fraction`).
-- **Nguyên nhân:** Trường `quantity` không có ràng buộc giá trị không âm (`ge=0`), cho phép `-3` lưu thành công vào CSDL. Khi số lượng là số âm lẻ (`-0.5`), hàm `display_fraction` chuyển đổi số thành chuỗi phân số và cố gắng tách ký tự, dẫn đến `KeyError: '-'` khi tra bảng ký tự Unicode phân số và ném lỗi 500.
+- **File & Hàm:** `mealie/schema/household/group_shopping_list.py` — class `ShoppingListItemBase`, trường `quantity: float = 1` không có ràng buộc `ge=0`; `mealie/schema/recipe/recipe_ingredient.py` — hàm `display_fraction()` (dòng ~30–35): dùng dict `SUPERSCRIPT` tra từng ký tự, gây `KeyError: '-'` với số âm.
+- **Nguyên nhân:** Trường `quantity` không có ràng buộc giá trị không âm (`ge=0`), cho phép `-3` lưu thành công vào CSDL. Khi số lượng là số âm lẻ (`-0.5`), hàm `display_fraction` trong `recipe_ingredient.py` tra dict `SUPERSCRIPT` gặp ký tự `'-'` không có trong dict → `KeyError: '-'` không được bắt → HTTP 500.
 
 #### DEF-05: Số khẩu phần âm vẫn được lưu (Thấp)
-- **File & Hàm:** `mealie/schema/recipe/recipe.py` (trường `recipeServings`).
-- **Nguyên nhân:** Schema định nghĩa `recipeServings: Optional[float] = None` nhưng không khai báo điều kiện `gt=0` hoặc `ge=0`. Khi gửi `PATCH` với `recipeServings: -5`, Mealie chấp nhận cập nhật và trả về HTTP 200, lưu trữ giá trị `-5.0` phi thực tế vào CSDL.
+- **File & Hàm:** `mealie/schema/recipe/recipe.py` — class `RecipeSummary`, trường `recipe_servings: float = 0` không có ràng buộc `ge=0`.
+- **Nguyên nhân:** Schema `RecipeSummary` định nghĩa `recipe_servings: float = 0` nhưng không khai báo điều kiện `ge=0`. Khi gửi `PATCH` với `recipeServings: -5`, Mealie chấp nhận cập nhật và trả về HTTP 200, lưu trữ giá trị `-5.0` phi thực tế vào CSDL.
 
 #### DEF-06: recipeId / foodId không tồn tại vẫn được lưu (Thấp)
-- **File & Hàm:** `mealie/services/mealplan/mealplan_service.py`, `mealie/services/shopping_list/shopping_list_service.py`.
-- **Nguyên nhân:** Các trường khóa ngoại `recipeId` trong mealplan và `foodId` trong shopping item được lưu trực tiếp dưới dạng chuỗi UUID mà không có kiểm tra kiểm tra khóa ngoại (Foreign Key constraint) xem ID đó có tồn tại trong bảng `recipes` hay `foods` hay không, dẫn đến dữ liệu mồ côi (orphaned data).
+- **File & Hàm:** `mealie/db/models/household/mealplan.py` — cột `recipe_id` có `ForeignKey("recipes.id")` nhưng SQLite mặc định không bật kiểm tra khóa ngoại (`PRAGMA foreign_keys = OFF`); `mealie/schema/household/group_shopping_list.py` — class `ShoppingListItemBase`, trường `food_id: UUID4 | None = None` không được kiểm tra sự tồn tại trước khi lưu.
+- **Nguyên nhân:** SQLite không bật kiểm tra khóa ngoại theo mặc định, nên dù FK được khai báo trong model, bản ghi mồ côi vẫn được ghi vào DB. Tầng service cũng không có truy vấn kiểm tra tồn tại `foodId` trước khi lưu.
 
 #### DEF-07: Tạo danh sách mua sắm tên rỗng vẫn được lưu (Thấp)
-- **File & Hàm:** `mealie/schema/shopping_list/shopping_list.py` (class `ShoppingListIn`).
-- **Nguyên nhân:** Trường `name: str` không có tham số `min_length=1`. Khi người dùng gửi chuỗi rỗng `""`, schema vẫn coi là hợp lệ và tạo bản ghi danh sách mua sắm không có tên trong CSDL với mã HTTP 201.
+- **File & Hàm:** `mealie/schema/household/group_shopping_list.py` — class `ShoppingListCreate`, trường `name: str | None = None` không có ràng buộc `min_length=1` hay validator kiểm tra chuỗi rỗng/khoảng trắng.
+- **Nguyên nhân:** Trường `name` kiểu `str | None = None` không có tham số `min_length=1`. Khi người dùng gửi chuỗi rỗng `""`, schema vẫn coi là hợp lệ và tạo bản ghi danh sách mua sắm không có tên trong CSDL với mã HTTP 201.
 
 ---
 
