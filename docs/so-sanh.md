@@ -17,9 +17,9 @@ khác nhau, nên so thời gian giữa các mức trong cùng một luồng.
 | Kế hoạch bữa ăn | Pairwise | 16 | 16 | 0 | 0 | 1,711 / 1,448 |
 | Kế hoạch bữa ăn | 3-wise | 48 | 48 | 0 | 0 | 3,686 / 3,872 |
 | Kế hoạch bữa ăn | Thử hết | 96 | 96 | 0 | 0 | 6,806 / 8,811 |
-| Danh sách mua sắm | Pairwise | 9 | 9 | 0 | 0 | 2,014 / 2,037 |
-| Danh sách mua sắm | 3-wise | 23 | 23 | 0 | 0 | 4,703 / 4,600 |
-| Danh sách mua sắm | Thử hết | 144 | 144 | 0 | 0 | 26,854 / 32,489 |
+| Danh sách mua sắm | Pairwise | 9 | 9 | 0 | 0 | 1,989 / 1,639 |
+| Danh sách mua sắm | 3-wise | 23 | 23 | 0 | 0 | 3,954 / 3,895 |
+| Danh sách mua sắm | Thử hết | 144 | 144 | 0 | 0 | 21,962 / 21,650 |
 
 ## Nhận xét
 
@@ -27,7 +27,7 @@ khác nhau, nên so thời gian giữa các mức trong cùng một luồng.
   giảm 99,67% số ca so với 5.832 tổ hợp hợp lệ. Hai ca kiểm thử hồi quy
   sắp tên ngoài bộ PICT được đánh dấu XFAIL cho cùng một lỗi
   [DEF-01](loi/DEF-01.md). Chúng không tính vào 19 ca Pairwise trong bảng.
-- **Công thức.** Cả ba mức đều đạt qua hai lượt. Thử thêm 3-wise và thử hết không phát hiện lỗi mới trong phạm vi model. Pairwise giảm 99,52% số ca so với 2.916 tổ hợp.
+- **Công thức.** Cả ba mức đều đạt qua hai lượt. Thử thêm 3-wise và thử hết không phát hiện lỗi mới trong phạm vi model. Pairwise giảm 99,52% số ca so với 2.916 tổ hợp. Theo bộ test âm của Quốc Tiến ở [PR #58](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/pull/58), tên rỗng gây HTTP 500 và số khẩu phần âm vẫn được lưu. Hai lỗi này nằm ngoài số liệu Pairwise trong bảng.
 - **Kế hoạch bữa ăn.** Cả ba mức đều đạt trong hai lượt đối chiếu. Pairwise
   chạy 16 ca thay vì 96, giảm 83,33% số ca.
 - **Danh sách mua sắm.** Pairwise chạy 9 ca thay vì 144, giảm 93,75% số
@@ -44,14 +44,16 @@ Kết quả áp dụng cho các giá trị và ràng buộc trong bốn model đ
   lượt trong [báo cáo công thức](bao-cao/BaoCao_KetQua_CongThuc.md).
 - Kế hoạch bữa ăn chạy lại bộ pytest đã gộp ở PR #57 trên Mealie v3.28.0.
   Bằng chứng nằm trong các XML `G-so-sanh-ke-hoach-*.xml`.
-- Danh sách mua sắm chạy hai lượt cho từng mức trên Mealie v3.28.0 với
-  dữ liệu mẫu. Bằng chứng nằm trong các XML `G-so-sanh-mua-sam-*.xml`.
-  Đây là lượt chạy riêng để đối chiếu CK-16. GitHub Actions mặc định
-  thu thập test trong `tests/`, còn script đối chiếu nằm trong `scripts/`.
+- Danh sách mua sắm chạy hai lượt cho từng mức bằng `tests/test_mua_sam.py`
+  của Quý trên Mealie v3.28.0 với dữ liệu mẫu. Bằng chứng nằm trong các XML
+  `G-so-sanh-mua-sam-*.xml`. Mức thử hết đọc `cases/shopping.all.tsv`.
+  Bộ của Quý dùng chung luồng tạo, đọc, đổi trạng thái và dọn dữ liệu như
+  script đối chiếu cũ. Script cũ kiểm tra thêm mã trả về khi xóa và xác
+  nhận mục đã biến mất trước khi xóa danh sách.
   Sau khi dựng Mealie và nạp seed theo README, chạy các lệnh sau để đối chiếu.
 
   ```text
-  python -m pytest -q scripts/doi_chieu_mua_sam.py
-  python -m pytest -q scripts/doi_chieu_mua_sam.py -m o3
-  python -m pytest -q scripts/doi_chieu_mua_sam.py -m het
+  python -m pytest -q tests/test_mua_sam.py
+  python -m pytest -q tests/test_mua_sam.py -m o3
+  python -m pytest -q tests/test_mua_sam.py -m het
   ```

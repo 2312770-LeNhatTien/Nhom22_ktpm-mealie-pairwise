@@ -2,8 +2,8 @@
 setlocal
 rem Sinh lai cac file test case tu 4 model PICT (2-wise va 3-wise, hat giong co dinh /r:22).
 rem Cach dung: scripts\sinh_case.bat [all]
-rem PICT 3.7.4 is bundled at tools\pict.exe.
-rem Add the bundled directory to PATH for this Command Prompt only.
+rem PICT 3.7.4 co san tai tools\pict.exe.
+rem Chi them thu muc tools vao PATH trong pham vi chay tep nay.
 set "PATH=%~dp0..\tools;%PATH%"
 
 if /i "%~1"=="all" goto thu_het

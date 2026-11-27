@@ -26,6 +26,10 @@ chiếu với file TSV và thuộc tính `tests` trong JUnit XML.
 Hai lượt cho cùng số ca đạt ở mỗi mức và không ghi nhận ca thất bại. Mức
 3-wise và thử hết không phát hiện thêm lỗi trên các tổ hợp hợp lệ của model.
 
+Theo bộ test âm của Quốc Tiến ở [PR #58](https://github.com/2312770-LeNhatTien/Nhom22_ktpm-mealie-pairwise/pull/58),
+tên công thức rỗng gây HTTP 500 và số khẩu phần âm vẫn được lưu. Hai lỗi
+này do bộ test âm phát hiện và nằm ngoài kết quả Pairwise ở trên.
+
 ## Lệnh chạy
 
 ```powershell
